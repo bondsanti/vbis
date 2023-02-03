@@ -26,8 +26,9 @@ class CustomAuthController extends Controller
         ]);
 
         $user = User::where('code', '=', $request->code)->orWhere('old_code', '=', $request->code)->first();
+        //dd($user);
         //$user = User::where('code', '=', $request->code)->first();
-        if($user){
+        if($user->active !=0 or $user->resign_date==null){
 
             if(Hash::check($request->password, $user->password)){
                 $request->session()->put('loginId',$user->id);
