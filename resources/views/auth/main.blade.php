@@ -31,14 +31,14 @@
   <script language=JavaScript>
 
 
-//   function clickIE() {if (document.all) {alert(message);return false;}}
-//   function clickNS(e) {if
-//   (document.layers||(document.getElementById&&!document.all)) {
-//   if (e.which==2||e.which==3) {alert(message);return false;}}}
-//   if (document.layers)
-//   {document.captureEvents(Event.MOUSEDOWN);document.onmousedown=clickNS;}
-//   else{document.onmouseup=clickNS;document.oncontextmenu=clickIE;}
-//   document.oncontextmenu=new Function("return false")
+  function clickIE() {if (document.all) {alert(message);return false;}}
+  function clickNS(e) {if
+  (document.layers||(document.getElementById&&!document.all)) {
+  if (e.which==2||e.which==3) {alert(message);return false;}}}
+  if (document.layers)
+  {document.captureEvents(Event.MOUSEDOWN);document.onmousedown=clickNS;}
+  else{document.onmouseup=clickNS;document.oncontextmenu=clickIE;}
+  document.oncontextmenu=new Function("return false")
 
 
   </script>
@@ -231,7 +231,7 @@
            </li>
            @endif
           @if($data->active_agent==1)
-          {{-- {{config('app.url7')}}/Zx00faff00048s2zxwormRqvBNsddsf098r/{{$data->code}}&{{$data->token}} --}}
+
           <li onclick="window.open(`{{config('app.url7')}}/Zx00faff00048s2zxwormRqvBNsddsf098r/{{$data->code}}&{{$data->token}}`, '_blank')"
             class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-600 group
             hover:shadow dark:bg-green-600 dark:hover:bg-green-500 dark:text-white">
@@ -259,7 +259,7 @@
           hover:shadow dark:bg-green-600 dark:hover:bg-green-500 dark:text-white">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
               stroke="currentColor" stroke-width="2">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>			  
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
             </svg>
             <span class="flex-1 ml-3 whitespace-nowrap">Email (Login Required)</span>
           </li>
@@ -268,36 +268,12 @@
           hover:shadow dark:bg-green-600 dark:hover:bg-green-500 dark:text-white">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
               stroke="currentColor" stroke-width="2">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>			  
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
             </svg>
             <span class="flex-1 ml-3 whitespace-nowrap">Nass Server (Login Required)</span>
-          </li>		  
-
-         <!-- <li onclick="window.open(`{{config('app.url8')}}`, '_blank')"
-            class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-600 group
-            hover:shadow dark:bg-green-600 dark:hover:bg-green-500 dark:text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-            </svg>
-            <span class="flex-1 ml-3 whitespace-nowrap">ระบบ Nass (Require Login)</span>
           </li>
 
-		  
 
-          <li onclick="window.open(`{{config('app.url9')}}`, '_blank')"
-            class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-600 group
-            hover:shadow dark:bg-green-600 dark:hover:bg-green-500 dark:text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-            </svg>
-            <span class="flex-1 ml-3 whitespace-nowrap">ระบบ Email (Require Login)</span>
-          </li>
-  
--->
 
         </ul>
       </div>
