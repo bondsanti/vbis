@@ -28,26 +28,31 @@ class CustomAuthController extends Controller
         $user = User::where('code', '=', $request->code)->orWhere('old_code', '=', $request->code)->first();
         //dd($user);
         //$user = User::where('code', '=', $request->code)->first();
-        if($user->active !=0 or $user->resign_date==null){
+        if($user){
+            if($user->active !=0 or $user->resign_date==null){
+                if(Hash::check($request->password, $user->password)){
+                    $request->session()->put('loginId',$user->id);
+                    $token = bin2hex(random_bytes(16));
+                    $user->token = $token;
+                    $user->save();
 
-            if(Hash::check($request->password, $user->password)){
-                $request->session()->put('loginId',$user->id);
-                $token = bin2hex(random_bytes(16));
-                $user->token = $token;
-                $user->save();
+                    DB::table('vbeyond_report.log_login')->insert([
+                        'username' => $user->code,
+                        'dates' => date('Y-m-d'),
+                        'timeStm' => date('Y-m-d H:i:s'),
+                        'page' => 'LoginConnect'
+                    ]);
 
-                DB::table('vbeyond_report.log_login')->insert([
-                    'username' => $user->code,
-                    'dates' => date('Y-m-d'),
-                    'timeStm' => date('Y-m-d H:i:s'),
-                    'page' => 'LoginConnect'
-                ]);
-
-                Alert::success('เข้าสู่ระบบสำเร็จ');
-                return redirect('/');
+                    Alert::success('เข้าสู่ระบบสำเร็จ');
+                    return redirect('/');
+                }else{
+                    Alert::warning('รหัสผ่านไม่ถูกต้อง', 'กรุณากรอกข้อมูลใหม่อีกครั้ง');
+                    //return back()->with('ล้มเหลว','รหัสผ่านไม่ถูกต้อง');
+                    return back();
+                }
             }else{
-                Alert::warning('รหัสผ่านไม่ถูกต้อง', 'กรุณากรอกข้อมูลใหม่อีกครั้ง');
-                //return back()->with('ล้มเหลว','รหัสผ่านไม่ถูกต้อง');
+                Alert::warning('ไม่พบผู้ใช้งาน', 'กรุณากรอกข้อมูลใหม่อีกครั้ง');
+                //return back()->with('ล้มเหลว','ไม่พบผู้ใช้งาน');
                 return back();
             }
 
