@@ -11,12 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('/login', 'CustomAuthController@login')->middleware('readyLogin');
 Route::post('/login/auth','CustomAuthController@loginUser')->name('loginUser');
 Route::get('/','CustomAuthController@profile')->middleware('isLogin');
+
+//reset password
+Route::get('/resetpassword','CustomAuthController@reset_pass')->name('reset_pass')->middleware('isLogin');
+Route::post('/resetpassword/create','CustomAuthController@reset_create')->name('reset_create')->middleware('isLogin');
+
 Route::get('logout','CustomAuthController@logoutUser')->name('logoutUser')->middleware('isLogin');
 

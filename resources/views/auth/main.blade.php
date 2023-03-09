@@ -31,14 +31,14 @@
   <script language=JavaScript>
 
 
-  function clickIE() {if (document.all) {alert(message);return false;}}
-  function clickNS(e) {if
-  (document.layers||(document.getElementById&&!document.all)) {
-  if (e.which==2||e.which==3) {alert(message);return false;}}}
-  if (document.layers)
-  {document.captureEvents(Event.MOUSEDOWN);document.onmousedown=clickNS;}
-  else{document.onmouseup=clickNS;document.oncontextmenu=clickIE;}
-  document.oncontextmenu=new Function("return false")
+//   function clickIE() {if (document.all) {alert(message);return false;}}
+//   function clickNS(e) {if
+//   (document.layers||(document.getElementById&&!document.all)) {
+//   if (e.which==2||e.which==3) {alert(message);return false;}}}
+//   if (document.layers)
+//   {document.captureEvents(Event.MOUSEDOWN);document.onmousedown=clickNS;}
+//   else{document.onmouseup=clickNS;document.oncontextmenu=clickIE;}
+//   document.oncontextmenu=new Function("return false")
 
 
   </script>
@@ -230,18 +230,32 @@
                       <span class="flex-1 ml-3 whitespace-nowrap">ระบบ VBLead (Call Center)</span>
            </li>
            @endif
-          @if($data->active_agent==1)
 
-          <li onclick="window.open(`{{config('app.url7')}}/Zx00faff00048s2zxwormRqvBNsddsf098r/{{$data->code}}&{{$data->token}}`, '_blank')"
-            class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-600 group
-            hover:shadow dark:bg-green-600 dark:hover:bg-green-500 dark:text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-            </svg>
-            <span class="flex-1 ml-3 whitespace-nowrap">ระบบ Sale/Agent</span>
-          </li>
+          @if($data->active_agent==1)
+                {{-- @if($data->auth_password_agent==0) --}}
+
+                {{-- <a href="{{route('Reagent')}}"
+                    class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-600 group
+                    hover:shadow dark:bg-green-600 dark:hover:bg-green-500 dark:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                    <span class="flex-1 ml-3 whitespace-nowrap">ระบบ Sale/Agent</span>
+                </a> --}}
+                {{-- @else --}}
+                <li onclick="window.open(`{{config('app.url7')}}/Zx00faff00048s2zxwormRqvBNsddsf098r/{{$data->code}}&{{$data->token}}`, '_blank')"
+                    class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-600 group
+                    hover:shadow dark:bg-green-600 dark:hover:bg-green-500 dark:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                    <span class="flex-1 ml-3 whitespace-nowrap">ระบบ Sale/Agent</span>
+                </li>
+                {{-- @endif --}}
           @else
           <li
             class="flex items-center p-3 text-base font-bold text-gray-900 bg-red-200 rounded-lg hover:bg-red-600 group hover:shadow dark:bg-red-600 dark:hover:bg-red-500 dark:text-white">
@@ -253,6 +267,7 @@
             <span class="flex-1 ml-3 whitespace-nowrap">ระบบ Sale/Agent</span>
           </li>
           @endif
+
 
 
           <li onclick="window.open(`{{config('app.url8')}}`, '_blank')" class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-600 group
