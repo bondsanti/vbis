@@ -126,7 +126,7 @@ class CustomAuthController extends Controller
         if($request->session()->has('loginId')){
 
             $data = User::where('id','=',$request->session()->get('loginId'))->first();
-            //dd($data);
+            //dd($data->code);
         }
         $dataProject = DB::connection('mysql_project')->table('role_user')->where('user_id', $request->session()->get('loginId'))->first();
         $dataVconex = DB::connection('mysql_vconex')->table('users')->where('code', $data->code)->get()->count();

@@ -231,6 +231,8 @@
            </li>
            @endif
 
+
+
           @if($data->active_agent==1)
                 {{-- @if($data->auth_password_agent==0) --}}
 
@@ -268,6 +270,25 @@
           </li>
           @endif
 
+          @if($data->active_vproject==1)
+          <li onclick="window.open(`{{config('app.url6')}}/992PowrmkfrK45lksmdjdl_rruins878Dasddlfjk792sj_sadAkZXQQew/{{$data->code}}`, '_blank')"
+            class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-600 group
+            hover:shadow dark:bg-green-600 dark:hover:bg-green-500 dark:text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            <span class="flex-1 ml-3 whitespace-nowrap">ระบบ นัดชมโครงการ</span>
+          </li>
+          @else
+          <li class="flex items-center p-3 text-base font-bold text-gray-900 bg-red-200 rounded-lg hover:bg-red-600 group hover:shadow dark:bg-red-600 dark:hover:bg-red-500 dark:text-white">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                      </svg>
+                      <span class="flex-1 ml-3 whitespace-nowrap">ระบบ นัดชมโครงการ</span>
+           </li>
+           @endif
 
 
           <li onclick="window.open(`{{config('app.url8')}}`, '_blank')" class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-600 group

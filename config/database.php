@@ -87,15 +87,15 @@ return [
 
             'url' => env('DATABASE_URL'),
 
-            'host' => env('DB_HOST', 'localhost'),
+            'host' => env('DB_HOST', '27.254.100.179'),
 
             'port' => env('DB_PORT', '3306'),
 
             'database' => env('DB_DATABASE', 'hr'),
 
-            'username' => env('DB_USERNAME', 'root'),
+            'username' => env('DB_USERNAME', 'vbeyond'),
 
-            'password' => env('DB_PASSWORD', ''),
+            'password' => env('DB_PASSWORD', 'p#6%Wj5mYdhS'),
 
             'unix_socket' => env('DB_SOCKET', ''),
 
