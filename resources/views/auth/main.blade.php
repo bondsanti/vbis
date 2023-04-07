@@ -51,7 +51,6 @@
     <!-- component -->
     <div class="relative max-w-md mx-auto
       md:max-w-2xl
-      mt-6
       min-w-0
       break-words
       bg-white
