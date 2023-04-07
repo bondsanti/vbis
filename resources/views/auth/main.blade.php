@@ -21,12 +21,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;400;500&display=swap" rel="stylesheet"> --}}
   <style>
-    /* a:link {
-      text-decoration: none;
+    .my-event {
+    cursor: pointer;
     }
-    body{
-      font-family: 'Kanit', sans-serif;
-    } */
   </style>
   <script language=JavaScript>
 
@@ -47,6 +44,7 @@
 <body>
 
   @include('sweetalert::alert')
+
 
   <div class="row gutters-sm">
 
@@ -93,7 +91,7 @@
 
         {{-- <span class="text-sm text-gray-500 dark:text-gray-400 mt-2">แผนก {{$data->department_ref->name}}</span>
         --}}
-        <span class="text-sm text-gray-500 dark:text-gray-400">{{$data->position_ref->name}}</span>
+        <span class="text-sm text-gray-500 dark:text-gray-400">{{($data->position_ref->name)? $data->position_ref->name:""}}</span>
         {{-- <span
           class="font-medium bg-blue-100 text-blue-800 mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">{{$data->position_ref->name}}</span>
         --}}
@@ -107,16 +105,16 @@
 
       <div class="p-6">
         <h5 class="mb-2 text-base font-semibold text-gray-900 lg:text-xl dark:text-white">
-          สิทธิเข้าใช้งานระบบของคุณ <span
+            สิทธิ์เข้าใช้งานระบบ<span
             class="inline-flex items-center justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-900 bg-green-200 rounded dark:bg-green-700 dark:text-gray-400">มีสิทธิ์เข้าระบบได้</span>
           <span
-            class="inline-flex items-center justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-900 bg-red-200 rounded dark:bg-red-700 dark:text-gray-400">ไม่มีสิทธิเข้าระบบ</span>
+            class="inline-flex items-center justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-900 bg-red-200 rounded dark:bg-red-700 dark:text-gray-400">ไม่มีสิทธิ์เข้าระบบ</span>
         </h5>
         <p class="text-sm font-normal text-gray-500 dark:text-gray-400">ติดต่อแผนก IT หากต้องการเข้าใช้งานระบบ
             <b class="text-red-500">โหลดฟอร์ม : </b>
           <a href="{{ url('uploads/form-it-02-email.pdf') }}" target="_blank"
             class="inline-flex items-center justify-center px-2 py-0.5 ml-1 text-xs font-medium text-gray-900 bg-orange-200 rounded dark:bg-orange-700 dark:text-gray-400">
-            ฟอร์มขอสิทธิ/Email</a>
+            ฟอร์มขอสิทธิ์/Email</a>
             <a href="{{ url('uploads/form-it-05-Internet.pdf') }}" target="_blank"
             class="inline-flex items-center justify-center px-2 py-0.5 ml-1 text-xs font-medium text-gray-900 bg-orange-200 rounded dark:bg-orange-700 dark:text-gray-400">
             ฟอร์มขอใช้งาน Internet</a>
@@ -271,7 +269,7 @@
           @endif
 
           @if($data->active_vproject==1)
-          <li onclick="window.open(`{{config('app.url6')}}/992PowrmkfrK45lksmdjdl_rruins878Dasddlfjk792sj_sadAkZXQQew/{{$data->code}}`, '_blank')"
+          <li onclick="window.open(`{{config('app.url10')}}/PY0A3A9$G55KlasS90xxQwA9FvvLkiIQdZxpO09s1A/{{$data->code}}&{{$data->token}}`, '_blank')"
             class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-600 group
             hover:shadow dark:bg-green-600 dark:hover:bg-green-500 dark:text-white">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -314,10 +312,20 @@
         </ul>
       </div>
 
-    </div>
-<h6 class="text-center">Version {{config('app.appver')}}</h6>
-  </div>
 
+    </div>
+    <h6 class="text-center">Version {{config('app.appver')}}</h6>
+    <div class="mb-5">
+    </div>
+  </div>
+  {{-- <div class="fixed bottom-0 w-full flex justify-end mb-4 mr-4 pr-2 my-event">
+    <div class="relative w-20 h-20 rounded-full border-4 border-white bottom-0 right-0 z-10">
+      <div class="absolute inset-0 w-full h-full rounded-full bg-gradient-to-br from-yellow-400 to-red-500"></div>
+      <div class="absolute inset-0 w-2/3 h-2/3 rounded-full bg-white flex justify-center items-center">
+        <span>Exam</span>
+      </div>
+    </div>
+  </div> --}}
 
 </body>
 
@@ -326,7 +334,7 @@
 <style>
   body {
     background: linear-gradient(to right, #312e81, #4ade80);
-
+    background: -webkit-linear-gradient(to right, #312e81, #4ade80); /* Chrome 10-25, Safari 5.1-6 */
   }
 
   li {
@@ -334,7 +342,8 @@
   }
 
   btn-logout {
-background: #ec008c; /* fallback for old browsers */
+
+    background: #ec008c; /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #fc6767, #ec008c); /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #fc6767, #ec008c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+,
     Safari 7+ */

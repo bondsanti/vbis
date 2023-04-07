@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
 {
+
+    // protected $connection = 'mysql';
+    // protected $table = 'users';
+
+
     public function position_ref(){
         return $this->hasOne(Position::class, 'id', 'position_id');
     }

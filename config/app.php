@@ -53,15 +53,15 @@ return [
     */
 
     'url' => env('APP_URL', 'https://vbis.vbeyond.co.th'),
-    // 'url' => env('APP_URL', 'https://vbis.vbeyond.co.th'),//https://vbis.vbeyond.co.th
     'url2' => env('URL_ENDPOINT_HR', 'https://hr.vbeyond.co.th/login.php'),
     'url3' => env('URL_ENDPOINT_REPORT', 'https://report.vbeyond.co.th/index.php'),
     'url4' => env('URL_ENDPOINT_STOCK', 'https://stock.vbeyond.co.th'),
     'url5' => env('URL_ENDPOINT_ASSET', 'https://vbassets.vbeyond.co.th'),
     'url6' => env('URL_ENDPOINT_VBLEAD', 'https://vbaffiliate.vbeyond.co.th'),
     'url7' => env('URL_ENDPOINT_AGENT', 'https://vbagent.vbeyond.co.th'),
-    'url8' => env('URL_ENDPOINT_EMAIL', 'https://mail.hostinger.com/'),
+    'url8' => env('URL_ENDPOINT_EMAIL', 'https://mail.hostinger.com'),
     'url9' => env('URL_ENDPOINT_NASS', 'https://qlink.to/VBeyondDevelopment'),
+    'url10' => env('URL_ENDPOINT_PROJECT', 'http://127.0.0.1:9999'),
     'appver' => env('APP_VERSION', '1.0.2'),
 
     'asset_url' => env('ASSET_URL', null),

@@ -49,10 +49,10 @@
 </html>
 
 <style>
-body {
-  /* background: #007bff; */
-  background: linear-gradient(to right,  #312e81, #4ade80);
-}
+  body {
+    background: linear-gradient(to right, #312e81, #4ade80);
+    background: -webkit-linear-gradient(to right, #312e81, #4ade80); /* Chrome 10-25, Safari 5.1-6 */
+  }
 
 .btn-login {
 background: #56ab2f; /* fallback for old browsers */
