@@ -43,7 +43,8 @@
             </div>
           </div>
         </div>
-        <h6 class="text-center">Version {{config('app.appver')}}</h6>
+        {{-- <h6 class="text-center">Version {{config('app.appver')}}</h6> --}}
+        <h6 class="text-center">Version 1.0.2</h6>
       </div>
 </body>
 </html>
