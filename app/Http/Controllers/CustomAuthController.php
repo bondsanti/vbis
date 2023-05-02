@@ -44,7 +44,7 @@ class CustomAuthController extends Controller
             'password.required' => 'ป้อนรหัสผ่านใหม่',
             'confrimpassword.same'=>'รหัสผ่านไม่ตรงกัน',
             'password.min'=>'รหัสผ่านต้องไม่ต่ำกว่า 8 ตัวอักษร',
-            'password.regex'=>'รหัสผ่านต้องมี ตัวพิมพ์เล็ก 1 ตัว,ตัวพิมพ์ใหญ่ 1 ตัว,ตัวเลข 1 ตัว และอักษรพิเศษ 1 ตัว',
+            'password.regex'=>'รหัสผ่านอย่างน้อยต้องมี ตัวพิมพ์เล็ก 1 ตัว,ตัวพิมพ์ใหญ่ 1 ตัว,ตัวเลข 1 ตัว และอักษรพิเศษ 1 ตัว',
             'confrimpassword.required'=>'ป้อนยืนยันรหัสผ่านใหม่',
 
         ]);

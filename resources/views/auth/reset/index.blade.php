@@ -47,12 +47,12 @@
                 <form action="{{route('reset_create')}}" method="post">
                     @csrf
                   <div class="form-floating mb-3">
-                    <input type="password" class="form-control" name="password" autocomplete="off"  value="{{old('password')}}">
+                    <input type="password" class="form-control" name="password" autocomplete="off"  value="">
                     <label for="password">รหัสผ่านใหม่*</label>
                     <small class="text-danger mt-1">@error('password'){{$message}} @enderror</small>
                   </div>
                   <div class="form-floating mb-3">
-                    <input type="password" class="form-control" name="confrimpassword" autocomplete="off"  value="{{old('confrimpassword')}}">
+                    <input type="password" class="form-control" name="confrimpassword" autocomplete="off"  value="">
                     <label for="password">ยืนยันรหัสผ่านใหม่*</label>
                     <small class="text-danger mt-1">@error('confrimpassword'){{$message}} @enderror</small>
                   </div>
