@@ -61,7 +61,7 @@ return [
     'url7' => env('URL_ENDPOINT_AGENT', 'https://vbagent.vbeyond.co.th'),
     'url8' => env('URL_ENDPOINT_EMAIL', 'https://mail.hostinger.com'),
     'url9' => env('URL_ENDPOINT_NASS', 'https://qlink.to/VBeyondDevelopment'),
-    'url10' => env('URL_ENDPOINT_PROJECT', 'http://127.0.0.1:9999'),
+    'url10' => env('URL_ENDPOINT_PROJECT', 'https://project.vbeyond.co.th'),
     'appver' => env('APP_VERSION', '1.0.2'),
 
     'asset_url' => env('ASSET_URL', null),

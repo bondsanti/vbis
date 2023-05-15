@@ -261,7 +261,7 @@
           </li>
           @endif
 
-          {{-- @if($data->active_vproject==1)
+          @if($data->active_vproject==1)
           <li onclick="window.open(`{{config('app.url10')}}/PY0A3A9$G55KlasS90xxQwA9FvvLkiIQdZxpO09s1A/{{$data->code}}&{{$data->token}}`, '_blank')"
             class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-600 group
             hover:shadow dark:bg-green-600 dark:hover:bg-green-500 dark:text-white">
@@ -271,16 +271,16 @@
             </svg>
             <span class="flex-1 ml-3 whitespace-nowrap">ระบบ นัดชมโครงการ</span>
           </li>
-          @else --}}
+          @else
           <li class="flex items-center p-3 text-base font-bold text-gray-900 bg-red-200 rounded-lg hover:bg-red-600 group hover:shadow dark:bg-red-600 dark:hover:bg-red-500 dark:text-white">
                       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                         stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                       </svg>
                       <span class="flex-1 ml-3 whitespace-nowrap">ระบบ นัดชมโครงการ</span>
-                      <span class="inline-flex items-center justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-500 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-400">Coming soon</span>
+                      {{-- <span class="inline-flex items-center justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-500 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-400">Coming soon</span> --}}
            </li>
-           {{-- @endif --}}
+           @endif
 
 
           <li onclick="window.open(`{{config('app.url8')}}`, '_blank')" class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-600 group
