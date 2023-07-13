@@ -17,7 +17,14 @@
 
 Route::get('/login', 'CustomAuthController@login')->middleware('readyLogin');
 Route::post('/login/auth','CustomAuthController@loginUser')->name('loginUser');
-Route::get('/','CustomAuthController@profile')->middleware('isLogin');
+Route::get('/','CustomAuthController@profile')->name('main')->middleware('isLogin');
+
+Route::get('/forget','CustomAuthController@showForgetForm')->name('forget.form');
+Route::post('/forget','CustomAuthController@sendResetLinkEmail')->name('forget.email');
+Route::get('/forget/success','CustomAuthController@sendEmailSuccess');
+Route::get('/forget/reset/{token}','CustomAuthController@edit');
+Route::post('/forget/update','CustomAuthController@update')->name('forget.update');
+Route::get('/forget/complate','CustomAuthController@complate');
 
 //reset password
 Route::get('/resetpassword','CustomAuthController@reset_pass')->name('reset_pass')->middleware('isLogin');

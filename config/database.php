@@ -43,43 +43,6 @@ return [
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
 
-        // 'mysql' => [
-
-        //     'driver' => 'mysql',
-
-        //     'url' => env('DATABASE_URL'),
-
-        //     'host' => env('DB_HOST', '27.254.100.179'),
-
-        //     'port' => env('DB_PORT', '3306'),
-
-        //     'database' => env('DB_DATABASE', 'hr'),
-
-        //     'username' => env('DB_USERNAME', 'vbeyond'),
-
-        //     'password' => env('DB_PASSWORD', 'p#6%Wj5mYdhS'),
-
-        //     'unix_socket' => env('DB_SOCKET', ''),
-
-        //     'charset' => 'utf8mb4',
-
-        //     'collation' => 'utf8mb4_unicode_ci',
-
-        //     'prefix' => '',
-
-        //     'prefix_indexes' => true,
-
-        //     'strict' => true,
-
-        //     'engine' => null,
-
-        //     'options' => extension_loaded('pdo_mysql') ? array_filter([
-
-        //         PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-
-        //     ]) : [],
-
-        // ],
 
         'mysql' => [
 
@@ -91,7 +54,7 @@ return [
 
             'port' => env('DB_PORT', '3306'),
 
-            'database' => env('DB_DATABASE', 'hr_new'),
+            'database' => env('DB_DATABASE', 'vbeyond_hr'),
 
             'username' => env('DB_USERNAME', 'root'),
 
@@ -123,17 +86,19 @@ return [
 
             'driver' => 'mysql',
 
-            'host' => env('DB_HOST_2', '27.254.100.179'),
+            'url' => env('DATABASE_URL'),
 
-            'port' => env('DB_PORT_2', '3306'),
+            'host' => env('DB_HOST', 'localhost'),
 
-            'database' => env('DB_DATABASE_2', 'vbeyond_project'),
+            'port' => env('DB_PORT', '3306'),
 
-            'username' => env('DB_USERNAME_2', 'vbeyond'),
+            'database' => env('DB_DATABASE', 'vbeyond_project'),
 
-            'password' => env('DB_PASSWORD_2', 'p#6%Wj5mYdhS'),
+            'username' => env('DB_USERNAME', 'root'),
 
-            'unix_socket' => '',
+            'password' => env('DB_PASSWORD', ''),
+
+            'unix_socket' => env('DB_SOCKET', ''),
 
             'charset' => 'utf8mb4',
 
@@ -147,22 +112,31 @@ return [
 
             'engine' => null,
 
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+
+            ]) : [],
+
         ],
+
         'mysql_vconex' => [
 
             'driver' => 'mysql',
 
-            'host' => env('DB_HOST_3', '27.254.100.179'),
+            'url' => env('DATABASE_URL'),
 
-            'port' => env('DB_PORT_3', '3306'),
+            'host' => env('DB_HOST', 'localhost'),
 
-            'database' => env('DB_DATABASE_3', 'vbeyond_vconnex'),
+            'port' => env('DB_PORT', '3306'),
 
-            'username' => env('DB_USERNAME_3', 'vbeyond'),
+            'database' => env('DB_DATABASE', 'vbeyond_vconnex'),
 
-            'password' => env('DB_PASSWORD_3', 'p#6%Wj5mYdhS'),
+            'username' => env('DB_USERNAME', 'root'),
 
-            'unix_socket' => '',
+            'password' => env('DB_PASSWORD', ''),
+
+            'unix_socket' => env('DB_SOCKET', ''),
 
             'charset' => 'utf8mb4',
 
@@ -176,8 +150,13 @@ return [
 
             'engine' => null,
 
-        ],
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
 
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+
+            ]) : [],
+
+        ],
 
         'pgsql' => [
             'driver' => 'pgsql',

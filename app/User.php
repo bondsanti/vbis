@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Model
 {
 
-    // protected $connection = 'mysql';
-    // protected $table = 'users';
+    protected $connection = 'mysql';
+    protected $table = 'users';
 
+    public $timestamps= false;
+    // protected $fillable = ['is_auth','token_forget'];
 
     public function position_ref(){
         return $this->hasOne(Position::class, 'id', 'position_id');

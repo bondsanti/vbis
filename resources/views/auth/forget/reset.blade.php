@@ -30,7 +30,7 @@
             <div class="card border-0 shadow rounded-3 my-5">
               <div class="card-body p-4 p-sm-5">
                 <img class="rounded mx-auto d-block" src="{{ url('uploads/vbe.png') }}" alt="" width="280">
-                <h2 class="mt-n3 text-center font-extrabold text-danger">กรุณาสร้างรหัสผ่านใหม่</h2>
+                <h2 class="mt-6 mb-3 text-center font-extrabold text-danger">กรุณาสร้างรหัสผ่านใหม่</h2>
                 <div class="alert alert-primary d-flex align-items-center" role="alert">
                     <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
                     <div>
@@ -43,9 +43,10 @@
                       รหัสผ่านอย่างน้อยต้องมี ตัวพิมพ์เล็ก,พิมพ์ใหญ่,ตัวเลขและอักษรพิเศษอย่างละ 1 ตัว
                     </div>
                   </div>
-                <form action="{{route('reset_create')}}" method="post">
+                <form action="{{route('forget.update')}}" method="post">
                     @csrf
                   <div class="form-floating mb-3">
+                    <input type="hidden" class="form-control" name="user_id" autocomplete="off"  value="{{$user->id}}">
                     <input type="password" class="form-control" name="password" autocomplete="off"  value="">
                     <label for="password">รหัสผ่านใหม่*</label>
                     <small class="text-danger mt-1">@error('password'){{$message}} @enderror</small>
@@ -58,8 +59,8 @@
 
 
                   <div class="d-grid">
-                    <button type="submit" class="btn btn-success mb-2">เปลี่ยนรหัสผ่าน</button>
-                    <a href="{{url('/logout')}}" type="button" class="btn btn-warning">ยกเลิก</a>
+                    <button type="submit" class="btn btn-login fw-bold mt-2 btn-rounded mb-2">เปลี่ยนรหัสผ่าน</button>
+                    {{-- <a href="{{url('/logout')}}" type="button" class="btn btn-warning">ยกเลิก</a> --}}
 
                   </div>
 
@@ -68,16 +69,17 @@
             </div>
           </div>
         </div>
-        <h6 class="text-center mt-n3">Version 1.0.3</h6>
+        <h6 class="text-center">Version 1.0.3</h6>
       </div>
 </body>
 </html>
 
 <style>
-  body {
-    background: linear-gradient(to right, #00416A, #E4E5E6);
-    background: -webkit-linear-gradient(to right, #00416A, #E4E5E6); /* Chrome 10-25, Safari 5.1-6 */
-  }
+    body {
+        background: linear-gradient(to right, #00416A, #E4E5E6);
+        background: -webkit-linear-gradient(to right, #00416A, #E4E5E6);
+        /* Chrome 10-25, Safari 5.1-6 */
+    }
 
 
 .text-login{
@@ -96,6 +98,20 @@
   -webkit-font-smoothing: antialiased;
 }
 
+.btn-login {
+        background: #00416A;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #00416A, #00416A);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #00416A, #00416A);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+,
+    Safari 7+ */
+        color: #fff;
+        /* border: 3px solid #eee; */
+    }
 
+    .btn-rounded {
+        border-radius: 35px;
+    }
 
 </style>

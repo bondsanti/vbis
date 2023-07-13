@@ -29,7 +29,9 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+    //'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+    // 'host' => env('MAIL_HOST', 'smtp.office365.com'),
+    'host' => env('MAIL_HOST', 'smtp.hostinger.in.th'),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,8 +58,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'noreply@mail.vbeyond.co.th'),
+        'name' => env('MAIL_FROM_NAME', 'Noreply - VBIS System'),
     ],
 
     /*
@@ -84,9 +86,9 @@ return [
     |
     */
 
-    'username' => env('MAIL_USERNAME'),
+    'username' => env('noreply@mail.vbeyond.co.th'),
 
-    'password' => env('MAIL_PASSWORD'),
+    'password' => env('NoreplyVB123*'),
 
     /*
     |--------------------------------------------------------------------------
