@@ -206,6 +206,7 @@ class CustomAuthController extends Controller
         } else {
             $user->password = Hash::make($request->password);
             $user->is_auth = "1";
+            $user->token_forget = "";
             $user->save();
             Alert::success('เปลี่ยนรหัสผ่านสำเร็จ')->persistent(true)->autoclose(3000);
             return redirect('/forget/complate');

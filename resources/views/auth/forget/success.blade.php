@@ -45,9 +45,10 @@
             <div class="col-sm-9 col-md-5 col-lg-6 mx-auto">
                 <div class="card border-0 shadow rounded-3 my-5">
                     <div class="card-body p-4 p-sm-5">
-                        <h4 class="mt-6 mb-3 text-center">ระบบจะส่งอีเมล์ถึงคุณเพื่อตั้งค่ารหัสผ่านใหม่
+                        <h4 class="mt-6 mb-3 text-center">ระบบจะส่งอีเมลถึงคุณเพื่อทำการ Reset Password
                         </h4>
-                        <p class="text-center text-danger">อาจใช้เวลา 1-2 นาที *หากยังไม่ได้รับอีเมล์ กรุณาติดต่อ IT</p>
+                        <p class="text-center text-danger">หากไม่ได้รับอีเมล ให้ตรวจดูโฟลเดอร์จดหมายขยะ (Junk Email)</p>
+                        {{-- <p class="text-center text-danger">อาจใช้เวลา 1-2 นาที *หากยังไม่ได้รับอีเมล์ กรุณาติดต่อ IT</p> --}}
 
                         <div id="redirect-container" class="text-center spinner-container">
 
