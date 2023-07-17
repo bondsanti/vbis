@@ -237,14 +237,14 @@ class CustomAuthController extends Controller
         if ($user) {
 
 
-            $user->is_auth = 0;
+            //$user->is_auth = 1;
             $user->token_forget = $token;
             $user->save();
 
 
             Mail::send(
                 'auth.forget.mail',
-                ['resetLink' => url("forget/reset/{$token}")],
+                ['resetLink' => url("forget/reset/{$token}"),'users'=> $user ],
                 function (Message $message) use ($email) {
                     $message->to($email)
                         ->subject('ตั้งค่ารหัสผ่านใหม่');
