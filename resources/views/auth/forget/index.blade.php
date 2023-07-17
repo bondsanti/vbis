@@ -23,6 +23,10 @@
                     <div class="card-body p-4 p-sm-5">
                         <img class="rounded mx-auto d-block" src="{{ url('uploads/vbe.png') }}" alt=""
                             width="280">
+                            <center>
+                            <a href="{{ url('uploads/RESETPASSWORD.png') }}" target="_blank"
+                            class="badge bg-warning text-dark">คู่มือ Reset Password</a>
+                            </center>
                         <h2 class="text-center font-extrabold mb-3 pt-n5">Forget password?</h2>
                         <form action="{{ route('forget.email') }}" method="post">
 
