@@ -25,6 +25,7 @@ Route::get('/forget/success','CustomAuthController@sendEmailSuccess');
 Route::get('/forget/reset/{token}','CustomAuthController@edit');
 Route::post('/forget/update','CustomAuthController@update')->name('forget.update');
 Route::get('/forget/complate','CustomAuthController@complate');
+Route::get('/token_exp','CustomAuthController@token_exp')->name('token_exp');
 
 //reset password
 Route::get('/resetpassword','CustomAuthController@reset_pass')->name('reset_pass')->middleware('isLogin');

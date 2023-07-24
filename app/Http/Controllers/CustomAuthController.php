@@ -19,6 +19,11 @@ class CustomAuthController extends Controller
         return view("auth.login");
     }
 
+    public function token_exp()
+    {
+        return view("auth.forget.token_exp");
+    }
+
     public function reset_pass()
     {
 
@@ -131,7 +136,8 @@ class CustomAuthController extends Controller
             $data = User::where('id', '=', $request->session()->get('loginId'))->first();
             //dd($data->code);
         }
-        $dataProject = DB::connection('mysql_project')->table('role_user')->where('user_id', $request->session()->get('loginId'))->first();
+        $dataProject= array();
+        // $dataProject = DB::connection('mysql_project')->table('role_user')->where('user_id', $request->session()->get('loginId'))->first();
         $dataVconex = DB::connection('mysql_vconex')->table('users')->where('code', $data->code)->get()->count();
         //dd($dataVconex);
         return view('auth.main', compact('data', 'dataProject', 'dataVconex'));
@@ -170,7 +176,9 @@ class CustomAuthController extends Controller
         if ($user) {
             return view("auth.forget.reset", compact('user'));
         } else {
-            abort(404);
+            //abort(404);
+
+            return view("auth.forget.token_exp");
         }
     }
 

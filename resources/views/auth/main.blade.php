@@ -121,19 +121,19 @@
             </div>
 
             <div class="p-6">
-                <h5 class="mb-2 text-base font-semibold text-gray-900 lg:text-xl dark:text-white">
+                <h5 class="mb-2 text-base font-semibold text-gray-900">
                     สิทธิ์เข้าใช้งานระบบ<span
-                        class="inline-flex items-center justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-900 bg-green-200 rounded dark:bg-green-700 dark:text-gray-400">มีสิทธิ์เข้าระบบได้</span>
+                        class="inline-flex items-center justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-900 bg-green-300 rounded">มีสิทธิ์เข้าระบบได้</span>
                     <span
-                        class="inline-flex items-center justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-900 bg-red-200 rounded dark:bg-red-700 dark:text-gray-400">ไม่มีสิทธิ์เข้าระบบ</span>
+                        class="inline-flex items-center justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-900 bg-red-300 rounded">ไม่มีสิทธิ์เข้าระบบ</span>
                 </h5>
                 <p class="text-sm font-normal text-gray-500 dark:text-gray-400">ติดต่อแผนก IT หากต้องการเข้าใช้งานระบบ
                     <b class="text-red-500">โหลดฟอร์ม : </b>
                     <a href="{{ url('uploads/form-it-02-email.pdf') }}" target="_blank"
-                        class="inline-flex items-center justify-center px-2 py-0.5 ml-1 text-xs font-medium text-gray-900 bg-orange-200 rounded dark:bg-orange-700 dark:text-gray-400">
+                        class="inline-flex items-center justify-center px-2 py-0.5 ml-1 text-xs font-medium text-gray-900 bg-orange-300 rounded">
                         ฟอร์มขอสิทธิ์/Email</a>
                     <a href="{{ url('uploads/form-it-05-Internet.pdf') }}" target="_blank"
-                        class="inline-flex items-center justify-center px-2 py-0.5 ml-1 text-xs font-medium text-gray-900 bg-orange-200 rounded dark:bg-orange-700 dark:text-gray-400">
+                        class="inline-flex items-center justify-center px-2 py-0.5 ml-1 text-xs font-medium text-gray-900 bg-orange-300 rounded">
                         ฟอร์มขอใช้งาน Internet</a>
                 </p>
                 <ul class="my-4 space-y-3">
