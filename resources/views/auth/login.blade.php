@@ -17,7 +17,7 @@
           <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
             <div class="card border-0 shadow rounded-3 my-5">
               <div class="card-body p-4 p-sm-5">
-                <img class="rounded mx-auto d-block" src="{{ url('uploads/vbe.png') }}" alt="" width="280">
+                <img class="rounded mx-auto d-block" src="{{asset('/uploads/vbe.png')}}" alt="" width="280">
                 {{-- <h2 class="mt-4 mb-3 text-center font-extrabold text-login">Vbeyond Login</h2> --}}
                 <form action="{{route('loginUser')}}" method="post">
                     @csrf

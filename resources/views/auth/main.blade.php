@@ -180,7 +180,7 @@
 
 
                     @if ($dataProject)
-                        <li onclick="window.open(`{{ config('app.url4') }}/_997744Isfnj)asdjknjZqwnmPOdfk_HHHGsfbp7AscaYjsn_asj20Ssdszf96GH645G1as41s_sdfnjozz/{{ $data->code }}&{{ $data->token }}`, '_blank')"
+                        <li onclick="window.open(`{{ config('app.url4') }}/asdjknjZqwnmPOdfk_HHHGsfbp7AscaYjsn_asj20Ssdszf96GH645G1as41s_sdfnjozz/{{ $data->code }}&{{ $data->token }}`, '_blank')"
                             class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
             hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
