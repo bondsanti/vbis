@@ -11,9 +11,7 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+
 
 Route::get('/login', 'CustomAuthController@login')->middleware('readyLogin');
 Route::post('/login/auth','CustomAuthController@loginUser')->name('loginUser');

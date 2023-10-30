@@ -251,7 +251,7 @@ class CustomAuthController extends Controller
             $user->save();
 
 
-            Mail::send(
+           Mail::send(
                 'auth.forget.mail',
                 ['resetLink' => url("forget/reset/{$token}"),'users'=> $user ],
                 function (Message $message) use ($email) {
