@@ -39,6 +39,7 @@
 
                   <div class="d-grid">
                     <button class="btn btn-login btn-rounded text-uppercase fw-bold" type="submit">เข้าสู่ระบบ</button>
+                    <a href="" class="btn btn-login btn-rounded text-uppercase fw-bold mt-2" type="submit">เข้าสู่ระบบ Microsoft</a>
                   </div>
 
                 </form>
