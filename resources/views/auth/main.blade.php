@@ -180,7 +180,7 @@
 
 
                     @if ($dataProject)
-                        <li onclick="window.open(`{{ config('app.url4') }}/_997744Isfnj)asdjknjZqwnmPOdfk_HHHGsfbp7AscaYjsn_asj20Ssdszf96GH645G1as41s_sdfnjozz/{{ $data->code }}&{{ $data->token }}`, '_blank')"
+                        <li onclick="window.open(`{{ config('app.url4') }}/asdjknjZqwnmPOdfk_HHHGsfbp7AscaYjsn_asj20Ssdszf96GH645G1as41s_sdfnjozz/{{ $data->code }}&{{ $data->token }}`, '_blank')"
                             class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
             hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -314,7 +314,7 @@
                     @endif
 
 
-                    <li onclick="window.open(`{{ config('app.url8') }}`, '_blank')"
+                    {{-- <li onclick="window.open(`{{ config('app.url8') }}`, '_blank')"
                         class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                         hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -334,7 +334,7 @@
                                 d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                         </svg>
                         <span class="flex-1 ml-3 whitespace-nowrap">Nass Server (Login Required)</span>
-                    </li>
+                    </li> --}}
 
 
 

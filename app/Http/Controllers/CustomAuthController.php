@@ -137,7 +137,8 @@ class CustomAuthController extends Controller
             //dd($data->code);
         }
         $dataProject= array();
-        // $dataProject = DB::connection('mysql_project')->table('role_user')->where('user_id', $request->session()->get('loginId'))->first();
+        $dataProject = DB::connection('mysql_project')->table('role_user')->where('user_id', $request->session()->get('loginId'))->first();
+        //dd($dataProject);
         $dataVconex = DB::connection('mysql_vconex')->table('users')->where('code', $data->code)->get()->count();
         //dd($dataVconex);
         return view('auth.main', compact('data', 'dataProject', 'dataVconex'));
@@ -250,7 +251,7 @@ class CustomAuthController extends Controller
             $user->save();
 
 
-            Mail::send(
+           Mail::send(
                 'auth.forget.mail',
                 ['resetLink' => url("forget/reset/{$token}"),'users'=> $user ],
                 function (Message $message) use ($email) {
