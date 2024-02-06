@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomAuthController;
+use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/',[CustomAuthController::class,'index']);
+Route::get('/main',[MainController::class,'index']);
 
 Route::get('/mssignin', [CustomAuthController::class, 'signin']);
 Route::get('/mscallback', [CustomAuthController::class, 'callback']);

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VBIS Login</title>
+    <title>{{env('APP_NAME')}} {{env('APP_VERSION')}}</title>
     <!-- นำเข้า Tailwind CSS ผ่าน CDN -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
@@ -11,6 +11,11 @@
         .gradient {
             background: linear-gradient(90deg, rgb(2, 182, 104) 0%, rgb(1, 111, 65) 100%);
         }
+
+        .microsoft-gradient {
+            background: linear-gradient(90deg, #0078D4 0%, #00397A 100%);
+        }
+
     </style>
 </head>
 <body class="gradient">
@@ -36,7 +41,17 @@
                 </div>
                 <div>
                     <button type="submit" class="w-full p-3 rounded-lg text-white gradient">เข้าสู่ระบบ</button>
-                    <button type="submit" class="w-full p-3 mt-2 rounded-lg text-white gradient">เข้าสู่ระบบ Microsoft</button>
+
+
+                </div>
+
+                <hr>
+                <div>
+                    <button type="submit" class="w-full p-3 rounded-lg text-white microsoft-gradient flex items-center justify-center">
+                        <img src="{{url('uploads/logo/Microsoft_logo.png')}}" alt="Microsoft" class="w-6 h-6 mr-2"> <!-- ปรับขนาดตามต้องการ -->
+                        เข้าสู่ระบบด้วย Microsoft365
+                    </button>
+
                 </div>
             </form>
             <p class="text-center text-sm text-gray-500 mt-6">
