@@ -116,4 +116,23 @@ class CustomAuthController extends Controller
             }
         }
     }
+
+    public function profileUser(Request $request)
+    {
+        $data= array();
+        if ($request0>session()->has('loginId')) {
+
+            $data = User::where('id',$request->session()->get('loginId'))->first();
+        }
+        return view('auth.main', compact('data'));
+    }
+
+    public function logoutUser()
+    {
+        if ($request->session()->has('loginId')) {
+            Alert::success('ออกจากระบบเรียบร้อย','ไม่พบกันใหม่ :)');
+            $request->session()->pull('loginId');
+            return redirect('/');
+        }
+    }
 }
