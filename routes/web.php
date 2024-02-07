@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\CustomAuthController;
-use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,9 +17,18 @@ Route::get('_997744Isfnj)asdjknjZqwnmPOdfk_HHHGsfbp7AscaYjsn_asj20Ssdszf96GH645G
 //login by agent system
 //Route::get('/agent/{id}/{role_id}',[UserController::class,'createUserByAgentSystem']);
 
+//Forget Password
+Route::get('/forget',[CustomAuthController::class,'showForgetForm'])->name('forget.form');
+Route::post('/forget',[CustomAuthController::class,'sendResetLinkEmail'])->name('forget.email');
+Route::get('/forget/success',[CustomAuthController::class,'sendEmailSuccess']);
+Route::get('/forget/reset/{token}',[CustomAuthController::class,'edit']);
+Route::post('/forget/update',[CustomAuthController::class,'update'])->name('forget.update');
+Route::get('/forget/complate',[CustomAuthController::class,'complate']);
+Route::get('/token_exp',[CustomAuthController::class,'token_exp'])->name('token_exp');
+
 
 Route::middleware(['alreadyLogin'])->group(function () {
-    Route::get('/',[CustomAuthController::class,'index']);
+    Route::get('/',[CustomAuthController::class,'index'])->name('login');
     Route::post('/auth',[CustomAuthController::class,'loginVbis'])->name('loginVbis');
     Route::get('/mssignin', [CustomAuthController::class, 'signin'])->name('mssignin');
     Route::get('/mscallback', [CustomAuthController::class, 'callback']);
@@ -28,13 +36,13 @@ Route::middleware(['alreadyLogin'])->group(function () {
 
 //Frist Login
 Route::middleware(['isAuth'])->group(function () {
-    // Route::get('/change-password',[CustomAuthController::class,'changePassword'])->name('change.password');
-    // Route::post('/change-password',[CustomAuthController::class,'updatePassword'])->name('update.password');
+    Route::get('/change-password',[CustomAuthController::class,'changePassword'])->name('change.password');
+    Route::post('/change-password',[CustomAuthController::class,'updatePassword'])->name('update.password');
 });
 
-Route::get('/main',[MainController::class,'index']);
-Route::middleware(['isLogin'])->group(function () {
 
+Route::middleware(['isLogin'])->group(function () {
+    Route::get('/main',[CustomAuthController::class,'profileUser'])->name('main');
     Route::get('/logout/auth',[CustomAuthController::class,'logoutUser'])->name('logoutUser');
 
 });

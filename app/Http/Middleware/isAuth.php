@@ -17,7 +17,7 @@ class isAuth
     public function handle(Request $request, Closure $next)
     {
         if(!$request->session()->has('dataIsAuth')){
-            return redirect('login');
+            return redirect('/');
         }
         return $next($request);
     }

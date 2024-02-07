@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class isLogin
+class AuthCheck
 {
     /**
      * Handle an incoming request.
@@ -16,6 +16,9 @@ class isLogin
      */
     public function handle(Request $request, Closure $next)
     {
+        if(!$request->session()->has('loginId')){
+            return redirect('/');
+        }
         return $next($request);
     }
 }

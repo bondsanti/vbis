@@ -7,5 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Department extends Model
 {
-    use HasFactory;
+    protected $connection = 'mysql';
+    protected $table = 'tb_department';
+
+    public function user_ref()
+    {
+        return $this->belongsTo(User::class, 'department_id', 'id');
+    }
 }
