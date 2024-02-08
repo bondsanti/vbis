@@ -76,8 +76,8 @@
         <!-- Profile section -->
         <div class="text-center">
             @if ($responseCode != 200)
-                <img class="inline-block mb-2 w-24 h-24 rounded-full shadow-lg mt-4"
-                    src="https://hr.vbeyond.co.th/imageUser/noImage.jpg" alt="No Image" />
+                <img class="border-solid border-4 border-green-500 inline-block mb-2 bg-cover rounded-full mt-4 w-48 h-48"
+                    style="https://hr.vbeyond.co.th/imageUser/noImage.jpg">
             @else
                 <div class="border-solid border-4 border-green-500 inline-block mb-2 bg-cover rounded-full mt-4 w-48 h-48"
                     style="background-image: url('https://hr.vbeyond.co.th/imageUser/employee/{{ $data->img_check }}');">
@@ -96,27 +96,29 @@
         <!-- Info section -->
         <div class="mt-6 text-center grid grid-cols-3 divide-x divide-green-500 divide-dashed">
             <div>
-            <span
-                class="my-event inline-block bg-blue-200 rounded-full px-3 py-1 text-xs font-semibold text-blue-700 mr-2 mb-2 dropdown-button">
-                <i class="fas fa-download mr-1"></i>โหลดแบบฟอร์ม
-            </span>
+                <span
+                    class="my-event inline-block bg-blue-200 rounded-full px-3 py-1 text-xs font-semibold text-blue-700 mr-2 mb-2 dropdown-button">
+                    <i class="fas fa-download mr-1"></i>โหลดแบบฟอร์ม
+                </span>
             </div>
             <div>
-            <span
-                class="inline-block bg-green-200 rounded-full px-3 py-1 text-xs font-semibold text-green-700 mr-2 mb-2">
-                <i class="fas fa-check mr-1"></i>มีสิทธิ์ใช้งานระบบ
-            </span>
+                <span
+                    class="inline-block bg-green-200 rounded-full px-3 py-1 text-xs font-semibold text-green-700 mr-2 mb-2">
+                    <i class="fas fa-check mr-1"></i>มีสิทธิ์ใช้งานระบบ
+                </span>
             </div>
             <div>
-            <span class="inline-block bg-red-200 rounded-full px-3 py-1 text-xs font-semibold text-red-700 mr-2 mb-2">
-                <i class="fas fa-times mr-1"></i>ไม่มีสิทธิ์ใช้งานระบบ
-            </span>
+                <span
+                    class="inline-block bg-red-200 rounded-full px-3 py-1 text-xs font-semibold text-red-700 mr-2 mb-2">
+                    <i class="fas fa-times mr-1"></i>ไม่มีสิทธิ์ใช้งานระบบ
+                </span>
             </div>
             <div class="dropdown-content hidden absolute bg-white shadow-md mt-2 rounded-md overflow-hidden z-10">
-                <a href="#"
+                <a href="{{ url('uploads/form-it-02-email.pdf') }}" target="_blank"
                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">แบบฟอร์มขอสิทธิ์เข้าระบบ / ขอเปิด
                     Email</a>
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">แบบฟอร์มขอใช้งาน
+                <a href="{{ url('uploads/form-it-05-Internet.pdf') }}" target="_blank"
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">แบบฟอร์มขอใช้งาน
                     Internet </a>
             </div>
         </div>
