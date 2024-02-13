@@ -22,7 +22,8 @@ class CustomAuthController extends Controller
         $this->provider = new GenericProvider([
             'clientId'                => '94150993-bd31-4c99-a0cd-6cd4580e912f',
             'clientSecret'            => 'okV8Q~lX.2DXtcQ1qlc9lENBWu.I3S3o_S8J2bXR',
-            'redirectUri'             => 'https://vbis.vbeyond.co.th/mscallback',
+            // 'redirectUri'             => 'https://vbis.vbeyond.co.th/mscallback',
+            'redirectUri'             => 'http://localhost:8000/mscallback',
             'urlAuthorize'            => 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
             'urlAccessToken'          => 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
             'urlResourceOwnerDetails' => '',
