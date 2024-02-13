@@ -203,7 +203,7 @@
 
 
                 @if ($dataProject)
-                    <li onclick="window.open(`{{ env('APP_STOCK') }}/asdjknjZqwnmPOdfk_HHHGsfbp7AscaYjsn_asj20Ssdszf96GH645G1as41s_sdfnjozz/{{ $data->code }}&{{ $data->token }}`, '_blank')"
+                    <li onclick="window.open(`{{ env('APP_STOCK') }}/_997744Isfnj)asdjknjZqwnmPOdfk_HHHGsfbp7AscaYjsn_asj20Ssdszf96GH645G1as41s_sdfnjozz/{{ $data->code }}&{{ $data->token }}`, '_blank')"
                         class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                     hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
 
