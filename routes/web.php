@@ -13,9 +13,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('_997744Isfnj)asdjknjZqwnmPOdfk_HHHGsfbp7AscaYjsn_asj20Ssdszf96GH645G1as41s_sdfnjozz/{id}&{token}',[CustomAuthController::class,'AllowLoginConnect']);
-//login by agent system
-//Route::get('/agent/{id}/{role_id}',[UserController::class,'createUserByAgentSystem']);
+
+
+// Route Fallback
+Route::fallback(function () {
+    return redirect('/');
+});
 
 //Forget Password
 Route::get('/forget',[CustomAuthController::class,'showForgetForm'])->name('forget.form');

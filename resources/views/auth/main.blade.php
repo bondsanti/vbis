@@ -34,29 +34,8 @@
             cursor: pointer;
         }
 
-        .hidden {
-            display: none;
-        }
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-        }
 
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #f1f1f1
-        }
     </style>
 </head>
 @php
@@ -95,12 +74,33 @@
 
         <!-- Info section -->
         <div class="mt-6 text-center grid grid-cols-3 divide-x divide-green-500 divide-dashed">
-            <div>
+            {{-- <div>
                 <span
-                    class="my-event inline-block bg-blue-200 rounded-full px-3 py-1 text-xs font-semibold text-blue-700 mr-2 mb-2 dropdown-button">
+                    class="my-event inline-block bg-blue-200 rounded-full px-3 py-1 text-xs font-semibold text-blue-700 mr-2 mb-2" id="menu-button" aria-expanded="true" aria-haspopup="true">
                     <i class="fas fa-download mr-1"></i>โหลดแบบฟอร์ม
                 </span>
+            </div> --}}
+
+            <div>
+                <span onclick="toggleDropdown()"
+                    class="cursor-pointer inline-block bg-blue-200 rounded-full px-3 py-1 text-xs font-semibold text-blue-700 mr-2 mb-2">
+                    <i class="fas fa-download mr-1"></i>โหลดแบบฟอร์ม
+                </span>
+                <div id="dropdownMenu"
+                    class="hidden absolute mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                    <a href="{{ url('uploads/form-it-02-email.pdf') }}" target="_blank"
+                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        role="menuitem">แบบฟอร์มขอสิทธิ์เข้าระบบ / ขอเปิด
+                        Email</a>
+                    <a href="{{ url('uploads/form-it-05-Internet.pdf') }}" target="_blank"
+                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">แบบฟอร์มขอใช้งาน
+                        Internet</a>
+
+                </div>
             </div>
+
+
+
             <div>
                 <span
                     class="inline-block bg-green-200 rounded-full px-3 py-1 text-xs font-semibold text-green-700 mr-2 mb-2">
@@ -113,21 +113,12 @@
                     <i class="fas fa-times mr-1"></i>ไม่มีสิทธิ์ใช้งานระบบ
                 </span>
             </div>
-            <div class="dropdown-content hidden absolute bg-white shadow-md mt-2 rounded-md overflow-hidden z-10">
-                <a href="{{ url('uploads/form-it-02-email.pdf') }}" target="_blank"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">แบบฟอร์มขอสิทธิ์เข้าระบบ / ขอเปิด
-                    Email</a>
-                <a href="{{ url('uploads/form-it-05-Internet.pdf') }}" target="_blank"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">แบบฟอร์มขอใช้งาน
-                    Internet </a>
-            </div>
         </div>
-        {{-- <div class="mx-6 my-4 border-b border-green-500">
-        </div> --}}
+
         <!-- Menu section -->
         <div class="mt-3 space-y-2">
             <ul class="my-4 space-y-3">
-                <li onclick="window.open(`{{ env('APP_HR') }}?token={{ $data->token }}&aOpmIGGnsdhj_R88qlFJMn_ajam9977ADmndMLKjgs&id={{ session()->get('loginId') }}`, '_blank')"
+                <li onclick="window.open(`{{ config('app.url2') }}?token={{ $data->token }}&aOpmIGGnsdhj_R88qlFJMn_ajam9977ADmndMLKjgs&id={{ session()->get('loginId') }}`, '_blank')"
                     class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                 hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
 
@@ -148,7 +139,7 @@
                 </li>
 
                 @if ($data->active_report == 1)
-                    <li onclick="window.open(`{{ env('APP_REPORT') }}?WAdk_ask7821djYYsadcqqpdf_)atooyjnnZ5654xzA&user={{ $data->code }}&token={{ $data->token }}&act=loginconect&r=1`, '_blank')"
+                    <li onclick="window.open(`{{ config('app.url3') }}?WAdk_ask7821djYYsadcqqpdf_)atooyjnnZ5654xzA&user={{ $data->code }}&token={{ $data->token }}&act=loginconect&r=1`, '_blank')"
                         class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                 hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
 
@@ -203,7 +194,7 @@
 
 
                 @if ($dataProject)
-                    <li onclick="window.open(`{{ env('APP_STOCK') }}/_997744Isfnj)asdjknjZqwnmPOdfk_HHHGsfbp7AscaYjsn_asj20Ssdszf96GH645G1as41s_sdfnjozz/{{ $data->code }}&{{ $data->token }}`, '_blank')"
+                    <li onclick="window.open(`{{ config('app.url4') }}/_997744Isfnj)asdjknjZqwnmPOdfk_HHHGsfbp7AscaYjsn_asj20Ssdszf96GH645G1as41s_sdfnjozz/{{ $data->code }}&{{ $data->token }}`, '_blank')"
                         class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                     hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
 
@@ -263,7 +254,7 @@
                 @endif
 
                 @if ($data->active_vbasset == 1)
-                    <li onclick="window.open(`{{ env('APP_ASSET') }}/44Ad852asdbp7AscaYjsn_asj2041Otyko_s_Asdklolkl98741pwrja0a1zz/{{ $data->code }}&{{ $data->token }}`, '_blank')"
+                    <li onclick="window.open(`{{ config('app.url5') }}/44Ad852asdbp7AscaYjsn_asj2041Otyko_s_Asdklolkl98741pwrja0a1zz/{{ $data->code }}&{{ $data->token }}`, '_blank')"
                         class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                         hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
 
@@ -348,7 +339,7 @@
 
 
                 @if ($dataVconex == 1)
-                    <li onclick="window.open(`{{ env('APP_LEAD') }}/992PowrmkfrK45lksmdjdl_rruins878Dasddlfjk792sj_sadAkZXQQew/{{ $data->code }}`, '_blank')"
+                    <li onclick="window.open(`{{ config('app.url6') }}/992PowrmkfrK45lksmdjdl_rruins878Dasddlfjk792sj_sadAkZXQQew/{{ $data->code }}`, '_blank')"
                         class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                         hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
 
@@ -395,7 +386,7 @@
                 @endif
 
                 @if ($data->active_agent == 1)
-                    <li onclick="window.open(`{{ env('APP_AGENT') }}/Zx00faff00048s2zxwormRqvBNsddsf098r/{{ $data->code }}&{{ $data->token }}`, '_blank')"
+                    <li onclick="window.open(`{{ config('app.url7') }}/Zx00faff00048s2zxwormRqvBNsddsf098r/{{ $data->code }}&{{ $data->token }}`, '_blank')"
                         class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                     hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
 
@@ -461,7 +452,7 @@
                 @endif
 
                 @if ($data->active_vproject == 1)
-                    <li onclick="window.open(`{{ env('APP_PROJECT') }}/PY0A3A9$G55KlasS90xxQwA9FvvLkiIQdZxpO09s1A/{{ $data->code }}&{{ $data->token }}`, '_blank')"
+                    <li onclick="window.open(`{{ config('app.url8') }}/PY0A3A9$G55KlasS90xxQwA9FvvLkiIQdZxpO09s1A/{{ $data->code }}&{{ $data->token }}`, '_blank')"
                         class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                     hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
 
@@ -516,6 +507,8 @@
                 @endif
             </ul>
         </div>
+
+
         <!-- Repeat for other menu items -->
         <p class="text-center text-sm text-gray-500 mt-6">
             Version 2.0
@@ -527,16 +520,22 @@
 
 </html>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
-    $(document).ready(function() {
-        $('.dropdown-button').click(function() {
-            // สลับการแสดง/ซ่อน dropdown menu โดยตรง
-            var $dropdownContent = $('.dropdown-content');
-            if ($dropdownContent.css('display') === 'none') {
-                $dropdownContent.css('display', 'block');
-            } else {
-                $dropdownContent.css('display', 'none');
+    function toggleDropdown() {
+        var element = document.getElementById("dropdownMenu");
+        element.classList.toggle("hidden");
+    }
+    window.onclick = function(event) {
+        if (!event.target.matches('.dropdown-button')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (!openDropdown.classList.contains('hidden')) {
+                    openDropdown.classList.add('hidden');
+                }
             }
-        });
-    });
+        }
+    }
 </script>

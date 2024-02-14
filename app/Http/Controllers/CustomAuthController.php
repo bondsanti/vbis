@@ -22,8 +22,8 @@ class CustomAuthController extends Controller
         $this->provider = new GenericProvider([
             'clientId'                => '94150993-bd31-4c99-a0cd-6cd4580e912f',
             'clientSecret'            => 'okV8Q~lX.2DXtcQ1qlc9lENBWu.I3S3o_S8J2bXR',
-            // 'redirectUri'             => 'https://vbis.vbeyond.co.th/mscallback',
-            'redirectUri'             => 'http://localhost:8000/mscallback',
+            'redirectUri'             => 'https://vbis.vbeyond.co.th/mscallback',
+            // 'redirectUri'             => 'http://localhost:8000/mscallback',
             'urlAuthorize'            => 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
             'urlAccessToken'          => 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
             'urlResourceOwnerDetails' => '',
@@ -83,12 +83,12 @@ class CustomAuthController extends Controller
             $user_hr->token = $token;
             $user_hr->save();
 
-            // DB::connection('mysql_report')->table('log_login')->insert([
-            //     'username' => $user_hr->code,
-            //     'dates' => date('Y-m-d'),
-            //     'timeStm' => date('Y-m-d H:i:s'),
-            //     'page' => 'LoginConnect'
-            // ]);
+            DB::table('vbeyond_report.log_login')->insert([
+                'username' => $user_hr->code,
+                'dates' => date('Y-m-d'),
+                'timeStm' => date('Y-m-d H:i:s'),
+                'page' => 'LoginMicrosoft'
+            ]);
 
             Alert::success('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับเข้าสู่ระบบ');
             return redirect('/main');
@@ -128,12 +128,12 @@ class CustomAuthController extends Controller
                 $user_hr->token = $token;
                 $user_hr->save();
 
-                // DB::table('mysql_report.log_login')->insert([
-                //     'username' => $user_hr->code,
-                //     'dates' => date('Y-m-d'),
-                //     'timeStm' => date('Y-m-d H:i:s'),
-                //     'page' => 'LoginConnect'
-                // ]);
+                DB::table('vbeyond_report.log_login')->insert([
+                    'username' => $user_hr->code,
+                    'dates' => date('Y-m-d'),
+                    'timeStm' => date('Y-m-d H:i:s'),
+                    'page' => 'LoginConnect'
+                ]);
 
                 Alert::success('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับเข้าสู่ระบบ');
                 return redirect('/main');
