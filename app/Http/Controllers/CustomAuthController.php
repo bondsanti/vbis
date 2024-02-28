@@ -8,7 +8,7 @@ use League\OAuth2\Client\Provider\GenericProvider;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Hash;
 use GuzzleHttp\Client;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
@@ -83,12 +83,12 @@ class CustomAuthController extends Controller
             $user_hr->token = $token;
             $user_hr->save();
 
-            // DB::connection('mysql_report')->table('log_login')->insert([
-            //     'username' => $user_hr->code,
-            //     'dates' => date('Y-m-d'),
-            //     'timeStm' => date('Y-m-d H:i:s'),
-            //     'page' => 'LoginConnect'
-            // ]);
+            DB::table('vbeyond_report.log_login')->insert([
+                'username' => $user_hr->code,
+                'dates' => date('Y-m-d'),
+                'timeStm' => date('Y-m-d H:i:s'),
+                'page' => 'LoginMicrosoft'
+            ]);
 
             Alert::success('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับเข้าสู่ระบบ');
             return redirect('/main');
@@ -128,12 +128,12 @@ class CustomAuthController extends Controller
                 $user_hr->token = $token;
                 $user_hr->save();
 
-                // DB::table('mysql_report.log_login')->insert([
-                //     'username' => $user_hr->code,
-                //     'dates' => date('Y-m-d'),
-                //     'timeStm' => date('Y-m-d H:i:s'),
-                //     'page' => 'LoginConnect'
-                // ]);
+                DB::table('vbeyond_report.log_login')->insert([
+                    'username' => $user_hr->code,
+                    'dates' => date('Y-m-d'),
+                    'timeStm' => date('Y-m-d H:i:s'),
+                    'page' => 'LoginConnect'
+                ]);
 
                 Alert::success('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับเข้าสู่ระบบ');
                 return redirect('/main');
