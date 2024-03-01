@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{env('APP_NAME')}} {{env('APP_VERSION')}}</title>
+    <title>{{config('APP_NAME')}} {{config('APP_VERSION')}}</title>
     <link rel="icon" type="image/x-icon" href="{{ url('uploads/logo/vbeicon.ico') }}">
 
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">

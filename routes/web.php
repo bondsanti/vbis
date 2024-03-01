@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CustomAuthController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,7 +47,22 @@ Route::middleware(['isAuth'])->group(function () {
 
 Route::middleware(['isLogin'])->group(function () {
     Route::get('/main',[CustomAuthController::class,'profileUser'])->name('main');
-    Route::get('/logout/auth',[CustomAuthController::class,'logoutUser'])->name('logoutUser');
 
+    Route::get('/powerapp/it/{user}', function ($user) {
+
+        //dd($user);
+        DB::table('vbeyond_report.log_login')->insert([
+            'username' => $user,
+            'dates' => date('Y-m-d'),
+            'timeStm' => date('Y-m-d H:i:s'),
+            'page' => 'ITSolution'
+        ]);
+
+
+        return redirect('https://apps.powerapps.com/play/e/default-5f1b572d-118b-45fc-b023-0f6d96cc9f24/a/351572b2-06fe-473a-bfc5-f889c0a79460?tenantId=5f1b572d-118b-45fc-b023-0f6d96cc9f24&hint=0c0a904b-2f6c-4fb2-8527-14db613d1ad2&sourcetime=1709278797077');
+    })->name('powerapp.it');
+
+
+    Route::get('/logout/auth',[CustomAuthController::class,'logoutUser'])->name('logoutUser');
 });
 

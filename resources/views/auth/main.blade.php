@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ env('APP_NAME') }} {{ env('APP_VERSION') }}</title>
+    <title>VBIS Login 2.0</title>
 
     <link rel="icon" type="image/x-icon" href="{{ url('uploads/logo/vbeicon.ico') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,9 +33,6 @@
         li {
             cursor: pointer;
         }
-
-
-
     </style>
 </head>
 @php
@@ -51,9 +48,22 @@
 
     @include('sweetalert::alert')
     <div class="bg-white rounded-2xl shadow-lg p-8 max-w-xl mx-auto mt-10">
-
+        {{-- <div class="relative">
+            <button id="adminButton"
+                class="absolute top-0 right-0 p-2 bg-gray-500 text-white rounded-full hover:bg-gray-600 focus:outline-none">
+                <i class="fas fa-cogs"></i>
+            </button>
+            <!-- Dropdown menu -->
+            <div id="adminDropdown" class="hidden absolute right-0 mt-2 bg-white border rounded-md shadow-md">
+                <a onclick="window.open(`{{route('users.list')}}`, '_blank')"
+                    class="block px-4 py-2 text-gray-800 hover:bg-green-500 hover:text-white">จัดการสิทธิ์ผู้ใช้งานระบบ</a>
+                <a href=""
+                    class="block px-4 py-2 text-gray-800 hover:bg-green-500 hover:text-white">รายงานผู้ใช้งานระบบ</a>
+            </div>
+        </div> --}}
         <!-- Profile section -->
         <div class="text-center">
+
             @if ($responseCode != 200)
                 <img class="border-solid border-4 border-green-500 inline-block mb-2 bg-cover rounded-full mt-4 w-48 h-48"
                     style="https://hr.vbeyond.co.th/imageUser/noImage.jpg">
@@ -66,6 +76,7 @@
             <h2 class="text-2xl font-semibold">คุณ {{ $data->name_th }} </h2>
             {{-- <p class="text-gray-600">{{ $data->department_ref->name ?? '' }}</p> --}}
             <p class="text-gray-600">{{ $data->position_ref->name ?? '' }}</p>
+
             <button
                 class="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none hover:bg-red-600 transition"
                 onclick="window.location.href='{{ route('logoutUser') }}'">ออกจากระบบ</button>
@@ -118,6 +129,48 @@
         <!-- Menu section -->
         <div class="mt-3 space-y-2">
             <ul class="my-4 space-y-3">
+
+                <li onclick="window.open(`{{ route('powerapp.it', ['user' => $data->code]) }}`, '_blank')"
+                    class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
+                hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
+
+                <svg width="20" height="20" viewBox="0 0 1024 1024" class="icon" version="1.1"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M899.984 19.873h-3.452c-26.123 0-47.296 21.172-47.296 47.296v888.508c0 26.127 21.173 47.298 47.296 47.298h3.452c26.119 0 47.297-21.171 47.297-47.298V67.169c0-26.124-21.177-47.296-47.297-47.296z"
+                    fill="#4A5699" />
+                <path
+                    d="M132.643 19.873h-3.449c-26.12 0-47.296 21.172-47.296 47.296v888.508c0 26.127 21.177 47.298 47.296 47.298h3.449c26.123 0 47.299-21.171 47.299-47.298V67.169c0-26.124-21.176-47.296-47.299-47.296z"
+                    fill="#C45FA0" />
+                <path
+                    d="M899.463 19.873H129.194c-26.12 0-47.296 21.172-47.296 47.296v3.377c0 26.12 21.177 47.299 47.296 47.299h770.269c26.123 0 47.296-21.179 47.296-47.299v-3.377c0-26.124-21.173-47.296-47.296-47.296z"
+                    fill="#6277BA" />
+                <path
+                    d="M899.463 905.006H129.194c-26.12 0-47.296 21.17-47.296 47.29v3.381c0 26.127 21.177 47.298 47.296 47.298h770.269c26.123 0 47.296-21.171 47.296-47.298v-3.381c0-26.12-21.173-47.29-47.296-47.29z"
+                    fill="#C45FA0" />
+                <path
+                    d="M717.962 543.153H542.047c-26.121 0-47.298 21.175-47.298 47.297v3.724c0 26.123 21.177 47.293 47.298 47.293h175.915c26.121 0 47.297-21.17 47.297-47.293v-3.724c0-26.122-21.176-47.297-47.297-47.297z"
+                    fill="#E5594F" />
+                <path
+                    d="M689.268 198.849H513.355c-26.122 0-47.298 21.175-47.298 47.297v3.722c0 26.12 21.176 47.297 47.298 47.297h175.912c26.122 0 47.298-21.177 47.298-47.297v-3.722c0-26.122-21.175-47.297-47.297-47.297z"
+                    fill="#F0D043" />
+                <path
+                    d="M757.789 353.081H261.17c-26.121 0-47.297 21.172-47.297 47.296v3.377c0 26.121 21.177 47.299 47.297 47.299h496.619c26.121 0 47.296-21.178 47.296-47.299v-3.377c0-26.125-21.175-47.296-47.296-47.296z"
+                    fill="#E5594F" />
+                <path
+                    d="M762.638 726.225h-496.62c-26.12 0-47.294 21.18-47.294 47.301v3.377c0 26.12 21.174 47.3 47.294 47.3h496.62c26.122 0 47.296-21.18 47.296-47.3v-3.377c0-26.122-21.174-47.301-47.296-47.301z"
+                    fill="#6277BA" />
+                <path
+                    d="M355.734 543.328H281.41c-26.122 0-47.297 21.17-47.297 47.293v3.378c0 26.118 21.175 47.297 47.297 47.297h74.324c26.123 0 47.296-21.179 47.296-47.297v-3.378c0-26.123-21.174-47.293-47.296-47.293z"
+                    fill="#F39A2B" />
+                <path
+                    d="M334.85 248.006m-48.986 0a48.986 48.986 0 1 0 97.972 0 48.986 48.986 0 1 0-97.972 0Z"
+                    fill="#F39A2B" />
+            </svg>
+                    <span class="flex-1 ml-3 whitespace-nowrap">ระบบ E-Document IT Solution</span>
+
+                </li>
+
                 <li onclick="window.open(`{{ config('app.url2') }}?token={{ $data->token }}&aOpmIGGnsdhj_R88qlFJMn_ajam9977ADmndMLKjgs&id={{ session()->get('loginId') }}`, '_blank')"
                     class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                 hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
@@ -260,36 +313,7 @@
 
                         <svg width="20" height="20" viewBox="0 0 1024 1024" class="icon" version="1.1"
                             xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M899.984 19.873h-3.452c-26.123 0-47.296 21.172-47.296 47.296v888.508c0 26.127 21.173 47.298 47.296 47.298h3.452c26.119 0 47.297-21.171 47.297-47.298V67.169c0-26.124-21.177-47.296-47.297-47.296z"
-                                fill="#4A5699" />
-                            <path
-                                d="M132.643 19.873h-3.449c-26.12 0-47.296 21.172-47.296 47.296v888.508c0 26.127 21.177 47.298 47.296 47.298h3.449c26.123 0 47.299-21.171 47.299-47.298V67.169c0-26.124-21.176-47.296-47.299-47.296z"
-                                fill="#C45FA0" />
-                            <path
-                                d="M899.463 19.873H129.194c-26.12 0-47.296 21.172-47.296 47.296v3.377c0 26.12 21.177 47.299 47.296 47.299h770.269c26.123 0 47.296-21.179 47.296-47.299v-3.377c0-26.124-21.173-47.296-47.296-47.296z"
-                                fill="#6277BA" />
-                            <path
-                                d="M899.463 905.006H129.194c-26.12 0-47.296 21.17-47.296 47.29v3.381c0 26.127 21.177 47.298 47.296 47.298h770.269c26.123 0 47.296-21.171 47.296-47.298v-3.381c0-26.12-21.173-47.29-47.296-47.29z"
-                                fill="#C45FA0" />
-                            <path
-                                d="M717.962 543.153H542.047c-26.121 0-47.298 21.175-47.298 47.297v3.724c0 26.123 21.177 47.293 47.298 47.293h175.915c26.121 0 47.297-21.17 47.297-47.293v-3.724c0-26.122-21.176-47.297-47.297-47.297z"
-                                fill="#E5594F" />
-                            <path
-                                d="M689.268 198.849H513.355c-26.122 0-47.298 21.175-47.298 47.297v3.722c0 26.12 21.176 47.297 47.298 47.297h175.912c26.122 0 47.298-21.177 47.298-47.297v-3.722c0-26.122-21.175-47.297-47.297-47.297z"
-                                fill="#F0D043" />
-                            <path
-                                d="M757.789 353.081H261.17c-26.121 0-47.297 21.172-47.297 47.296v3.377c0 26.121 21.177 47.299 47.297 47.299h496.619c26.121 0 47.296-21.178 47.296-47.299v-3.377c0-26.125-21.175-47.296-47.296-47.296z"
-                                fill="#E5594F" />
-                            <path
-                                d="M762.638 726.225h-496.62c-26.12 0-47.294 21.18-47.294 47.301v3.377c0 26.12 21.174 47.3 47.294 47.3h496.62c26.122 0 47.296-21.18 47.296-47.3v-3.377c0-26.122-21.174-47.301-47.296-47.301z"
-                                fill="#6277BA" />
-                            <path
-                                d="M355.734 543.328H281.41c-26.122 0-47.297 21.17-47.297 47.293v3.378c0 26.118 21.175 47.297 47.297 47.297h74.324c26.123 0 47.296-21.179 47.296-47.297v-3.378c0-26.123-21.174-47.293-47.296-47.293z"
-                                fill="#F39A2B" />
-                            <path
-                                d="M334.85 248.006m-48.986 0a48.986 48.986 0 1 0 97.972 0 48.986 48.986 0 1 0-97.972 0Z"
-                                fill="#F39A2B" />
+                            <path d="M964.751 210.302H61.963c-25.57 0-46.296 20.727-46.296 46.296v6.518c0 25.57 20.727 46.297 46.296 46.297h902.788c25.569 0 46.297-20.727 46.297-46.297v-6.518c0-25.57-20.728-46.296-46.297-46.296z" fill="#4A5699" /><path d="M964.751 828.887H61.963c-25.57 0-46.296 20.728-46.296 46.297v6.52c0 25.565 20.727 46.297 46.296 46.297h902.788c25.569 0 46.297-20.731 46.297-46.297v-6.52c0-25.57-20.728-46.297-46.297-46.297z" fill="#C45FA0" /><path d="M68.564 210.302h-6.601c-25.57 0-46.296 20.727-46.296 46.296v625.105c0 25.565 20.727 46.297 46.296 46.297h6.601c25.571 0 46.296-20.731 46.296-46.297V256.598c0-25.57-20.725-46.296-46.296-46.296zM964.751 210.302h-6.604c-25.569 0-46.292 20.727-46.292 46.296v625.105c0 25.565 20.723 46.297 46.292 46.297h6.604c25.569 0 46.297-20.731 46.297-46.297V256.598c0-25.57-20.728-46.296-46.297-46.296z" fill="#6277BA" /><path d="M155.907 396.561a49.6 49.555 0 1 0 99.2 0 49.6 49.555 0 1 0-99.2 0Z" fill="#F0D043" /><path d="M739.108 111.191H284.412c-25.567 0-46.296 20.727-46.296 46.296v6.518c0 25.568 20.729 46.297 46.296 46.297h454.696c25.569 0 46.293-20.729 46.293-46.297v-6.518c0-25.569-20.723-46.296-46.293-46.296z" fill="#F39A2B" /><path d="M607.586 569.65c0.037 55.423-41.429 99.896-95.959 102.036-55.394 2.173-99.965-43.03-102.043-95.958-1.141-29.074-23.423-53.393-53.392-53.393-28.241 0-54.535 24.293-53.392 53.393 4.438 113.048 94.812 202.82 208.826 202.742 113.141-0.08 202.821-98.092 202.742-208.82-0.049-68.858-106.832-68.862-106.782 0z" fill="#F39A2B" /><path d="M411.073 564.357c1.049-54.399 44.634-97.98 99.036-99.029 54.426-1.049 98.01 46.207 99.028 99.029 1.326 68.771 108.109 68.9 106.783 0-2.19-113.543-92.271-203.625-205.812-205.813-113.539-2.188-203.694 95.569-205.819 205.813-1.328 68.901 105.458 68.771 106.784 0z" fill="#E5594F" />
                         </svg>
                         <span class="flex-1 ml-3 whitespace-nowrap">ระบบ สินทรัพย์ (Asset) </span>
 
@@ -514,7 +538,7 @@
             Version 2.0
         </p>
     </div>
-    </div>
+
     <br><br>
 </body>
 
@@ -538,4 +562,20 @@
             }
         }
     }
+    document.addEventListener('DOMContentLoaded', () => {
+        const adminButton = document.getElementById('adminButton');
+        const adminDropdown = document.getElementById('adminDropdown');
+
+        // Toggle dropdown menu visibility
+        adminButton.addEventListener('click', () => {
+            adminDropdown.classList.toggle('hidden');
+        });
+
+        // Close dropdown menu when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!adminButton.contains(event.target) && !adminDropdown.contains(event.target)) {
+                adminDropdown.classList.add('hidden');
+            }
+        });
+    });
 </script>
