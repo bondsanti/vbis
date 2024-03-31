@@ -85,12 +85,6 @@
 
         <!-- Info section -->
         <div class="mt-6 text-center grid grid-cols-3 divide-x divide-green-500 divide-dashed">
-            {{-- <div>
-                <span
-                    class="my-event inline-block bg-blue-200 rounded-full px-3 py-1 text-xs font-semibold text-blue-700 mr-2 mb-2" id="menu-button" aria-expanded="true" aria-haspopup="true">
-                    <i class="fas fa-download mr-1"></i>โหลดแบบฟอร์ม
-                </span>
-            </div> --}}
 
             <div>
                 <span onclick="toggleDropdown()"
@@ -167,7 +161,7 @@
                     d="M334.85 248.006m-48.986 0a48.986 48.986 0 1 0 97.972 0 48.986 48.986 0 1 0-97.972 0Z"
                     fill="#F39A2B" />
             </svg>
-                    <span class="flex-1 ml-3 whitespace-nowrap">ระบบ E-Document IT Solution</span>
+                    <span class="flex-1 ml-3 whitespace-nowrap">ระบบ ทะเบียนคุมสัญญา</span>
 
                 </li>
 

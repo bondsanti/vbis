@@ -32,7 +32,7 @@
 
             <form class="space-y-4 mt-2" id="loginForm" action="{{route('loginVbis')}}" method="POST">
                 @csrf
-                <div class="forminput">
+                {{-- <div class="forminput">
                     <label class="block mb-2 text-sm font-medium text-gray-600" for="email">Code</label>
                     <input id="code" type="text" name="code" class="w-full p-3 border rounded-lg focus:ring focus:border-blue-300" placeholder="Code" autocomplete="off">
                 </div>
@@ -47,7 +47,7 @@
                     <button type="submit" class="w-full p-3 rounded-lg text-white gradient">เข้าสู่ระบบ</button>
 
 
-                </div>
+                </div> --}}
 
                 <hr>
                 <div>

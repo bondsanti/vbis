@@ -22,8 +22,8 @@ class CustomAuthController extends Controller
         $this->provider = new GenericProvider([
             'clientId'                => '94150993-bd31-4c99-a0cd-6cd4580e912f',
             'clientSecret'            => 'okV8Q~lX.2DXtcQ1qlc9lENBWu.I3S3o_S8J2bXR',
-            'redirectUri'             => 'https://vbis.vbeyond.co.th/mscallback',
-            // 'redirectUri'             => 'http://localhost:8000/mscallback',
+            // 'redirectUri'             => 'https://vbis.vbeyond.co.th/mscallback',
+            'redirectUri'             => 'http://localhost:8000/mscallback',
             'urlAuthorize'            => 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
             'urlAccessToken'          => 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
             'urlResourceOwnerDetails' => '',
@@ -66,8 +66,12 @@ class CustomAuthController extends Controller
 
         // Parse the response body and output the user data
         $userData = json_decode($response->getBody(), true);
+        $userEmail = $userData['mail'] ?? null;
 
-        $user_hr = User::where('email', $userData['mail'])->where('active', 1)->first();
+        $user_hr = User::where('email', $userEmail)
+               ->where('active', 1)
+               ->whereNull('resign_date')
+               ->first();
 
         //dd($user_hr);
         if (!$user_hr) {
