@@ -17,9 +17,9 @@ use Illuminate\Support\Facades\Route;
 
 
 // Route Fallback
-Route::fallback(function () {
-    return redirect('/');
-});
+// Route::fallback(function () {
+//     return redirect('/');
+// });
 
 //Forget Password
 Route::get('/forget',[CustomAuthController::class,'showForgetForm'])->name('forget.form');
