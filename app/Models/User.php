@@ -13,11 +13,11 @@ class User extends Model
     public $timestamps= false;
     // protected $fillable = ['is_auth','token_forget'];
 
-    public function position_ref(){
-        return $this->hasOne(Position::class, 'id', 'position_id');
-    }
-    public function department_ref()
-    {
-        return $this->hasOne(Department::class, 'id', 'department_id');
-    }
+    // public function position_ref(){
+    //     return $this->hasOne(Position::class, 'id', 'position_id');
+    // }
+    // public function department_ref()
+    // {
+    //     return $this->hasOne(Department::class, 'id', 'department_id');
+    // }
 }
