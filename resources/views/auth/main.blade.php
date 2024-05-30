@@ -7,33 +7,33 @@
 
     <title>VBNext Login 2.0 </title>
 
-            <link rel="icon" type="image/x-icon" href="{{ url('uploads/logo/vbeicon.ico') }}">
-            <link rel="preconnect" href="https://fonts.googleapis.com">
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-            <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;600&display=swap" rel="stylesheet">
-            <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="{{ url('uploads/logo/vbeicon.ico') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
-            <style>
-                /* body{
+    <style>
+        /* body{
             font-family: 'Sarabun', sans-serif;
         } */
-                .gradient {
-                    background: linear-gradient(90deg, rgb(2, 182, 104) 0%, rgb(1, 111, 65) 100%);
-                }
+        .gradient {
+            background: linear-gradient(90deg, rgb(2, 182, 104) 0%, rgb(1, 111, 65) 100%);
+        }
 
-                .microsoft-gradient {
-                    background: linear-gradient(90deg, #0078D4 0%, #00397A 100%);
-                }
+        .microsoft-gradient {
+            background: linear-gradient(90deg, #0078D4 0%, #00397A 100%);
+        }
 
-                .my-event {
-                    cursor: pointer;
-                }
+        .my-event {
+            cursor: pointer;
+        }
 
-                li {
-                    cursor: pointer;
-                }
-            </style>
+        li {
+            cursor: pointer;
+        }
+    </style>
 </head>
 @php
     // $remoteFile = "https://hr.vbeyond.co.th/imageUser/employee/{$data->img_check}";
@@ -48,19 +48,21 @@
 
     @include('sweetalert::alert')
     <div class="bg-white rounded-2xl shadow-lg p-8 max-w-xl mx-auto mt-10">
-        {{-- <div class="relative">
-            <button id="adminButton"
+        <div class="relative">
+            @if ($data->active_vbis == 1)
+            <button onclick="window.open(``, '_blank')"
                 class="absolute top-0 right-0 p-2 bg-gray-500 text-white rounded-full hover:bg-gray-600 focus:outline-none">
                 <i class="fas fa-cogs"></i>
             </button>
+            @endif
             <!-- Dropdown menu -->
-            <div id="adminDropdown" class="hidden absolute right-0 mt-2 bg-white border rounded-md shadow-md">
-                <a onclick="window.open(`{{route('users.list')}}`, '_blank')"
+            {{-- <div id="adminDropdown" class="hidden absolute right-0 mt-2 bg-white border rounded-md shadow-md">
+                <a onclick="window.open(``, '_blank')"
                     class="block px-4 py-2 text-gray-800 hover:bg-green-500 hover:text-white">จัดการสิทธิ์ผู้ใช้งานระบบ</a>
                 <a href=""
                     class="block px-4 py-2 text-gray-800 hover:bg-green-500 hover:text-white">รายงานผู้ใช้งานระบบ</a>
-            </div>
-        </div> --}}
+            </div> --}}
+        </div>
         <!-- Profile section -->
         <div class="text-center">
 
@@ -171,7 +173,7 @@
                 {{-- <li onclick="window.open(`{{ config('app.url2') }}?token={{ $data->token }}&aOpmIGGnsdhj_R88qlFJMn_ajam9977ADmndMLKjgs&id={{ session()->get('loginId') }}`, '_blank')"
                     class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                 hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white"> --}}
-                <li onclick="window.open(`{{ config('app.url2') }}`, '_blank')"
+                <li onclick="window.open(`{{ env('APP_HR') }}`, '_blank')"
                     class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                 hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
 
@@ -195,7 +197,7 @@
                     {{-- <li onclick="window.open(`{{ config('app.url3') }}?WAdk_ask7821djYYsadcqqpdf_)atooyjnnZ5654xzA&user={{ $data->code }}&token={{ $data->token }}&act=loginconect&r=1`, '_blank')"
                     class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
             hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white"> --}}
-                    <li onclick="window.open(`{{ config('app.url3') }}`, '_blank')"
+                    <li onclick="window.open(`{{ env('APP_REPORT') }}`, '_blank')"
                         class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                 hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
 
@@ -249,11 +251,11 @@
                 @endif
 
 
-                @if ($dataProject)
-                {{-- <li onclick="window.open(`{{ config('app.url4') }}/_997744Isfnj)asdjknjZqwnmPOdfk_HHHGsfbp7AscaYjsn_asj20Ssdszf96GH645G1as41s_sdfnjozz/{{ $data->code }}&{{ $data->token }}`, '_blank')"
+                @if ($data->low_rise == 1 || $data->high_rise == 1)
+                    {{-- <li onclick="window.open(`{{ config('app.url4') }}/_997744Isfnj)asdjknjZqwnmPOdfk_HHHGsfbp7AscaYjsn_asj20Ssdszf96GH645G1as41s_sdfnjozz/{{ $data->code }}&{{ $data->token }}`, '_blank')"
                     class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                 hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white"> --}}
-                    <li onclick="window.open(`{{ config('app.url4') }}`, '_blank')"
+                    <li onclick="window.open(`{{ env('APP_STOCK') }}`, '_blank')"
                         class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                     hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
 
@@ -313,10 +315,10 @@
                 @endif
 
                 @if ($data->active_vbasset == 1)
-                <li onclick="window.open(`{{ config('app.url5') }}`, '_blank')"
-                    class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
+                    <li onclick="window.open(`{{ env('APP_ASSET') }}`, '_blank')"
+                        class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                     hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
-                    {{-- <li onclick="window.open(`{{ config('app.url5') }}/44Ad852asdbp7AscaYjsn_asj2041Otyko_s_Asdklolkl98741pwrja0a1zz/{{ $data->code }}&{{ $data->token }}`, '_blank')"
+                        {{-- <li onclick="window.open(`{{ config('app.url5') }}/44Ad852asdbp7AscaYjsn_asj2041Otyko_s_Asdklolkl98741pwrja0a1zz/{{ $data->code }}&{{ $data->token }}`, '_blank')"
                         class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                         hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white"> --}}
 
@@ -390,11 +392,11 @@
                 @endif
 
 
-                @if ($dataVconex == 1)
-                {{-- <li onclick="window.open(`{{ config('app.url6') }}/992PowrmkfrK45lksmdjdl_rruins878Dasddlfjk792sj_sadAkZXQQew/{{ $data->code }}`, '_blank')"
+                @if ($data->active== 1)
+                    {{-- <li onclick="window.open(`{{ config('app.url6') }}/992PowrmkfrK45lksmdjdl_rruins878Dasddlfjk792sj_sadAkZXQQew/{{ $data->code }}`, '_blank')"
                     class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                     hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white"> --}}
-                    <li onclick="window.open(`{{ config('app.url6') }}`, '_blank')"
+                    <li onclick="window.open(`{{ env('APP_LEAD') }}`, '_blank')"
                         class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                         hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
 
@@ -441,10 +443,10 @@
                 @endif
 
                 @if ($data->active_agent == 1)
-                {{-- <li onclick="window.open(`{{ config('app.url7') }}/Zx00faff00048s2zxwormRqvBNsddsf098r/{{ $data->code }}&{{ $data->token }}`, '_blank')"
+                    {{-- <li onclick="window.open(`{{ config('app.url7') }}/Zx00faff00048s2zxwormRqvBNsddsf098r/{{ $data->code }}&{{ $data->token }}`, '_blank')"
                     class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                 hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white"> --}}
-                    <li onclick="window.open(`{{ config('app.url7') }}`, '_blank')"
+                    <li onclick="window.open(`{{ env('APP_AGENT') }}`, '_blank')"
                         class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                     hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
 
@@ -510,10 +512,10 @@
                 @endif
 
                 @if ($data->active_vproject == 1)
-                {{-- <li onclick="window.open(`{{ config('app.url8') }}/PY0A3A9$G55KlasS90xxQwA9FvvLkiIQdZxpO09s1A/{{ $data->code }}&{{ $data->token }}`, '_blank')"
+                    {{-- <li onclick="window.open(`{{ config('app.url8') }}/PY0A3A9$G55KlasS90xxQwA9FvvLkiIQdZxpO09s1A/{{ $data->code }}&{{ $data->token }}`, '_blank')"
                     class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                 hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white"> --}}
-                    <li onclick="window.open(`{{ config('app.url8') }}`, '_blank')"
+                    <li onclick="window.open(`{{ env('APP_PROJECT') }}`, '_blank')"
                         class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                     hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
 
@@ -565,6 +567,98 @@
                         </a>
                     </li>
                 @endif
+                @if ($data->active_printer == 1)
+                    {{-- <li onclick="window.open(`{{ config('app.url8') }}/PY0A3A9$G55KlasS90xxQwA9FvvLkiIQdZxpO09s1A/{{ $data->code }}&{{ $data->token }}`, '_blank')"
+                    class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
+                hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white"> --}}
+                    <li onclick="window.open(`{{ env('APP_PRINTER') }}`, '_blank')"
+                        class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
+                    hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
+
+                        <svg width="20" height="20" viewBox="0 0 1024 1024" class="icon" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M972.011 899.734H55.013c-25.786 0-46.682 23.455-46.682 52.39v3.743c0 28.935 20.896 52.389 46.682 52.389h916.998c25.787 0 46.684-23.454 46.684-52.389v-3.743c-0.001-28.935-20.897-52.39-46.684-52.39z" fill="#C45FA0" /><path d="M66.007 15.343h-3.744c-28.934 0-52.389 20.589-52.389 45.994V964.75c0 25.404 23.455 45.993 52.389 45.993h3.744c28.934 0 52.389-20.589 52.389-45.993V61.336c0-25.404-23.455-45.993-52.389-45.993z" fill="#4A5699" /><path d="M309.615 402.957h-3.743c-28.935 0-52.389 21.033-52.389 46.966v470.815c0 25.941 23.454 46.971 52.389 46.971h3.743c28.936 0 52.39-21.028 52.39-46.971V449.923c-0.001-25.933-23.455-46.966-52.39-46.966z" fill="#F0D043" /><path d="M571.563 298.496h-3.744c-28.935 0-52.389 21.028-52.389 46.97v575.273c0 25.941 23.454 46.971 52.389 46.971h3.744c28.934 0 52.389-21.028 52.389-46.971V345.465c-0.001-25.942-23.456-46.969-52.389-46.969z" fill="#F39A2B" /><path d="M833.508 118.95h-3.738c-28.938 0-52.393 21.028-52.393 46.97v754.818c0 25.941 23.453 46.971 52.393 46.971h3.738c28.939 0 52.39-21.028 52.39-46.971V165.92c-0.001-25.941-23.45-46.97-52.39-46.97z" fill="#E5594F" />
+                        </svg>
+                        <span class="flex-1 ml-3 whitespace-nowrap">ระบบ Report Printer</span>
+
+                    </li>
+                @else
+                    <li>
+                        <a href=""
+                            class="flex items-center p-3 text-base font-bold text-gray-900 bg-red-200 rounded-lg hover:bg-red-400 group
+                    hover:shadow dark:bg-red-400 dark:hover:bg-red-400 dark:text-white">
+                            <svg width="20" height="20" viewBox="0 0 1024 1024" class="icon"
+                                version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M972.011 899.734H55.013c-25.786 0-46.682 23.455-46.682 52.39v3.743c0 28.935 20.896 52.389 46.682 52.389h916.998c25.787 0 46.684-23.454 46.684-52.389v-3.743c-0.001-28.935-20.897-52.39-46.684-52.39z" fill="#C45FA0" /><path d="M66.007 15.343h-3.744c-28.934 0-52.389 20.589-52.389 45.994V964.75c0 25.404 23.455 45.993 52.389 45.993h3.744c28.934 0 52.389-20.589 52.389-45.993V61.336c0-25.404-23.455-45.993-52.389-45.993z" fill="#4A5699" /><path d="M309.615 402.957h-3.743c-28.935 0-52.389 21.033-52.389 46.966v470.815c0 25.941 23.454 46.971 52.389 46.971h3.743c28.936 0 52.39-21.028 52.39-46.971V449.923c-0.001-25.933-23.455-46.966-52.39-46.966z" fill="#F0D043" /><path d="M571.563 298.496h-3.744c-28.935 0-52.389 21.028-52.389 46.97v575.273c0 25.941 23.454 46.971 52.389 46.971h3.744c28.934 0 52.389-21.028 52.389-46.971V345.465c-0.001-25.942-23.456-46.969-52.389-46.969z" fill="#F39A2B" /><path d="M833.508 118.95h-3.738c-28.938 0-52.393 21.028-52.393 46.97v754.818c0 25.941 23.453 46.971 52.393 46.971h3.738c28.939 0 52.39-21.028 52.39-46.971V165.92c-0.001-25.941-23.45-46.97-52.39-46.97z" fill="#E5594F" />
+                            </svg>
+                            <span class="flex-1 ml-3 whitespace-nowrap">ระบบ Report Printer</span>
+                        </a>
+                    </li>
+                @endif
+                @if ($data->active_broker == 3)
+                    {{-- <li onclick="window.open(`{{ config('app.url8') }}/PY0A3A9$G55KlasS90xxQwA9FvvLkiIQdZxpO09s1A/{{ $data->code }}&{{ $data->token }}`, '_blank')"
+                    class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
+                hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white"> --}}
+                    <li onclick="window.open(`{{ env('APP_BOKER') }}`, '_blank')"
+                        class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
+                    hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
+
+                        <svg width="20" height="20" viewBox="0 0 1024 1024" class="icon" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M905.77 793.161H99.172c-35.017 0-63.4 28.383-63.4 63.396v4.884c0 35.015 28.383 63.397 63.4 63.397H905.77c35.014 0 63.391-28.383 63.391-63.397v-4.884c-0.001-35.013-28.378-63.396-63.391-63.396z" fill="#6277BA" /><path d="M786.812 373.441l-3.61-2.742c-27.948-21.226-67.743-15.777-88.9 12.172L415.283 751.612c-21.145 27.948-15.639 67.808 12.304 89.032l3.61 2.742c27.943 21.237 67.744 15.776 88.891-12.178l279.028-368.725c21.146-27.953 15.639-67.822-12.304-89.042z" fill="#F0D043" /><path d="M970.852 329.401c0 87.741-71.131 158.878-158.879 158.878-87.741 0-158.878-71.137-158.878-158.878 0-87.747 71.137-158.878 158.878-158.878 87.748 0 158.879 71.131 158.879 158.878z" fill="#E5594F" />
+                        </svg>
+                        <span class="flex-1 ml-3 whitespace-nowrap">ระบบ Broker construction</span>
+
+                    </li>
+                @else
+                    <li>
+                        <a href=""
+                        class="flex items-center p-3 text-base font-bold text-gray-900 bg-gray-200 rounded-lg hover:bg-gray-400 group
+                        hover:shadow dark:bg-gray-400 dark:hover:bg-gray-400 dark:text-white">
+                        {{-- <a href=""
+                            class="flex items-center p-3 text-base font-bold text-gray-900 bg-red-200 rounded-lg hover:bg-red-400 group
+                    hover:shadow dark:bg-red-400 dark:hover:bg-red-400 dark:text-white"> --}}
+                            <svg width="20" height="20" viewBox="0 0 1024 1024" class="icon"
+                                version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M905.77 793.161H99.172c-35.017 0-63.4 28.383-63.4 63.396v4.884c0 35.015 28.383 63.397 63.4 63.397H905.77c35.014 0 63.391-28.383 63.391-63.397v-4.884c-0.001-35.013-28.378-63.396-63.391-63.396z" fill="#6277BA" /><path d="M786.812 373.441l-3.61-2.742c-27.948-21.226-67.743-15.777-88.9 12.172L415.283 751.612c-21.145 27.948-15.639 67.808 12.304 89.032l3.61 2.742c27.943 21.237 67.744 15.776 88.891-12.178l279.028-368.725c21.146-27.953 15.639-67.822-12.304-89.042z" fill="#F0D043" /><path d="M970.852 329.401c0 87.741-71.131 158.878-158.879 158.878-87.741 0-158.878-71.137-158.878-158.878 0-87.747 71.137-158.878 158.878-158.878 87.748 0 158.879 71.131 158.879 158.878z" fill="#E5594F" />
+                            </svg>
+                            <span class="flex-1 ml-3 whitespace-nowrap">ระบบ Broker construction</span>
+                            <span class="inline-flex items-center justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-500 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-400">Comming soon</span>
+                        </a>
+                    </li>
+                @endif
+                @if ($data->active_rental == 3)
+                {{-- <li onclick="window.open(`{{ config('app.url8') }}/PY0A3A9$G55KlasS90xxQwA9FvvLkiIQdZxpO09s1A/{{ $data->code }}&{{ $data->token }}`, '_blank')"
+                class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
+            hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white"> --}}
+                <li onclick="window.open(`{{ env('APP_RENTAL') }}`, '_blank')"
+                    class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
+                hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
+
+                    <svg width="20" height="20" viewBox="0 0 1024 1024" class="icon" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg">
+                      <path d="M899.984 19.873h-3.452c-26.123 0-47.296 21.172-47.296 47.296v888.508c0 26.127 21.173 47.298 47.296 47.298h3.452c26.119 0 47.297-21.171 47.297-47.298V67.169c0-26.124-21.177-47.296-47.297-47.296z" fill="#4A5699" /><path d="M132.643 19.873h-3.449c-26.12 0-47.296 21.172-47.296 47.296v888.508c0 26.127 21.177 47.298 47.296 47.298h3.449c26.123 0 47.299-21.171 47.299-47.298V67.169c0-26.124-21.176-47.296-47.299-47.296z" fill="#C45FA0" /><path d="M899.463 19.873H129.194c-26.12 0-47.296 21.172-47.296 47.296v3.377c0 26.12 21.177 47.299 47.296 47.299h770.269c26.123 0 47.296-21.179 47.296-47.299v-3.377c0-26.124-21.173-47.296-47.296-47.296z" fill="#6277BA" /><path d="M899.463 905.006H129.194c-26.12 0-47.296 21.17-47.296 47.29v3.381c0 26.127 21.177 47.298 47.296 47.298h770.269c26.123 0 47.296-21.171 47.296-47.298v-3.381c0-26.12-21.173-47.29-47.296-47.29z" fill="#C45FA0" /><path d="M717.962 543.153H542.047c-26.121 0-47.298 21.175-47.298 47.297v3.724c0 26.123 21.177 47.293 47.298 47.293h175.915c26.121 0 47.297-21.17 47.297-47.293v-3.724c0-26.122-21.176-47.297-47.297-47.297z" fill="#E5594F" /><path d="M689.268 198.849H513.355c-26.122 0-47.298 21.175-47.298 47.297v3.722c0 26.12 21.176 47.297 47.298 47.297h175.912c26.122 0 47.298-21.177 47.298-47.297v-3.722c0-26.122-21.175-47.297-47.297-47.297z" fill="#F0D043" /><path d="M757.789 353.081H261.17c-26.121 0-47.297 21.172-47.297 47.296v3.377c0 26.121 21.177 47.299 47.297 47.299h496.619c26.121 0 47.296-21.178 47.296-47.299v-3.377c0-26.125-21.175-47.296-47.296-47.296z" fill="#E5594F" /><path d="M762.638 726.225h-496.62c-26.12 0-47.294 21.18-47.294 47.301v3.377c0 26.12 21.174 47.3 47.294 47.3h496.62c26.122 0 47.296-21.18 47.296-47.3v-3.377c0-26.122-21.174-47.301-47.296-47.301z" fill="#6277BA" /><path d="M355.734 543.328H281.41c-26.122 0-47.297 21.17-47.297 47.293v3.378c0 26.118 21.175 47.297 47.297 47.297h74.324c26.123 0 47.296-21.179 47.296-47.297v-3.378c0-26.123-21.174-47.293-47.296-47.293z" fill="#F39A2B" /><path d="M334.85 248.006m-48.986 0a48.986 48.986 0 1 0 97.972 0 48.986 48.986 0 1 0-97.972 0Z" fill="#F39A2B" />
+                    </svg>
+                    <span class="flex-1 ml-3 whitespace-nowrap">ระบบ ห้องเช่า</span>
+                    <span class="inline-flex items-center justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-500 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-400">Comming soon</span>
+                </li>
+            @else
+                <li>
+                    {{-- <a href=""
+                    class="flex items-center p-3 text-base font-bold text-gray-900 bg-red-200 rounded-lg hover:bg-red-400 group
+            hover:shadow dark:bg-red-400 dark:hover:bg-red-400 dark:text-white"> --}}
+                    <a href=""
+                        class="flex items-center p-3 text-base font-bold text-gray-900 bg-gray-200 rounded-lg hover:bg-gray-400 group
+                        hover:shadow dark:bg-gray-400 dark:hover:bg-gray-400 dark:text-white">
+                        <svg width="20" height="20" viewBox="0 0 1024 1024" class="icon"
+                            version="1.1" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M899.984 19.873h-3.452c-26.123 0-47.296 21.172-47.296 47.296v888.508c0 26.127 21.173 47.298 47.296 47.298h3.452c26.119 0 47.297-21.171 47.297-47.298V67.169c0-26.124-21.177-47.296-47.297-47.296z" fill="#4A5699" /><path d="M132.643 19.873h-3.449c-26.12 0-47.296 21.172-47.296 47.296v888.508c0 26.127 21.177 47.298 47.296 47.298h3.449c26.123 0 47.299-21.171 47.299-47.298V67.169c0-26.124-21.176-47.296-47.299-47.296z" fill="#C45FA0" /><path d="M899.463 19.873H129.194c-26.12 0-47.296 21.172-47.296 47.296v3.377c0 26.12 21.177 47.299 47.296 47.299h770.269c26.123 0 47.296-21.179 47.296-47.299v-3.377c0-26.124-21.173-47.296-47.296-47.296z" fill="#6277BA" /><path d="M899.463 905.006H129.194c-26.12 0-47.296 21.17-47.296 47.29v3.381c0 26.127 21.177 47.298 47.296 47.298h770.269c26.123 0 47.296-21.171 47.296-47.298v-3.381c0-26.12-21.173-47.29-47.296-47.29z" fill="#C45FA0" /><path d="M717.962 543.153H542.047c-26.121 0-47.298 21.175-47.298 47.297v3.724c0 26.123 21.177 47.293 47.298 47.293h175.915c26.121 0 47.297-21.17 47.297-47.293v-3.724c0-26.122-21.176-47.297-47.297-47.297z" fill="#E5594F" /><path d="M689.268 198.849H513.355c-26.122 0-47.298 21.175-47.298 47.297v3.722c0 26.12 21.176 47.297 47.298 47.297h175.912c26.122 0 47.298-21.177 47.298-47.297v-3.722c0-26.122-21.175-47.297-47.297-47.297z" fill="#F0D043" /><path d="M757.789 353.081H261.17c-26.121 0-47.297 21.172-47.297 47.296v3.377c0 26.121 21.177 47.299 47.297 47.299h496.619c26.121 0 47.296-21.178 47.296-47.299v-3.377c0-26.125-21.175-47.296-47.296-47.296z" fill="#E5594F" /><path d="M762.638 726.225h-496.62c-26.12 0-47.294 21.18-47.294 47.301v3.377c0 26.12 21.174 47.3 47.294 47.3h496.62c26.122 0 47.296-21.18 47.296-47.3v-3.377c0-26.122-21.174-47.301-47.296-47.301z" fill="#6277BA" /><path d="M355.734 543.328H281.41c-26.122 0-47.297 21.17-47.297 47.293v3.378c0 26.118 21.175 47.297 47.297 47.297h74.324c26.123 0 47.296-21.179 47.296-47.297v-3.378c0-26.123-21.174-47.293-47.296-47.293z" fill="#F39A2B" /><path d="M334.85 248.006m-48.986 0a48.986 48.986 0 1 0 97.972 0 48.986 48.986 0 1 0-97.972 0Z" fill="#F39A2B" />
+                        </svg>
+                        <span class="flex-1 ml-3 whitespace-nowrap">ระบบ ห้องเช่า</span>
+                        <span class="inline-flex items-center justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-500 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-400">Comming soon</span>
+                    </a>
+                </li>
+            @endif
             </ul>
         </div>
 
@@ -598,20 +692,20 @@
             }
         }
     }
-    document.addEventListener('DOMContentLoaded', () => {
-        const adminButton = document.getElementById('adminButton');
-        const adminDropdown = document.getElementById('adminDropdown');
+    // document.addEventListener('DOMContentLoaded', () => {
+    //     const adminButton = document.getElementById('adminButton');
+    //     const adminDropdown = document.getElementById('adminDropdown');
 
-        // Toggle dropdown menu visibility
-        adminButton.addEventListener('click', () => {
-            adminDropdown.classList.toggle('hidden');
-        });
+    //     // Toggle dropdown menu visibility
+    //     adminButton.addEventListener('click', () => {
+    //         adminDropdown.classList.toggle('hidden');
+    //     });
 
-        // Close dropdown menu when clicking outside
-        document.addEventListener('click', (event) => {
-            if (!adminButton.contains(event.target) && !adminDropdown.contains(event.target)) {
-                adminDropdown.classList.add('hidden');
-            }
-        });
-    });
+    //     // Close dropdown menu when clicking outside
+    //     document.addEventListener('click', (event) => {
+    //         if (!adminButton.contains(event.target) && !adminDropdown.contains(event.target)) {
+    //             adminDropdown.classList.add('hidden');
+    //         }
+    //     });
+    // });
 </script>

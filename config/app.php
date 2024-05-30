@@ -2,14 +2,14 @@
 
 return [
 
-    'url1' => env('APP_URL', 'https://vbis.vbeyond.co.th'),
-    'url2' => env('APP_HR', 'https://hr.vbeyond.co.th/login.php'),
-    'url3' => env('APP_REPORT', 'https://report.vbeyond.co.th/index.php'),
-    'url4' => env('APP_STOCK', 'https://property.vbeyond.co.th'),
-    'url5' => env('APP_ASSET', 'https://vbassets.vbeyond.co.th'),
-    'url6' => env('APP_LEAD', 'https://vbaffiliate.vbeyond.co.th'),
-    'url7' => env('APP_AGENT', 'https://vbagent.vbeyond.co.th'),
-    'url8' => env('APP_PROJECT', 'https://project.vbeyond.co.th'),
+    // 'url1' => env('APP_URL', 'https://vbis.vbeyond.co.th'),
+    // 'url2' => env('APP_HR', 'https://hr.vbeyond.co.th/login.php'),
+    // 'url3' => env('APP_REPORT', 'https://report.vbeyond.co.th/index.php'),
+    // 'url4' => env('APP_STOCK', 'https://property.vbeyond.co.th'),
+    // 'url5' => env('APP_ASSET', 'https://vbassets.vbeyond.co.th'),
+    // 'url6' => env('APP_LEAD', 'https://vbaffiliate.vbeyond.co.th'),
+    // 'url7' => env('APP_AGENT', 'https://vbagent.vbeyond.co.th'),
+    // 'url8' => env('APP_PROJECT', 'https://project.vbeyond.co.th'),
     /*
     |--------------------------------------------------------------------------
     | Application Name
