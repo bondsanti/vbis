@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Hash;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Mail\Message;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
@@ -69,38 +68,12 @@ class CustomAuthController extends Controller
         $userData = json_decode($response->getBody(), true);
         $userEmail = $userData['mail'] ?? null;
 
+        $user_hr = User::where('email', $userEmail)
+               ->where('active', 1)
+               ->whereNull('resign_date')
+               ->first();
 
-
-        $client = new Client();
-
-        // ข้อมูลที่ต้องการส่ง
-        $data = [
-            'email' => $userEmail
-        ];
-
-        $response_users = $client->request('POST', 'http://localhost/hr/api/users', [
-            'json' => $data,
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . 'qN4V4myt6fjlSraGgRU23|b6zKTOXTpeEvcZIH5Qi'
-            ]
-        ]);
-
-        // $response_users = $client->post($Hr_API, [
-        //     'json' => $data,
-        //     'headers' => [
-        //         'Content-Type' => 'application/json',
-        //         'Accept' => 'application/json',
-        //         'Authorization' => 'Bearer ' .'qN4V4myt6fjlSraGgRU23|b6zKTOXTpeEvcZIH5Qi'
-        //     ],
-        // ]);
-        //dd($response_users);
-        $responseBody = $response_users->getBody()->getContents();
-        // $user_hr = json_decode($response_users->getBody(), true);
-
-        return response()->json(json_decode($responseBody));
-
+        //dd($user_hr);
         if (!$user_hr) {
 
             Alert::error('ไม่พบผู้ใช้งาน', 'กรุณากรอกข้อมูลใหม่อีกครั้ง');
@@ -129,40 +102,50 @@ class CustomAuthController extends Controller
     public function loginVbis(Request $request)
     {
 
-        $response = Http::post('http://hr.vbeyond.co.th/api/users/code/', [
-            'code' => $request->input('code'),
-            'password' => $request->input('password'),
+        $request->validate([
+            'code' => 'required',
+            'password' => 'required'
+        ], [
+            'code.required' => 'ป้อนรหัสพนักงาน',
+            'password.required' => 'ป้อนรหัสผ่าน'
         ]);
 
+        $user_hr = User::where('code', $request->code)->orWhere('old_code', $request->code)->where('active', 1)->first();
 
-        if ($response->successful()) {
+        if (!$user_hr) {
 
-            $data = $response->json();
-            if (isset($data['user'])) {
+            Alert::error('ไม่พบผู้ใช้งาน', 'กรุณากรอกข้อมูลใหม่อีกครั้ง');
+            return back();
+        } else {
+            if (Hash::check($request->password, $user_hr->password)) {
 
-                $user_hr = $data['user'];
-                $msg = $data['message'];
-                // dd($msg);
-                if ($user_hr['is_auth'] == 0) {
+                if ($user_hr->is_auth == 0) {
+
                     $request->session()->put('dataIsAuth', $user_hr);
                     Alert::info('กรุณาเปลี่ยนรหัสผ่าน');
                     return redirect('/change-password');
                 }
 
+                $request->session()->put('loginId', $user_hr->id);
 
-                $request->session()->put('loginId', $user_hr['id']);
+                $token = bin2hex(random_bytes(16)); //Create token
+                $user_hr->token = $token;
+                $user_hr->save();
 
-                Alert::success('Success', $msg);
+                // DB::table('vbeyond_report.log_login')->insert([
+                //     'username' => $user_hr->code,
+                //     'dates' => date('Y-m-d'),
+                //     'timeStm' => date('Y-m-d H:i:s'),
+                //     'page' => 'LoginConnect'
+                // ]);
+
+                Alert::success('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับเข้าสู่ระบบ');
                 return redirect('/main');
             } else {
 
-                Alert::warning('Warning', $msg);
+                Alert::warning('รหัสผ่านไม่ถูกต้อง', 'กรุณากรอกข้อมูลใหม่อีกครั้ง');
                 return back();
             }
-        } else {
-            // เกิดข้อผิดพลาด
-            Alert::error('Error', 'เกิดข้อผิดพลาด');
-            return back();
         }
     }
 
@@ -357,5 +340,7 @@ class CustomAuthController extends Controller
             Alert::success('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับเข้าสู่ระบบ');
             return redirect('/main');
         }
+
+
     }
 }

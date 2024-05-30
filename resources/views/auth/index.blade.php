@@ -27,7 +27,7 @@
         <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
 
             <div class="flex justify-center">
-                <img src="{{url('uploads/logo/logo_gold.png')}}" alt="Vbeyond Logo" class="w-64 h-64"> <!-- ปรับขนาดตามต้องการ -->
+                <img src="{{url('uploads/logo/logo_gold.png')}}" alt="Vbeyond Logo" class="w-64 h-64">
             </div>
 
             <form class="space-y-4 mt-2" id="loginForm" action="{{route('loginVbis')}}" method="POST">
@@ -51,10 +51,10 @@
 
                 <hr>
                 <div>
-                    <button type="button" id="loginM356" class="w-full p-3 rounded-lg text-white microsoft-gradient flex items-center justify-center" onclick="window.location.href='{{ route('mssignin') }}'">
+                    {{-- <button type="button" id="loginM356" class="w-full p-3 rounded-lg text-white microsoft-gradient flex items-center justify-center" onclick="window.location.href='{{ route('mssignin') }}'">
                         <img src="{{url('uploads/logo/Microsoft_logo.png')}}" alt="Microsoft" class="w-6 h-6 mr-2"> <!-- ปรับขนาดตามต้องการ -->
                         เข้าสู่ระบบด้วย Microsoft365
-                    </button>
+                    </button> --}}
 
                 </div>
             </form>
