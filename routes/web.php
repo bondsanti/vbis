@@ -31,7 +31,7 @@ Route::get('/forget/complate',[CustomAuthController::class,'complate']);
 Route::get('/token_exp',[CustomAuthController::class,'token_exp'])->name('token_exp');
 
 
-Route::middleware(['alreadyLogin'])->group(function () {
+Route::middleware(['AlreadyLogin'])->group(function () {
     Route::get('/',[CustomAuthController::class,'index'])->name('login');
     Route::post('/auth',[CustomAuthController::class,'loginVbis'])->name('loginVbis');
     Route::get('/mssignin', [CustomAuthController::class, 'signin'])->name('mssignin');
