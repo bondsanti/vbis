@@ -5,35 +5,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>VBIS Login 2.0</title>
+    <title>VBNext Login 2.0 </title>
 
-    <link rel="icon" type="image/x-icon" href="{{ url('uploads/logo/vbeicon.ico') }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;600&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+            <link rel="icon" type="image/x-icon" href="{{ url('uploads/logo/vbeicon.ico') }}">
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;600&display=swap" rel="stylesheet">
+            <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
-    <style>
-        /* body{
+            <style>
+                /* body{
             font-family: 'Sarabun', sans-serif;
         } */
-        .gradient {
-            background: linear-gradient(90deg, rgb(2, 182, 104) 0%, rgb(1, 111, 65) 100%);
-        }
+                .gradient {
+                    background: linear-gradient(90deg, rgb(2, 182, 104) 0%, rgb(1, 111, 65) 100%);
+                }
 
-        .microsoft-gradient {
-            background: linear-gradient(90deg, #0078D4 0%, #00397A 100%);
-        }
+                .microsoft-gradient {
+                    background: linear-gradient(90deg, #0078D4 0%, #00397A 100%);
+                }
 
-        .my-event {
-            cursor: pointer;
-        }
+                .my-event {
+                    cursor: pointer;
+                }
 
-        li {
-            cursor: pointer;
-        }
-    </style>
+                li {
+                    cursor: pointer;
+                }
+            </style>
 </head>
 @php
     // $remoteFile = "https://hr.vbeyond.co.th/imageUser/employee/{$data->img_check}";
@@ -77,9 +77,10 @@
             <img class="border-solid border-4 border-green-500 inline-block mb-2 bg-cover rounded-full mt-4 w-48 h-48"
                 style="background-image: url('{{ url('uploads/logo/logo_gold.png') }}');">
 
-            <h2 class="text-2xl font-semibold">คุณ {{ $data->name_th }} </h2>
+            <h2 class="text-2xl font-semibold">Email {{ $data->email }} </h2>
             {{-- <p class="text-gray-600">{{ $data->department_ref->name ?? '' }}</p> --}}
-            <p class="text-gray-600">{{ $data->position_ref->name ?? '' }}</p>
+            {{-- <p class="text-gray-600">{{ $data->position_ref->name ?? '' }}</p> --}}
+
 
             <button
                 class="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none hover:bg-red-600 transition"
@@ -167,8 +168,10 @@
                     <span class="flex-1 ml-3 whitespace-nowrap">ระบบ ทะเบียนคุมสัญญา</span>
 
                 </li> --}}
-
-                <li onclick="window.open(`{{ config('app.url2') }}?token={{ $data->token }}&aOpmIGGnsdhj_R88qlFJMn_ajam9977ADmndMLKjgs&id={{ session()->get('loginId') }}`, '_blank')"
+                {{-- <li onclick="window.open(`{{ config('app.url2') }}?token={{ $data->token }}&aOpmIGGnsdhj_R88qlFJMn_ajam9977ADmndMLKjgs&id={{ session()->get('loginId') }}`, '_blank')"
+                    class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
+                hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white"> --}}
+                <li onclick="window.open(`{{ config('app.url2') }}`, '_blank')"
                     class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                 hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
 
@@ -189,7 +192,10 @@
                 </li>
 
                 @if ($data->active_report == 1)
-                    <li onclick="window.open(`{{ config('app.url3') }}?WAdk_ask7821djYYsadcqqpdf_)atooyjnnZ5654xzA&user={{ $data->code }}&token={{ $data->token }}&act=loginconect&r=1`, '_blank')"
+                    {{-- <li onclick="window.open(`{{ config('app.url3') }}?WAdk_ask7821djYYsadcqqpdf_)atooyjnnZ5654xzA&user={{ $data->code }}&token={{ $data->token }}&act=loginconect&r=1`, '_blank')"
+                    class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
+            hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white"> --}}
+                    <li onclick="window.open(`{{ config('app.url3') }}`, '_blank')"
                         class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                 hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
 
@@ -244,7 +250,10 @@
 
 
                 @if ($dataProject)
-                    <li onclick="window.open(`{{ config('app.url4') }}/_997744Isfnj)asdjknjZqwnmPOdfk_HHHGsfbp7AscaYjsn_asj20Ssdszf96GH645G1as41s_sdfnjozz/{{ $data->code }}&{{ $data->token }}`, '_blank')"
+                {{-- <li onclick="window.open(`{{ config('app.url4') }}/_997744Isfnj)asdjknjZqwnmPOdfk_HHHGsfbp7AscaYjsn_asj20Ssdszf96GH645G1as41s_sdfnjozz/{{ $data->code }}&{{ $data->token }}`, '_blank')"
+                    class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
+                hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white"> --}}
+                    <li onclick="window.open(`{{ config('app.url4') }}`, '_blank')"
                         class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                     hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
 
@@ -304,9 +313,12 @@
                 @endif
 
                 @if ($data->active_vbasset == 1)
-                    <li onclick="window.open(`{{ config('app.url5') }}/44Ad852asdbp7AscaYjsn_asj2041Otyko_s_Asdklolkl98741pwrja0a1zz/{{ $data->code }}&{{ $data->token }}`, '_blank')"
+                <li onclick="window.open(`{{ config('app.url5') }}`, '_blank')"
+                    class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
+                    hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
+                    {{-- <li onclick="window.open(`{{ config('app.url5') }}/44Ad852asdbp7AscaYjsn_asj2041Otyko_s_Asdklolkl98741pwrja0a1zz/{{ $data->code }}&{{ $data->token }}`, '_blank')"
                         class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
-                        hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
+                        hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white"> --}}
 
                         <svg width="20" height="20" viewBox="0 0 1024 1024" class="icon" version="1.1"
                             xmlns="http://www.w3.org/2000/svg">
@@ -379,7 +391,10 @@
 
 
                 @if ($dataVconex == 1)
-                    <li onclick="window.open(`{{ config('app.url6') }}/992PowrmkfrK45lksmdjdl_rruins878Dasddlfjk792sj_sadAkZXQQew/{{ $data->code }}`, '_blank')"
+                {{-- <li onclick="window.open(`{{ config('app.url6') }}/992PowrmkfrK45lksmdjdl_rruins878Dasddlfjk792sj_sadAkZXQQew/{{ $data->code }}`, '_blank')"
+                    class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
+                    hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white"> --}}
+                    <li onclick="window.open(`{{ config('app.url6') }}`, '_blank')"
                         class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                         hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
 
@@ -426,7 +441,10 @@
                 @endif
 
                 @if ($data->active_agent == 1)
-                    <li onclick="window.open(`{{ config('app.url7') }}/Zx00faff00048s2zxwormRqvBNsddsf098r/{{ $data->code }}&{{ $data->token }}`, '_blank')"
+                {{-- <li onclick="window.open(`{{ config('app.url7') }}/Zx00faff00048s2zxwormRqvBNsddsf098r/{{ $data->code }}&{{ $data->token }}`, '_blank')"
+                    class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
+                hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white"> --}}
+                    <li onclick="window.open(`{{ config('app.url7') }}`, '_blank')"
                         class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                     hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
 
@@ -492,10 +510,12 @@
                 @endif
 
                 @if ($data->active_vproject == 1)
-                    <li onclick="window.open(`{{ config('app.url8') }}/PY0A3A9$G55KlasS90xxQwA9FvvLkiIQdZxpO09s1A/{{ $data->code }}&{{ $data->token }}`, '_blank')"
+                {{-- <li onclick="window.open(`{{ config('app.url8') }}/PY0A3A9$G55KlasS90xxQwA9FvvLkiIQdZxpO09s1A/{{ $data->code }}&{{ $data->token }}`, '_blank')"
+                    class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
+                hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white"> --}}
+                    <li onclick="window.open(`{{ config('app.url8') }}`, '_blank')"
                         class="flex items-center p-3 text-base font-bold text-gray-900 bg-green-200 rounded-lg hover:bg-green-400 group
                     hover:shadow dark:bg-green-400 dark:hover:bg-green-400 dark:text-white">
-
 
                         <svg width="20" height="20" viewBox="0 0 1024 1024" class="icon" version="1.1"
                             xmlns="http://www.w3.org/2000/svg">
