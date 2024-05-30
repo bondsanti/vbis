@@ -16,6 +16,7 @@ class AlreadyLogin
      */
     public function handle(Request $request, Closure $next)
     {
+        //
         if($request->session()->has('loginId')){
             return back();
         }

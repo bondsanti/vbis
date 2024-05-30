@@ -53,7 +53,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'AlreadyLogin' => \App\Http\Middleware\AlreadyLogin::class,//AlreadyLogin
+        'alreadyLogin' => \App\Http\Middleware\AlreadyLogin::class,//AlreadyLogin
         'isLogin' => \App\Http\Middleware\AuthCheck::class,//AuthCheck
         'isAuth'=> \App\Http\Middleware\isAuth::class, //CheckIsAuth=0
         'checkTokenApi' => \App\Http\Middleware\CheckToken::class, //checkToken Res API
