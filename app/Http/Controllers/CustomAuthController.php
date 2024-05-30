@@ -129,7 +129,7 @@ class CustomAuthController extends Controller
     public function loginVbis(Request $request)
     {
 
-        $response = Http::post('http://hr.vbeyond.co.th/api/users/code/', [
+        $response = Http::withoutRedirecting()->post('http://hr.vbeyond.co.th/api/users/code/', [
             'code' => $request->input('code'),
             'password' => $request->input('password'),
         ]);
