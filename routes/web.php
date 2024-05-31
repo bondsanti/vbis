@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CustomAuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -46,7 +47,10 @@ Route::middleware(['isAuth'])->group(function () {
 
 
 Route::middleware(['isLogin'])->group(function () {
+
     Route::get('/main',[CustomAuthController::class,'profileUser'])->name('main');
+    Route::get('/main/users',[UserController::class,'getUsers'])->name('users');
+
 
     Route::get('/powerapp/it/{user}', function ($user) {
 
@@ -55,12 +59,26 @@ Route::middleware(['isLogin'])->group(function () {
             'username' => $user,
             'dates' => date('Y-m-d'),
             'timeStm' => date('Y-m-d H:i:s'),
-            'page' => 'ITSolution'
+            'page' => 'IT-HelpDesk'
         ]);
 
 
-        return redirect('https://apps.powerapps.com/play/e/default-5f1b572d-118b-45fc-b023-0f6d96cc9f24/a/351572b2-06fe-473a-bfc5-f889c0a79460?tenantId=5f1b572d-118b-45fc-b023-0f6d96cc9f24&hint=0c0a904b-2f6c-4fb2-8527-14db613d1ad2&sourcetime=1709278797077');
+        // return redirect('https://apps.powerapps.com/play/e/default-5f1b572d-118b-45fc-b023-0f6d96cc9f24/a/351572b2-06fe-473a-bfc5-f889c0a79460?tenantId=5f1b572d-118b-45fc-b023-0f6d96cc9f24&hint=0c0a904b-2f6c-4fb2-8527-14db613d1ad2&sourcetime=1709278797077');
+        return redirect('https://apps.powerapps.com/play/e/default-5f1b572d-118b-45fc-b023-0f6d96cc9f24/a/630a28f9-4e1c-42b7-954a-bc162b9d59d3?tenantId=5f1b572d-118b-45fc-b023-0f6d96cc9f24&sourcetime=1717060477069');
     })->name('powerapp.it');
+
+    Route::get('/powerapp/contract/{user}', function ($user) {
+
+        //dd($user);
+        DB::table('vbeyond_report.log_login')->insert([
+            'username' => $user,
+            'dates' => date('Y-m-d'),
+            'timeStm' => date('Y-m-d H:i:s'),
+            'page' => 'Legal-Contract'
+        ]);
+
+        return redirect('https://apps.powerapps.com/play/e/default-5f1b572d-118b-45fc-b023-0f6d96cc9f24/a/b64d3eb9-d850-4e16-b26c-f298465d1334?tenantId=5f1b572d-118b-45fc-b023-0f6d96cc9f24&hint=937f5830-c2b7-48c4-b0cf-737a593ca9de&sourcetime=1717150332749');
+    })->name('powerapp.contract');
 
 
     Route::get('/logout/auth',[CustomAuthController::class,'logoutUser'])->name('logoutUser');

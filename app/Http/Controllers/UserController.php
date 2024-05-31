@@ -12,19 +12,18 @@ class UserController extends Controller
 
     public function getUserSignInByYear(Request $request, $year)
     {
-        if ( $year != "All") {
+        if ($year != "All") {
 
             $dataSign = ReportLogin::whereRaw("YEAR(dates) = ?", [$year])
-            ->where('page', '<>', 'LoginPage')
-            ->distinct(['username', 'page', 'dates'])
-            ->get();
-
-        }else{
-             // ดึงข้อมูลย้อนหลัง 3 ปี
+                ->where('page', '<>', 'LoginPage')
+                ->distinct(['username', 'page', 'dates'])
+                ->get();
+        } else {
+            // ดึงข้อมูลย้อนหลัง 3 ปี
             $dataSign = ReportLogin::whereRaw("YEAR(dates) >= YEAR(CURDATE()) - 3")
-            ->where('page', '<>', 'LoginPage')
-            ->distinct(['username', 'page', 'dates'])
-            ->get();
+                ->where('page', '<>', 'LoginPage')
+                ->distinct(['username', 'page', 'dates'])
+                ->get();
         }
 
         $dataUser = User::select('code', 'name_th')->get();
@@ -38,5 +37,27 @@ class UserController extends Controller
         // });
 
         return response()->json(['data' => $dataSign]);
+    }
+
+    public function getUsers(Request $request)
+    {
+        $query = User::query();
+
+        if ($request->filled('code')) {
+            $query->where('code', 'like', '%' . $request->code . '%');
+        }
+
+        if ($request->filled('email')) {
+            $query->where('email', 'like', '%' . $request->email . '%');
+        }
+
+        $users = $query->orderBy('code', 'desc')->paginate(10);
+
+        return view(
+            'users.index',
+            compact(
+                'users',
+            )
+        );
     }
 }
