@@ -208,7 +208,7 @@
 
                 @if ($data->active == 1)
                     <!-- card Report -->
-                    <div onclick="window.open(`{{ env('APP_REPORT') }}`, '_blank')"
+                    <div onclick="window.open(`{{ env('APP_REPORT') }}?WAdk_ask7821djYYsadcqqpdf_)atooyjnnZ5654xzA&user={{ $data->code }}&token={{ $data->token }}&act=loginconect&r=1`, '_blank')"
                         class="click relative bg-white border rounded-lg shadow-md bg-green-200 dark:bg-gray-800 dark:border-gray-700 transform transition duration-500 hover:scale-105">
 
                         <div class="p-2 flex justify-center mt-2">
