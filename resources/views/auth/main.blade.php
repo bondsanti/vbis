@@ -23,6 +23,8 @@
             background: linear-gradient(90deg, rgb(2, 182, 104) 0%, rgb(1, 111, 65) 100%);
         }
 
+
+
         .microsoft-gradient {
             background: linear-gradient(90deg, #0078D4 0%, #00397A 100%);
         }
@@ -206,7 +208,7 @@
 
                 </div>
 
-                @if ($data->active == 1)
+                @if ($data->active_report == 1)
                     <!-- card Report -->
                     <div onclick="window.open(`{{ env('APP_REPORT') }}?WAdk_ask7821djYYsadcqqpdf_)atooyjnnZ5654xzA&user={{ $data->code }}&token={{ $data->token }}&act=loginconect&r=1`, '_blank')"
                         class="click relative bg-white border rounded-lg shadow-md bg-green-200 dark:bg-gray-800 dark:border-gray-700 transform transition duration-500 hover:scale-105">
@@ -846,9 +848,11 @@
                     </div>
 
                 </div>
+
+                @if ($data->active_broker == 1)
                 <!-- card APP_BOKER  -->
-                <div
-                    class="click relative bg-white border rounded-lg shadow-md bg-gray-200 dark:bg-gray-800 dark:border-gray-700 transform transition duration-500 hover:scale-105">
+                <div onclick="window.open(`{{ env('APP_BOKER') }}/ZQRinxUWLPeWVFFRAdJa88xxWg6aArX002mt6WqqEa1nG3jvZYfxi5CbYhQjdGewepRav8y7q5Z4K7Mh/{{ $data->id }}&{{ $data->token }}`, '_blank')"
+                    class="click relative bg-white border rounded-lg shadow-md bg-green-200 dark:bg-green-800 dark:border-green-700 transform transition duration-500 hover:scale-105">
                     <div class="p-2 flex justify-center mt-2">
                         <svg width="45" height="45" viewBox="0 0 1024 1024" class="icon" version="1.1"
                             xmlns="http://www.w3.org/2000/svg">
@@ -877,7 +881,38 @@
                     </div>
 
                 </div>
+                @else
+                <div
+                    class="click relative bg-white border rounded-lg shadow-md bg-red-200 dark:bg-gray-800 dark:border-gray-700 transform transition duration-500 hover:scale-105">
+                    <div class="p-2 flex justify-center mt-2">
+                        <svg width="45" height="45" viewBox="0 0 1024 1024" class="icon" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M905.77 793.161H99.172c-35.017 0-63.4 28.383-63.4 63.396v4.884c0 35.015 28.383 63.397 63.4 63.397H905.77c35.014 0 63.391-28.383 63.391-63.397v-4.884c-0.001-35.013-28.378-63.396-63.391-63.396z"
+                                fill="#6277BA" />
+                            <path
+                                d="M786.812 373.441l-3.61-2.742c-27.948-21.226-67.743-15.777-88.9 12.172L415.283 751.612c-21.145 27.948-15.639 67.808 12.304 89.032l3.61 2.742c27.943 21.237 67.744 15.776 88.891-12.178l279.028-368.725c21.146-27.953 15.639-67.822-12.304-89.042z"
+                                fill="#F0D043" />
+                            <path
+                                d="M970.852 329.401c0 87.741-71.131 158.878-158.879 158.878-87.741 0-158.878-71.137-158.878-158.878 0-87.747 71.137-158.878 158.878-158.878 87.748 0 158.879 71.131 158.879 158.878z"
+                                fill="#E5594F" />
+                        </svg>
+                    </div>
 
+                    <div class="px-4 mt-2 text-center mb-2">
+
+
+                        <h6
+                            class="text-md font-semibold tracking-tight hover:text-violet-800 dark:hover:text-violet-300 text-gray-900 dark:text-white ">
+                            Broker Constru..
+                        </h6>
+
+                        <span
+                            class="inline-flex text-xs font-medium text-gray-500 rounded dark:text-gray-400">ก่อสร้าง</span>
+                    </div>
+
+                </div>
+                @endif
 
                 <!-- card ห้องเช่า -->
                 <div

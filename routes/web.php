@@ -81,6 +81,9 @@ Route::middleware(['isLogin'])->group(function () {
     })->name('powerapp.contract');
 
 
+    Route::post('/update-active', [UserController::class, 'updateActive'])->name('update.active');
+    Route::post('/update-role-printer', [UserController::class, 'updateRole'])->name('update.role');
+
     Route::get('/logout/auth',[CustomAuthController::class,'logoutUser'])->name('logoutUser');
 });
 

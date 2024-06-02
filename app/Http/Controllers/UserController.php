@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\ReportLogin;
+use App\Models\RolePrinter;
 use App\Models\User;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
@@ -41,7 +43,8 @@ class UserController extends Controller
 
     public function getUsers(Request $request)
     {
-        $query = User::query();
+        $query = User::with('role_report_ref:code_user,level', 'role_printer_ref:user_id,role_type,active');
+
 
         if ($request->filled('code')) {
             $query->where('code', 'like', '%' . $request->code . '%');
@@ -52,12 +55,67 @@ class UserController extends Controller
         }
 
         $users = $query->orderBy('code', 'desc')->paginate(10);
+        // สร้าง Guzzle client
+        $client = new Client();
 
+        // วนลูปผ่าน $users เพื่อดึงข้อมูลจาก API สำหรับแต่ละผู้ใช้
+        foreach ($users as $user) {
+            $response = $client->request('GET', 'http://localhost/hr/api/users/id/index.php', [
+                'query' => ['user_id' => $user->id],
+                'headers' => [
+                    'Authorization' => 'Bearer qN4V4myt6fjlSraGgRU23|b6zKTOXTpeEvcZIH5Qi'
+                ]
+            ]);
+
+            // แปลง response เป็น array และเพิ่มข้อมูลที่ดึงมาให้กับ $user
+            $apiData = json_decode($response->getBody(), true);
+            $user->apiData = $apiData; // คุณสามารถเก็บข้อมูล API นี้ใน user object ได้ตามต้องการ
+        }
+        //dd($users);
         return view(
             'users.index',
             compact(
                 'users',
             )
         );
+    }
+
+    public function updateActive(Request $request)
+    {
+        $users = User::findOrFail($request->user_id);
+
+
+        if ($users) {
+
+            if ($request->active_type == "report") {
+                $users->active_report = $request->active;
+                $users->save();
+                return response()->json(['message' => 'อัพเดทเรียบร้อย']);
+            } elseif ($request->active_type == "printer") {
+                $users->active_printer = $request->active;
+                $users->save();
+                return response()->json(['message' => 'อัพเดทเรียบร้อย']);
+            }
+        }
+
+        return response()->json(['message' => 'error'], 404);
+    }
+
+    public function updateRole(Request $request)
+    {
+
+        $users = RolePrinter::where('user_id', $request->user_id)->first();
+
+
+        if ($users) {
+
+            if ($request->role_system == "printer") {
+                $users->role_type = $request->role_type;
+                $users->save();
+                return response()->json(['message' => 'อัพเดทเรียบร้อย']);
+            }
+        }
+
+        return response()->json(['message' => 'error'], 404);
     }
 }

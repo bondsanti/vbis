@@ -191,7 +191,9 @@ class CustomAuthController extends Controller
                     $request->session()->put('dataIsAuth', $user_hr);
                     Alert::info('กรุณาเปลี่ยนรหัสผ่าน');
                     return redirect('/change-password');
+
                 }
+
 
                 $request->session()->put('loginId', $user_hr->id);
 

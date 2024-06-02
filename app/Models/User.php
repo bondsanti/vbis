@@ -20,4 +20,13 @@ class User extends Model
     // {
     //     return $this->hasOne(Department::class, 'id', 'department_id');
     // }
+
+    public function role_report_ref(){
+
+        return $this->hasOne(RoleReport::class, 'code_user', 'code');
+    }
+    public function role_printer_ref(){
+
+        return $this->hasOne(RolePrinter::class, 'user_id', 'id');
+    }
 }
