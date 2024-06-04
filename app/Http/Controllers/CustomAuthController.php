@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 use League\OAuth2\Client\Provider\GenericProvider;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Hash;
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use GuzzleHttp\Client;
 
 class CustomAuthController extends Controller
 {
@@ -227,6 +227,23 @@ class CustomAuthController extends Controller
         if ($request->session()->has('loginId')) {
 
             $data = User::where('id', $request->session()->get('loginId'))->first();
+            if ($data) {
+
+                $client = new Client();
+                $response = $client->request('GET', 'http://vbhr.vbeyond.co.th/api/users/id/index.php', [
+                    'query' => ['user_id' => $data->id],
+                    'headers' => [
+                        'Authorization' => 'Bearer qN4V4myt6fjlSraGgRU23|b6zKTOXTpeEvcZIH5Qi'
+                    ]
+                ]);
+
+                if ($response->getStatusCode() == 200) {
+                    $apiData = json_decode($response->getBody(), true);
+                    $data->apiData = $apiData;
+                } else {
+                    $data->apiData = null;
+                }
+            }
             // $dataProject ="";
             // $dataVconex ="";
             // $dataProject = DB::connection('mysql_project')->table('role_user')->where('user_id', $request->session()->get('loginId'))->first();

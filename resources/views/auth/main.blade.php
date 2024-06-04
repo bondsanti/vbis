@@ -76,7 +76,7 @@
             <img class="border-solid border-4 border-green-500 inline-block mb-2 bg-cover rounded-full mt-4 w-48 h-48"
                 style="background-image: url('{{ url('uploads/logo/logo_gold.png') }}');">
 
-            <h2 class="text-2xl font-semibold">{{ $data->email }} </h2>
+            <h2 class="text-2xl font-semibold">คุณ {{ optional(optional($data->apiData)['data'])['name_th'] }} </h2>
             {{-- <p class="text-gray-600">{{ $data->department_ref->name ?? '' }}</p> --}}
             {{-- <p class="text-gray-600">{{ $data->position_ref->name ?? '' }}</p> --}}
 
