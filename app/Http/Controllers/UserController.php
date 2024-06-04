@@ -55,10 +55,6 @@ class UserController extends Controller
             $query->where('email', 'like', '%' . $request->email . '%');
         }
 
-        if ($request->filled('name')) {
-            $query->where('name_th', 'like', '%' . $request->name . '%');
-        }
-
         $users = $query->orderBy('code', 'desc')->paginate(10);
         // สร้าง Guzzle client
         $client = new Client();
