@@ -56,10 +56,8 @@ class UserController extends Controller
         }
 
         $users = $query->orderBy('code', 'desc')->paginate(10);
-        // สร้าง Guzzle client
-        $client = new Client();
 
-        // วนลูปผ่าน $users เพื่อดึงข้อมูลจาก API สำหรับแต่ละผู้ใช้
+        $client = new Client();
         foreach ($users as $user) {
             $response = $client->request('GET', 'http://vbhr.vbeyond.co.th/api/users/id/index.php', [
                 'query' => ['user_id' => $user->id],

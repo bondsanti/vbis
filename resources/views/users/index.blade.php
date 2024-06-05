@@ -115,9 +115,9 @@
                                                         <span
                                                             class="text-center align-baseline inline-flex px-4 py-3 mr-auto items-center font-semibold text-[.95rem] leading-none text-primary bg-primary-light rounded-lg">
                                                             {{ $user->code }}</span>
-                                                            {{-- <span
+                                                            <span
                                                             class="font-semibold transition-colors duration-200 ease-in-out text-lg/normal text-secondary-inverse hover:text-primary">
-                                                            {{ optional(optional($user->apiData)['data'])['name_th'] }}</span> --}}
+                                                            {{ optional(optional($user->apiData)['data'])['name_th'] }}</span>
                                                         <span
                                                             class="mb-1 font-semibold transition-colors duration-200 ease-in-out text-lg/normal text-secondary-inverse hover:text-primary">
                                                             {{ $user->email }} </span>
