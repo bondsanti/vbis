@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,4 +20,6 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::get('/users/year/{year}',[UserController::class,'getUserSignInByYear'])->middleware('checkTokenApi')->name('api.usersSignInByYear');
+// Route::get('/users/year/{year}',[UserController::class,'getUserSignInByYear'])->middleware('checkTokenApi')->name('api.usersSignInByYear');
+
+Route::get('/role-stock/{code}', [ApiController::class, 'getRoleStock'])->middleware('checkTokenApi');
