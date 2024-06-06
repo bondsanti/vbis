@@ -241,7 +241,7 @@ class CustomAuthController extends Controller
     public function logoutUser(Request $request)
     {
         if ($request->session()->has('loginId')) {
-            Alert::success('ออกจากระบบเรียบร้อย', 'ไม่พบกันใหม่ :)');
+            Alert::success('ออกจากระบบเรียบร้อย', 'ไว้พบกันใหม่ :)');
             $request->session()->pull('loginId');
             return redirect('/');
         }

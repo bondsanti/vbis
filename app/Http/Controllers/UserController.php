@@ -44,8 +44,16 @@ class UserController extends Controller
 
     public function getUsers(Request $request)
     {
-        $query = User::with('role_report_ref:code_user,level', 'role_printer_ref:user_id,role_type,active');
+        $data = User::where('id', $request->session()->get('loginId'))->first();
 
+        $CountUserActive = User::with('role_report_ref:code_user,level', 'role_printer_ref:user_id,role_type,active')
+            ->where('active', 1)
+            ->count();
+        $CountUserUnActive = User::with('role_report_ref:code_user,level', 'role_printer_ref:user_id,role_type,active')
+            ->where('active', 0)
+            ->count();
+
+        $query = User::with('role_report_ref:code_user,level', 'role_printer_ref:user_id,role_type,active');
 
         if ($request->filled('code')) {
             $query->where('code', 'like', '%' . $request->code . '%');
@@ -70,12 +78,19 @@ class UserController extends Controller
         //     $user->apiData = $apiData;
         // }
         //dd($users);
-        return view(
-            'users.index',
-            compact(
-                'users',
-            )
-        );
+        if ($data->active_vbis==1) {
+            return view(
+                'users.index',
+                compact(
+                    'users',
+                    'CountUserActive',
+                    'CountUserUnActive'
+                )
+            );
+        }else{
+            return back();
+        }
+
     }
     // public function getUsers(Request $request)
     // {
@@ -144,7 +159,41 @@ class UserController extends Controller
                 $users->active_printer = $request->active;
                 $users->save();
                 return response()->json(['message' => 'อัพเดทเรียบร้อย']);
+            } elseif ($request->active_type == "user") {
+                $users->active = $request->active;
+                $users->save();
+                return response()->json(['message' => 'อัพเดทเรียบร้อย']);
+            } elseif ($request->active_type == "vbis") {
+                $users->active_vbis = $request->active;
+                $users->save();
+                return response()->json(['message' => 'อัพเดทเรียบร้อย']);
+            } elseif ($request->active_type == "broker") {
+                $users->active_broker = $request->active;
+                $users->save();
+                return response()->json(['message' => 'อัพเดทเรียบร้อย']);
+            } elseif ($request->active_type == "rental") {
+                $users->active_rental = $request->active;
+                $users->save();
+                return response()->json(['message' => 'อัพเดทเรียบร้อย']);
+            } elseif ($request->active_type == "vproject") {
+                $users->active_vproject = $request->active;
+                $users->save();
+                return response()->json(['message' => 'อัพเดทเรียบร้อย']);
+            } elseif ($request->active_type == "vblead") {
+                $users->active_vblead = $request->active;
+                $users->save();
+                return response()->json(['message' => 'อัพเดทเรียบร้อย']);
+            } elseif ($request->active_type == "agent") {
+                $users->active_agent = $request->active;
+                $users->save();
+                return response()->json(['message' => 'อัพเดทเรียบร้อย']);
+            } elseif ($request->active_type == "vbasset") {
+                $users->active_vbasset = $request->active;
+                $users->save();
+                return response()->json(['message' => 'อัพเดทเรียบร้อย']);
             }
+
+
         }
 
         return response()->json(['message' => 'error'], 404);
