@@ -191,6 +191,14 @@ class UserController extends Controller
                 $users->active_vbasset = $request->active;
                 $users->save();
                 return response()->json(['message' => 'อัพเดทเรียบร้อย']);
+            } elseif ($request->active_type == "stock_h") {
+                $users->high_rise = $request->active;
+                $users->save();
+                return response()->json(['message' => 'อัพเดทเรียบร้อย']);
+            } elseif ($request->active_type == "stock_l") {
+                $users->low_rise = $request->active;
+                $users->save();
+                return response()->json(['message' => 'อัพเดทเรียบร้อย']);
             }
 
 

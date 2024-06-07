@@ -161,7 +161,7 @@
                                             <!-- Agent -->
                                             <td class="pb-3 pr-0 text-end">
                                                 <label class="inline-flex items-center cursor-pointer mt-4">
-                                                    <input type="checkbox" value="" class="sr-only peer"
+                                                    <input type="checkbox" value="" class="sr-only peer active-agent-checkbox" data-id="{{ $user->id }}"
                                                         {{ $user->active_agent == 1 ? 'checked' : '' }}>
                                                     <div
                                                         class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600">
@@ -178,7 +178,7 @@
                                             <!-- VProject -->
                                             <td class="pb-3 pr-0 text-end">
                                                 <label class="inline-flex items-center cursor-pointer mt-4">
-                                                    <input type="checkbox" value="" class="sr-only peer"
+                                                    <input type="checkbox" value="" class="sr-only peer active-vproject-checkbox" data-id="{{ $user->id }}"
                                                         {{ $user->active_vproject == 1 ? 'checked' : '' }}>
                                                     <div
                                                         class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600">
@@ -194,14 +194,30 @@
                                             </td>
                                             <!-- Stock -->
                                             <td class="pb-3 pr-0 text-end">
-                                                <label class="inline-flex items-center cursor-pointer mt-4">
-                                                    <input type="checkbox" value="" class="sr-only peer"
-                                                        {{ $user->low_rise == 1 || $user->high_rise == 1 ? 'checked' : '' }}>
+                                                <p
+                                                class="items-center gap-1 text-xs font-semibold mr-4">
+                                                low | high
+                                            </p>
+                                                <label class="inline-flex items-center cursor-pointer mt-2">
+
+                                                    <input type="checkbox" value="" class="mr-2 sr-only peer active-low_rise-checkbox"  data-id="{{ $user->id }}"
+                                                    {{ $user->low_rise == 1 ? 'checked' : '' }}>
+
                                                     <div
                                                         class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600">
                                                     </div>
 
+
+
                                                 </label>
+                                                <label class="inline-flex items-center cursor-pointer mt-2">
+                                                <input type="checkbox" value="" class="sr-only peer active-high_rise-checkbox"  data-id="{{ $user->id }}"
+                                                {{ $user->high_rise == 1 ? 'checked' : '' }}>
+
+                                                <div
+                                                    class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600">
+                                                </div>
+                                            </label>
                                                 @if ($user->low_rise == 1 || $user->high_rise == 1)
                                                     <p
                                                         class=" items-center gap-1 rounded-full bg-gray-50 px-2 py-1 text-xs font-semibold text-gray-600">
@@ -460,12 +476,16 @@
                                 html: `${data.message}`,
                                 showConfirmButton: false,
                                 timer: 1500
+                            }).then(function() {
+                                // Redirect ไปยัง URL ที่เก็บไว้
+                                var previousURL = localStorage.getItem(
+                                    'previousURL');
+                                if (previousURL) {
+                                    window.location.href = previousURL;
+                                } else {
+                                    window.location.href = '{{ route('users') }}';
+                                }
                             });
-
-
-
-                            setTimeout("location.href = '{{ route('users') }}';",
-                                1500);
                         } else {
                             Swal.fire({
                                 icon: "error",
@@ -874,6 +894,254 @@
                 data: {
                     _token: '{{ csrf_token() }}',
                     active_type: "vblead",
+                    user_id: userId,
+                    active: isChecked ? 1 : 0
+                },
+                success: function(data) {
+                    //console.log(data);
+                    if (data.success = true) {
+
+                        if ($.isEmptyObject(data.error)) {
+
+                            Swal.fire({
+                                // toast: true,
+                                icon: "success",
+                                title: "Success",
+                                html: `${data.message}`,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(function() {
+                                // Redirect ไปยัง URL ที่เก็บไว้
+                                var previousURL = localStorage.getItem(
+                                    'previousURL');
+                                if (previousURL) {
+                                    window.location.href = previousURL;
+                                } else {
+                                    window.location.href = '{{ route('users') }}';
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                html: `${data.message}`,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+
+
+                        }
+
+                    }
+                },
+                error: function() {
+                    console.log('AJAX error');
+                    Swal.fire({
+                        icon: "error",
+                        title: "AJAX error",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
+        });
+
+        $('.active-agent-checkbox').on('change', function() {
+            const userId = $(this).data('id');
+            const isChecked = $(this).is(':checked');
+            //console.log(userId);
+            $.ajax({
+                url: '{{ route('update.active') }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    active_type: "agent",
+                    user_id: userId,
+                    active: isChecked ? 1 : 0
+                },
+                success: function(data) {
+                    //console.log(data);
+                    if (data.success = true) {
+
+                        if ($.isEmptyObject(data.error)) {
+
+                            Swal.fire({
+                                // toast: true,
+                                icon: "success",
+                                title: "Success",
+                                html: `${data.message}`,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(function() {
+                                // Redirect ไปยัง URL ที่เก็บไว้
+                                var previousURL = localStorage.getItem(
+                                    'previousURL');
+                                if (previousURL) {
+                                    window.location.href = previousURL;
+                                } else {
+                                    window.location.href = '{{ route('users') }}';
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                html: `${data.message}`,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+
+
+                        }
+
+                    }
+                },
+                error: function() {
+                    console.log('AJAX error');
+                    Swal.fire({
+                        icon: "error",
+                        title: "AJAX error",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
+        });
+
+        $('.active-vproject-checkbox').on('change', function() {
+            const userId = $(this).data('id');
+            const isChecked = $(this).is(':checked');
+            //console.log(userId);
+            $.ajax({
+                url: '{{ route('update.active') }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    active_type: "vproject",
+                    user_id: userId,
+                    active: isChecked ? 1 : 0
+                },
+                success: function(data) {
+                    //console.log(data);
+                    if (data.success = true) {
+
+                        if ($.isEmptyObject(data.error)) {
+
+                            Swal.fire({
+                                // toast: true,
+                                icon: "success",
+                                title: "Success",
+                                html: `${data.message}`,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(function() {
+                                // Redirect ไปยัง URL ที่เก็บไว้
+                                var previousURL = localStorage.getItem(
+                                    'previousURL');
+                                if (previousURL) {
+                                    window.location.href = previousURL;
+                                } else {
+                                    window.location.href = '{{ route('users') }}';
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                html: `${data.message}`,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+
+
+                        }
+
+                    }
+                },
+                error: function() {
+                    console.log('AJAX error');
+                    Swal.fire({
+                        icon: "error",
+                        title: "AJAX error",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
+        });
+
+        $('.active-high_rise-checkbox').on('change', function() {
+            const userId = $(this).data('id');
+            const isChecked = $(this).is(':checked');
+            //console.log(userId);
+            $.ajax({
+                url: '{{ route('update.active') }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    active_type: "stock_h",
+                    user_id: userId,
+                    active: isChecked ? 1 : 0
+                },
+                success: function(data) {
+                    //console.log(data);
+                    if (data.success = true) {
+
+                        if ($.isEmptyObject(data.error)) {
+
+                            Swal.fire({
+                                // toast: true,
+                                icon: "success",
+                                title: "Success",
+                                html: `${data.message}`,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(function() {
+                                // Redirect ไปยัง URL ที่เก็บไว้
+                                var previousURL = localStorage.getItem(
+                                    'previousURL');
+                                if (previousURL) {
+                                    window.location.href = previousURL;
+                                } else {
+                                    window.location.href = '{{ route('users') }}';
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                html: `${data.message}`,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+
+
+                        }
+
+                    }
+                },
+                error: function() {
+                    console.log('AJAX error');
+                    Swal.fire({
+                        icon: "error",
+                        title: "AJAX error",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
+        });
+
+        $('.active-low_rise-checkbox').on('change', function() {
+            const userId = $(this).data('id');
+            const isChecked = $(this).is(':checked');
+            //console.log(userId);
+            $.ajax({
+                url: '{{ route('update.active') }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    active_type: "stock_l",
                     user_id: userId,
                     active: isChecked ? 1 : 0
                 },
