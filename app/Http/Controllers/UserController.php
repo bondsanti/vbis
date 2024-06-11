@@ -7,8 +7,6 @@ use App\Models\RolePrinter;
 use App\Models\User;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserController extends Controller
 {
@@ -44,16 +42,16 @@ class UserController extends Controller
 
     public function getUsers(Request $request)
     {
-        $data = User::where('id', $request->session()->get('loginId'))->first();
 
-        $CountUserActive = User::with('role_report_ref:code_user,level', 'role_printer_ref:user_id,role_type,active')
-            ->where('active', 1)
-            ->count();
-        $CountUserUnActive = User::with('role_report_ref:code_user,level', 'role_printer_ref:user_id,role_type,active')
-            ->where('active', 0)
-            ->count();
+        $loggedInUser = User::find($request->session()->get('loginId'));
 
-        $query = User::with('role_report_ref:code_user,level', 'role_printer_ref:user_id,role_type,active');
+
+        $userCounts = User::selectRaw('SUM(active = 1) as active_count, SUM(active = 0) as inactive_count')
+            ->first();
+
+
+        $query = User::with(['role_report_ref:code_user,level', 'role_printer_ref:user_id,role_type,active']);
+
 
         if ($request->filled('code')) {
             $query->where('code', 'like', '%' . $request->code . '%');
@@ -65,84 +63,43 @@ class UserController extends Controller
 
         $users = $query->orderBy('code', 'desc')->paginate(10);
 
-        $client = new Client();
-        foreach ($users as $user) {
-            $response = $client->request('GET', 'http://vbhr.vbeyond.co.th/api/users/id/index.php', [
-                'query' => ['user_id' => $user->id],
-                'headers' => [
-                    'Authorization' => 'Bearer qN4V4myt6fjlSraGgRU23|b6zKTOXTpeEvcZIH5Qi'
-                ]
-            ]);
+        // API
+        $this->addApiDataToUsers($users);
 
-            $apiData = json_decode($response->getBody(), true);
-            $user->apiData = $apiData;
-        }
-        dd($users);
-        if ($data->active_vbis==1) {
-            return view(
-                'users.index',
-                compact(
-                    'users',
-                    'CountUserActive',
-                    'CountUserUnActive'
-                )
-            );
-        }else{
+
+        if ($loggedInUser->active_vbis == 1) {
+            return view('users.index', [
+                'users' => $users,
+                'CountUserActive' => $userCounts->active_count,
+                'CountUserUnActive' => $userCounts->inactive_count,
+            ]);
+        } else {
             return back();
         }
-
     }
-    // public function getUsers(Request $request)
-    // {
-    //     $query = User::with('role_report_ref:code_user,level', 'role_printer_ref:user_id,role_type,active');
+    private function addApiDataToUsers($users)
+    {
+        $client = new Client();
+        $apiUrl = config('services.external_api.url');
+        $apiToken = config('services.external_api.token');
 
-    //     if ($request->filled('code')) {
-    //         $query->where('code', 'like', '%' . $request->code . '%');
-    //     }
+        foreach ($users as $user) {
+            try {
+                $response = $client->request('GET', $apiUrl, [
+                    'query' => ['user_id' => $user->id],
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $apiToken
+                    ]
+                ]);
 
-    //     if ($request->filled('email')) {
-    //         $query->where('email', 'like', '%' . $request->email . '%');
-    //     }
+                $user->apiData = json_decode($response->getBody(), true);
+            } catch (\Exception $e) {
 
-    //     // Fetch users without name_th filter for now
-    //     $users = $query->orderBy('code', 'desc')->get();
-
-    //     // Create Guzzle client
-    //     $client = new Client();
-
-    //     // Array to hold users with name_th data
-    //     $filteredUsers = [];
-
-    //     // Loop through $users to get data from API for each user
-    //     foreach ($users as $user) {
-    //         $response = $client->request('GET', 'http://vbhr.vbeyond.co.th/api/users/id/index.php', [
-    //             'query' => ['user_id' => $user->id],
-    //             'headers' => [
-    //                 'Authorization' => 'Bearer qN4V4myt6fjlSraGgRU23|b6zKTOXTpeEvcZIH5Qi'
-    //             ]
-    //         ]);
-
-    //         $apiData = json_decode($response->getBody(), true);
-    //         $user->apiData = $apiData; // Assign the entire API response
-
-    //         // Apply the name_th filter if the name is provided in the request
-    //         if (!$request->filled('name') || stripos(optional($apiData)['name_th'], $request->name) !== false) {
-    //             $filteredUsers[] = $user;
-    //         }
-    //     }
-
-    //     // Create a paginator manually since we filtered the users array
-    //     $currentPage = LengthAwarePaginator::resolveCurrentPage();
-    //     $perPage = 10;
-    //     $currentPageItems = array_slice($filteredUsers, ($currentPage - 1) * $perPage, $perPage);
-    //     $paginatedUsers = new LengthAwarePaginator($currentPageItems, count($filteredUsers), $perPage, $currentPage, [
-    //         'path' => LengthAwarePaginator::resolveCurrentPath(),
-    //         'query' => $request->query(),
-    //     ]);
-
-    //     return view('users.index', ['users' => $paginatedUsers]);
-    // }
-
+                //Log::error('API request failed for user ' . $user->id . ': ' . $e->getMessage());
+                $user->apiData = null;
+            }
+        }
+    }
 
     public function updateActive(Request $request)
     {
@@ -200,8 +157,6 @@ class UserController extends Controller
                 $users->save();
                 return response()->json(['message' => 'อัพเดทเรียบร้อย']);
             }
-
-
         }
 
         return response()->json(['message' => 'error'], 404);
@@ -224,5 +179,4 @@ class UserController extends Controller
 
         return response()->json(['message' => 'error'], 404);
     }
-
 }

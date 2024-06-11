@@ -39,12 +39,12 @@
     </style>
 </head>
 @php
-    // $remoteFile = "https://hr.vbeyond.co.th/imageUser/employee/{$data->img_check}";
-    // $ch = curl_init($remoteFile);
-    // curl_setopt($ch, CURLOPT_NOBODY, true);
-    // curl_exec($ch);
-    // $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    // curl_close($ch);
+    $remoteFile = "http://vbhr.vbeyond.co.th/imageUser/employee/{$data->img_check}";
+    $ch = curl_init($remoteFile);
+    curl_setopt($ch, CURLOPT_NOBODY, true);
+    curl_exec($ch);
+    $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
 @endphp
 
 <body class="gradient">
@@ -63,21 +63,22 @@
         <!-- Profile section -->
         <div class="text-center">
 
-            {{-- @if ($responseCode != 200)
-                <img class="border-solid border-4 border-green-500 inline-block mb-2 bg-cover rounded-full mt-4 w-48 h-48"
-                    style="https://hr.vbeyond.co.th/imageUser/noImage.jpg">
-
-            @else
-                <div class="border-solid border-4 border-green-500 inline-block mb-2 bg-cover rounded-full mt-4 w-48 h-48"
-                    style="background-image: url('https://hr.vbeyond.co.th/imageUser/employee/{{ $data->img_check }}');">
-                </div>
-            @endif --}}
-
+            @if ($responseCode != 200)
             <img class="border-solid border-4 border-green-500 inline-block mb-2 bg-cover rounded-full mt-4 w-48 h-48"
                 style="background-image: url('{{ url('uploads/logo/logo_gold.png') }}');">
 
-            <h2 class="text-2xl font-semibold">{{ $data->email }} </h2>
-            {{-- <p class="text-gray-600">{{ $data->department_ref->name ?? '' }}</p> --}}
+            @else
+                <div class="border-solid border-4 border-green-500 inline-block mb-2 bg-cover rounded-full mt-4 w-48 h-48"
+                    style="background-image: url('http://vbhr.vbeyond.co.th/imageUser/employee/{{ $data->img_check }}');">
+                </div>
+            @endif
+
+
+            @if($data)
+                <h2 class="text-2xl font-semibold">{{ optional($data->apiData)['data']['name_eng'] }} </h2>
+                   <p class="text-gray-600">{{ optional($data->apiData)['data']['position'] }} </p>
+            @endif
+
             {{-- <p class="text-gray-600">{{ $data->position_ref->name ?? '' }}</p> --}}
 
 

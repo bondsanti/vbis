@@ -220,22 +220,17 @@ class CustomAuthController extends Controller
 
     public function profileUser(Request $request)
     {
-        $data = array();
-        $dataProject = array();
-        $dataVconex = array();
+
 
         if ($request->session()->has('loginId')) {
 
             $data = User::where('id', $request->session()->get('loginId'))->first();
-
-
-            // $dataProject ="";
-            // $dataVconex ="";
-            // $dataProject = DB::connection('mysql_project')->table('role_user')->where('user_id', $request->session()->get('loginId'))->first();
-            // $dataVconex = DB::connection('mysql_vconex')->table('users')->where('code', $data->code)->get()->count();
+            // API
+            $this->addApiDataToUsers($data);
+            //dd($data);
         }
 
-        return view('auth.main', compact('data', 'dataProject', 'dataVconex'));
+        return view('auth.main', compact('data'));
     }
 
     public function logoutUser(Request $request)
@@ -413,5 +408,29 @@ class CustomAuthController extends Controller
             Alert::success('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับเข้าสู่ระบบ');
             return redirect('/main');
         }
+    }
+
+    private function addApiDataToUsers($data)
+    {
+        $client = new Client();
+        $apiUrl = config('services.external_api.url');
+        $apiToken = config('services.external_api.token');
+
+
+            try {
+                $response = $client->request('GET', $apiUrl, [
+                    'query' => ['user_id' => $data->id],
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $apiToken
+                    ]
+                ]);
+
+                $data->apiData = json_decode($response->getBody(), true);
+            } catch (\Exception $e) {
+
+               // Log::error('API request failed for user ' . $user->id . ': ' . $e->getMessage());
+                $data->apiData = null;
+            }
+
     }
 }
