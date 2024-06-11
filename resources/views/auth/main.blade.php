@@ -71,13 +71,13 @@
         <!-- Profile section -->
         <div class="text-center">
 
-            @if ($fileExists)
+            @if ($responseCode != 200)
             <img class="border-solid border-4 border-green-500 inline-block mb-2 bg-cover rounded-full mt-4 w-48 h-48"
                 style="background-image: url('{{ url('uploads/logo/logo_gold.png') }}');">
 
             @else
                 <div class="border-solid border-4 border-green-500 inline-block mb-2 bg-cover rounded-full mt-4 w-48 h-48"
-                    style="background-image: url('{{ $remoteFile }}');">
+                    style="background-image: url('{{$remoteFile}}');">
                 </div>
             @endif
 
