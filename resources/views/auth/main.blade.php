@@ -71,15 +71,15 @@
         <!-- Profile section -->
         <div class="text-center">
 
-            @if ($responseCode != 200)
-            <img class="border-solid border-4 border-green-500 inline-block mb-2 bg-cover rounded-full mt-4 w-48 h-48"
-                style="background-image: url('{{ url('uploads/logo/logo_gold.png') }}');">
 
-            @else
-                <div class="border-solid border-4 border-green-500 inline-block mb-2 bg-cover rounded-full mt-4 w-48 h-48"
-                    style="background-image: url('{{$remoteFile}}');">
+            <div class="relative inline-block mb-2 rounded-full mt-4 w-48 h-48">
+                <div class="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400 via-red-500 to-blue-600 p-1">
+                    <div class="w-full h-full rounded-full bg-cover"
+                         style="background-image: url('{{ $fileExists ? $remoteFile : url('uploads/logo/logo_gold.png') }}');">
+                    </div>
                 </div>
-            @endif
+            </div>
+
 
 
             @if($data)
