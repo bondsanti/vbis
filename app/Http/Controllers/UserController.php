@@ -65,19 +65,19 @@ class UserController extends Controller
 
         $users = $query->orderBy('code', 'desc')->paginate(10);
 
-        // $client = new Client();
-        // foreach ($users as $user) {
-        //     $response = $client->request('GET', 'http://vbhr.vbeyond.co.th/api/users/id/index.php', [
-        //         'query' => ['user_id' => $user->id],
-        //         'headers' => [
-        //             'Authorization' => 'Bearer qN4V4myt6fjlSraGgRU23|b6zKTOXTpeEvcZIH5Qi'
-        //         ]
-        //     ]);
+        $client = new Client();
+        foreach ($users as $user) {
+            $response = $client->request('GET', 'http://vbhr.vbeyond.co.th/api/users/id/index.php', [
+                'query' => ['user_id' => $user->id],
+                'headers' => [
+                    'Authorization' => 'Bearer qN4V4myt6fjlSraGgRU23|b6zKTOXTpeEvcZIH5Qi'
+                ]
+            ]);
 
-        //     $apiData = json_decode($response->getBody(), true);
-        //     $user->apiData = $apiData;
-        // }
-        //dd($users);
+            $apiData = json_decode($response->getBody(), true);
+            $user->apiData = $apiData;
+        }
+        dd($users);
         if ($data->active_vbis==1) {
             return view(
                 'users.index',
