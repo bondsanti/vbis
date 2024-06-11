@@ -39,12 +39,20 @@
     </style>
 </head>
 @php
-    $remoteFile = "http://vbhr.vbeyond.co.th/imageUser/employee/{$data->img_check}";
-    $ch = curl_init($remoteFile);
-    curl_setopt($ch, CURLOPT_NOBODY, true);
-    curl_exec($ch);
-    $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
+
+    $imgCheck = optional(optional($data->apiData)['data'])['img_check'];
+    $remoteFile = $imgCheck ? "http://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
+    $fileExists = false;
+
+    if ($remoteFile) {
+        $ch = curl_init($remoteFile);
+        curl_setopt($ch, CURLOPT_NOBODY, true);
+        curl_exec($ch);
+        $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        $fileExists = ($responseCode == 200);
+    }
 @endphp
 
 <body class="gradient">
@@ -63,13 +71,13 @@
         <!-- Profile section -->
         <div class="text-center">
 
-            @if ($responseCode != 200)
+            @if ($fileExists)
             <img class="border-solid border-4 border-green-500 inline-block mb-2 bg-cover rounded-full mt-4 w-48 h-48"
                 style="background-image: url('{{ url('uploads/logo/logo_gold.png') }}');">
 
             @else
                 <div class="border-solid border-4 border-green-500 inline-block mb-2 bg-cover rounded-full mt-4 w-48 h-48"
-                    style="background-image: url('http://vbhr.vbeyond.co.th/imageUser/employee/{{ $data->img_check }}');">
+                    style="background-image: url('{{ $remoteFile }}');">
                 </div>
             @endif
 
