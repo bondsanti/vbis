@@ -24,4 +24,18 @@ class ApiController extends Controller
 
        return response()->json(['data' => $user], 200);
    }
+
+
+   public function createUserbyHR(Request $request)
+   {
+    $userData = $request->all();
+    $user = User::create($userData);
+    if ($user) {
+        return response()->json(['message' => 'User created successfully'], 200);
+    } else {
+        return response()->json(['message' => 'Failed to create user'], 500);
+    }
+
+   }
+
 }

@@ -19,7 +19,7 @@ class CheckToken
         // ตรวจสอบ Token ที่ส่งมากับคำขอ
         $token = $request->header('Authorization');
 
-        if ($token !== 'Bearer 1|LcbxpDu7J2Dj2DkRlAKM6649tSSdwuJtKfcoSQhR') {
+        if ($token !== 'Bearer LcbxpDu7J2Dj2DkRlAKM6649tSSdwuJtKfcoSQhR') {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 

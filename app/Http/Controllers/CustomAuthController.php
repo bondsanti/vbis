@@ -418,7 +418,7 @@ class CustomAuthController extends Controller
 
 
             try {
-                $response = $client->request('GET', $apiUrl, [
+                $response = $client->request('GET', $apiUrl.'/users', [
                     'query' => ['user_id' => $data->id],
                     'headers' => [
                         'Authorization' => 'Bearer ' . $apiToken

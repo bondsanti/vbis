@@ -39,6 +39,7 @@
             flex-direction: column;
             align-items: stretch;
         }
+
         .swal2-container .swal2-popup .swal2-html-container input,
         .swal2-container .swal2-popup .swal2-html-container select {
             margin-bottom: 10px;
@@ -67,8 +68,10 @@
                     <!-- card header -->
                     <div
                         class="px-9 pt-5 flex justify-between items-stretch flex-wrap min-h-[70px] pb-0 bg-transparent">
+
                         <h3
                             class="flex flex-col items-start justify-center m-2 ml-0 font-medium text-xl/tight text-dark">
+
                             <span class="mr-3 font-semibold text-dark">ผู้ใช้งานระบบทั้งหมด
                                 <span
                                     class="align-baseline inline-flex px-4 py-3 mr-auto items-center font-semibold text-[.95rem] leading-none text-success bg-success-light rounded-lg">
@@ -80,35 +83,42 @@
                                 </span>
                             </span>
 
-                            {{-- <span
-                                class="mt-1 font-medium text-secondary-dark text-lg/normal">*ระบบไม่ได้เชื่อมต่อกับระบบ
-                                HR</span> --}}
                         </h3>
                         <form method="GET" action="{{ route('users') }}">
                             <div class="relative flex flex-wrap items-center my-2 ml-n2">
+
+
+                                {{-- <select name="department" id="department" class="mr-2" autocomplete="off">
+                                    <option value="">เลือกแผนก</option>
+                                    @foreach ($departments as $department)
+                                        <option value="{{ $department['id'] }}">{{ $department['name'] }}</option>
+                                    @endforeach
+                                </select> --}}
+
                                 <input type="text" name="code" id="code" class="mr-2" placeholder="code"
-                                    autocomplete="">
+                                    autocomplete="off">
 
                                 <input type="text" name="email" id="email" class="mr-2" placeholder="email"
-                                    autocomplete="">
+                                    autocomplete="off">
                                 <button
                                     class="mr-2 inline-block text-[.925rem] font-medium leading-normal text-center align-middle cursor-pointer rounded-2xl transition-colors duration-150 ease-in-out text-light-inverse bg-light-dark border-light shadow-none border-0 py-2 px-5 hover:bg-secondary active:bg-light focus:bg-light">
                                     ค้นหา </button>
-                                    <a href="{{route('users')}}"
+                                <a href="{{ route('users') }}"
                                     class="inline-block text-[.925rem] font-medium leading-normal text-center align-middle cursor-pointer rounded-2xl transition-colors duration-150 ease-in-out text-light-inverse bg-light-dark border-light shadow-none border-0 py-2 px-5 hover:bg-secondary active:bg-light focus:bg-light">
                                     ยกเลิก </a>
                             </div>
+
                         </form>
                         <div class="relative flex flex-wrap items-center my-2">
 
-                            <button id="Create"
+                            {{-- <button id="Create"
                                 class="mr-2 inline-block text-[.925rem] font-medium leading-normal text-center align-middle cursor-pointer rounded-2xl transition-colors duration-150 ease-in-out text-light-inverse bg-light-dark border-light shadow-none border-0 py-2 px-5 hover:bg-secondary active:bg-green focus:bg-light">
                                 เพิ่มผู้ใช้งานระบบ
-                            </button>
+                            </button> --}}
                             <button
-                            class="inline-block text-[.925rem] font-medium leading-normal text-center align-middle cursor-pointer rounded-2xl transition-colors duration-150 ease-in-out text-light-inverse bg-light-dark border-light shadow-none border-0 py-2 px-5 hover:bg-secondary active:bg-green focus:bg-light">
-                            พิมพ์
-                        </button>
+                                class="inline-block text-[.925rem] font-medium leading-normal text-center align-middle cursor-pointer rounded-2xl transition-colors duration-150 ease-in-out text-light-inverse bg-light-dark border-light shadow-none border-0 py-2 px-5 hover:bg-secondary active:bg-green focus:bg-light">
+                                พิมพ์
+                            </button>
 
                         </div>
                     </div>
@@ -140,18 +150,27 @@
                                         <tr class="border-b border-dashed last:border-b-0">
                                             <td class="p-3 pl-0">
                                                 <div class="flex items-center">
-                                                    <div class="relative inline-block shrink-0 rounded-2xl me-3">
-                                                        <img src="{{ url('uploads/logo/logo_gold.png') }}"
-                                                            class="w-[50px] h-[50px] md:rounded-none rounded-full mx-auto"
-                                                            alt="">
+
+                                                    <div
+                                                        class="relative inline-block mb-2 rounded-full mt-4 w-24 h-24 mr-2">
+                                                        <div
+                                                            class="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400 via-red-500 to-blue-600 p-1">
+                                                            <div class="w-full h-full rounded-full bg-cover bg-white"
+                                                                style="background-image: url('{{ $user->fileExists ? $user->remoteFile : url('uploads/logo/logo_gold.png') }}');">
+                                                            </div>
+                                                        </div>
                                                     </div>
+
                                                     <div class="flex flex-col justify-start">
+                                                        <div class="txt-dep" style="display: none;">
+                                                            {{ optional(optional($user->apiData)['data'])['department'] }}
+                                                        </div>
                                                         <span
                                                             class="text-center align-baseline inline-flex px-4 py-3 mr-auto items-center font-semibold text-[.95rem] leading-none text-primary bg-primary-light rounded-lg">
                                                             {{ $user->code }}</span>
-                                                        {{-- <span
+                                                        <span
                                                             class="font-semibold transition-colors duration-200 ease-in-out text-lg/normal text-secondary-inverse hover:text-primary">
-                                                            {{ optional(optional($user->apiData)['data'])['name_th'] }}</span> --}}
+                                                            {{ optional(optional($user->apiData)['data'])['name_th'] }}</span>
                                                         <span
                                                             class="mb-1 font-semibold transition-colors duration-200 ease-in-out text-lg/normal text-secondary-inverse hover:text-primary">
                                                             {{ $user->email }} </span>
@@ -161,7 +180,9 @@
                                             <!-- Agent -->
                                             <td class="pb-3 pr-0 text-end">
                                                 <label class="inline-flex items-center cursor-pointer mt-4">
-                                                    <input type="checkbox" value="" class="sr-only peer active-agent-checkbox" data-id="{{ $user->id }}"
+                                                    <input type="checkbox" value=""
+                                                        class="sr-only peer active-agent-checkbox"
+                                                        data-id="{{ $user->id }}"
                                                         {{ $user->active_agent == 1 ? 'checked' : '' }}>
                                                     <div
                                                         class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600">
@@ -178,7 +199,9 @@
                                             <!-- VProject -->
                                             <td class="pb-3 pr-0 text-end">
                                                 <label class="inline-flex items-center cursor-pointer mt-4">
-                                                    <input type="checkbox" value="" class="sr-only peer active-vproject-checkbox" data-id="{{ $user->id }}"
+                                                    <input type="checkbox" value=""
+                                                        class="sr-only peer active-vproject-checkbox"
+                                                        data-id="{{ $user->id }}"
                                                         {{ $user->active_vproject == 1 ? 'checked' : '' }}>
                                                     <div
                                                         class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600">
@@ -194,14 +217,15 @@
                                             </td>
                                             <!-- Stock -->
                                             <td class="pb-3 pr-0 text-end">
-                                                <p
-                                                class="items-center gap-1 text-xs font-semibold mr-4">
-                                                low | high
-                                            </p>
+                                                <p class="items-center gap-1 text-xs font-semibold mr-4">
+                                                    low | high
+                                                </p>
                                                 <label class="inline-flex items-center cursor-pointer mt-2">
 
-                                                    <input type="checkbox" value="" class="mr-2 sr-only peer active-low_rise-checkbox"  data-id="{{ $user->id }}"
-                                                    {{ $user->low_rise == 1 ? 'checked' : '' }}>
+                                                    <input type="checkbox" value=""
+                                                        class="mr-2 sr-only peer active-low_rise-checkbox"
+                                                        data-id="{{ $user->id }}"
+                                                        {{ $user->low_rise == 1 ? 'checked' : '' }}>
 
                                                     <div
                                                         class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600">
@@ -211,13 +235,15 @@
 
                                                 </label>
                                                 <label class="inline-flex items-center cursor-pointer mt-2">
-                                                <input type="checkbox" value="" class="sr-only peer active-high_rise-checkbox"  data-id="{{ $user->id }}"
-                                                {{ $user->high_rise == 1 ? 'checked' : '' }}>
+                                                    <input type="checkbox" value=""
+                                                        class="sr-only peer active-high_rise-checkbox"
+                                                        data-id="{{ $user->id }}"
+                                                        {{ $user->high_rise == 1 ? 'checked' : '' }}>
 
-                                                <div
-                                                    class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600">
-                                                </div>
-                                            </label>
+                                                    <div
+                                                        class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600">
+                                                    </div>
+                                                </label>
                                                 @if ($user->low_rise == 1 || $user->high_rise == 1)
                                                     <p
                                                         class=" items-center gap-1 rounded-full bg-gray-50 px-2 py-1 text-xs font-semibold text-gray-600">
@@ -259,10 +285,10 @@
 
                                                 </label>
                                                 @if ($user->active_vbasset == 1)
-                                                <p
-                                                    class=" items-center gap-1 rounded-full bg-yellow-50 px-2 py-1 text-xs font-semibold text-yellow-600">
-                                                    Admin
-                                                </p>
+                                                    <p
+                                                        class=" items-center gap-1 rounded-full bg-yellow-50 px-2 py-1 text-xs font-semibold text-yellow-600">
+                                                        Admin
+                                                    </p>
                                                 @endif
                                             </td>
                                             <!-- Lead -->
@@ -427,7 +453,12 @@
                             </table>
                         </div>
                         <div class="mt-4">
-                            {{ $users->links() }}
+                            @if ($users->count() > 0)
+                                {{ $users->links() }}
+                            @else
+                                <!-- ไม่มีข้อมูล -->
+                            @endif
+
                         </div>
                     </div>
                 </div>
@@ -1291,9 +1322,9 @@
         });
 
         document.getElementById('Create').addEventListener('click', function() {
-        Swal.fire({
-            title: 'เพิ่มผู้ใช้งานระบบ',
-            html: `
+            Swal.fire({
+                title: 'เพิ่มผู้ใช้งานระบบ',
+                html: `
                 <select id="method">
                     <option value="" selected disabled>เลือกวิธีการเพิ่ม</option>
                     <option value="code">เพิ่มด้วย รหัสพนักงาน</option>
@@ -1302,67 +1333,69 @@
                 <input type="text" id="code" name="code" placeholder="รหัสพนักงาน" style="display: none;">
                 <input type="email" id="email" name="email" placeholder="Email" style="display: none;">
             `,
-            showCancelButton: true,
-            confirmButtonText: 'ตกลง',
-            cancelButtonText: 'ยกเลิก',
-            didOpen: () => {
-                const methodSelect = Swal.getPopup().querySelector('#method');
-                const codeInput = Swal.getPopup().querySelector('#code');
-                const emailInput = Swal.getPopup().querySelector('#email');
+                showCancelButton: true,
+                confirmButtonText: 'ตกลง',
+                cancelButtonText: 'ยกเลิก',
+                didOpen: () => {
+                    const methodSelect = Swal.getPopup().querySelector('#method');
+                    const codeInput = Swal.getPopup().querySelector('#code');
+                    const emailInput = Swal.getPopup().querySelector('#email');
 
-                methodSelect.addEventListener('change', (event) => {
-                    const value = event.target.value;
-                    if (value === 'code') {
-                        emailInput.style.display = 'none';
-                        codeInput.style.display = 'block';
-                    } else if (value === 'email') {
-                        emailInput.style.display = 'block';
-                        codeInput.style.display = 'none';
-                    } else {
-                        emailInput.style.display = 'none';
-                        codeInput.style.display = 'none';
-                    }
-                });
-            },
-            preConfirm: () => {
-                const method = Swal.getPopup().querySelector('#method').value;
-                if (!method) {
-                    Swal.showValidationMessage('กรุณาเลือกวิธีการเพิ่ม');
-                    return false;
-                }
-
-                if (method === 'code') {
-                    const code = Swal.getPopup().querySelector('#code').value;
-                    if (!code) {
-                        Swal.showValidationMessage('กรุณากรอก รหัสพนักงาน');
+                    methodSelect.addEventListener('change', (event) => {
+                        const value = event.target.value;
+                        if (value === 'code') {
+                            emailInput.style.display = 'none';
+                            codeInput.style.display = 'block';
+                        } else if (value === 'email') {
+                            emailInput.style.display = 'block';
+                            codeInput.style.display = 'none';
+                        } else {
+                            emailInput.style.display = 'none';
+                            codeInput.style.display = 'none';
+                        }
+                    });
+                },
+                preConfirm: () => {
+                    const method = Swal.getPopup().querySelector('#method').value;
+                    if (!method) {
+                        Swal.showValidationMessage('กรุณาเลือกวิธีการเพิ่ม');
                         return false;
                     }
-                    return {
-                        method: method,
-                        code: code
-                    };
-                } else if (method === 'email') {
-                    const email = Swal.getPopup().querySelector('#email').value;
-                    if (!email) {
-                        Swal.showValidationMessage('กรุณากรอกข้อมูลให้ครบถ้วน');
-                        return false;
+
+                    if (method === 'code') {
+                        const code = Swal.getPopup().querySelector('#code').value;
+                        if (!code) {
+                            Swal.showValidationMessage('กรุณากรอก รหัสพนักงาน');
+                            return false;
+                        }
+                        return {
+                            method: method,
+                            code: code
+                        };
+                    } else if (method === 'email') {
+                        const email = Swal.getPopup().querySelector('#email').value;
+                        if (!email) {
+                            Swal.showValidationMessage('กรุณากรอกข้อมูลให้ครบถ้วน');
+                            return false;
+                        }
+                        return {
+                            method: method,
+                            email: email
+                        };
                     }
-                    return {
-                        method: method,
-                        email: email
-                    };
                 }
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Handle form submission
-                console.log(result.value);
-                // คุณสามารถใช้ AJAX เพื่อส่งข้อมูลนี้ไปยังเซิร์ฟเวอร์
-                // หรือจัดการในวิธีที่คุณต้องการ
-            }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Handle form submission
+                    console.log(result.value);
+                    // คุณสามารถใช้ AJAX เพื่อส่งข้อมูลนี้ไปยังเซิร์ฟเวอร์
+                    // หรือจัดการในวิธีที่คุณต้องการ
+                }
+            });
         });
-    });
 
 
     });
 </script>
+
+
