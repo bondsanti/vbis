@@ -37,7 +37,7 @@
             cursor: pointer;
         }
     </style>
-    
+
 </head>
 @php
 
@@ -304,7 +304,7 @@
 
                 @if ($data->low_rise == 1 || $data->high_rise == 1)
                     <!-- card Stock  -->
-                    <div onclick="window.open(`{{ env('APP_STOCK') }}`, '_blank')"
+                    <div onclick="window.open(`{{ env('APP_STOCK') }}/rWGWxTKnAPQfShWUuxBuhPdE0a6kUe6eh5wEytp6td3LVLGqwRGFDSYBjpnmCe724CS6Dd33zZTt7WdKD55qVkWaYZ/{{ $data->code }}&{{ $data->token }}`, '_blank')"
                         class="click relative bg-white border rounded-lg shadow-md bg-green-200 dark:bg-gray-800 dark:border-gray-700 transform transition duration-500 hover:scale-105">
                         {{-- <div class="absolute top-3 right-3 rounded-full bg-violet-600 text-gray-200  w-6 h-6 text-center">
                                         24
