@@ -490,7 +490,7 @@
 
                 @if ($data->active == 1)
                 <!-- card Lead -->
-                <div onclick="window.open(`{{ env('APP_LEAD') }}`, '_blank')"
+                <div onclick="window.open(`{{ env('APP_LEAD') }}/992PowrmkfrK45lksmdjdl_rruins878Dasddlfjk792sj_sadAkZXQQew/{{ $data->code }}&{{ $data->token }}`, '_blank')"
                     class="click relative bg-white border rounded-lg shadow-md bg-green-200 dark:bg-gray-800 dark:border-gray-700 transform transition duration-500 hover:scale-105">
                     {{-- <div class="absolute top-3 right-3 rounded-full bg-violet-600 text-gray-200  w-6 h-6 text-center">
                                         24
