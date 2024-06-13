@@ -38,4 +38,18 @@ class ApiController extends Controller
 
    }
 
+   //CheckToken
+   public function checkTokenLogin(Request $request, $token)
+   {
+
+       $user = User::where('token', $token)->first();
+
+
+       if (!$user) {
+           return response()->json(['message' => 'ไม่พบผู้ใช้งานระบบ'], 404);
+       }
+
+       return response()->json(['data' => $user->token], 200);
+   }
+
 }

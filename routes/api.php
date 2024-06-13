@@ -24,3 +24,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/role-stock/{code}', [ApiController::class, 'getRoleStock'])->middleware('checkTokenApi');
 Route::post('/create/users', [ApiController::class, 'createUserbyHR'])->middleware('checkTokenApi');
+Route::get('/checktoken/{token}', [ApiController::class, 'checkTokenLogin'])->middleware('checkTokenApi');
+
+
