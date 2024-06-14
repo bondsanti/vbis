@@ -22,8 +22,9 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get('/users/year/{year}',[UserController::class,'getUserSignInByYear'])->middleware('checkTokenApi')->name('api.usersSignInByYear');
 
-Route::post('/role-stock/{code}', [ApiController::class, 'getRoleStock'])->middleware('checkTokenApi');
+Route::get('/role-stock/{code}', [ApiController::class, 'getRoleStock'])->middleware('checkTokenApi');
 Route::post('/create/users', [ApiController::class, 'createUserbyHR'])->middleware('checkTokenApi');
 Route::get('/checktoken/{token}', [ApiController::class, 'checkTokenLogin'])->middleware('checkTokenApi');
+Route::get('/checktoken/publicsite/{token}', [ApiController::class, 'checkTokenPublicSite'])->middleware('checkTokenApi');
 
 
