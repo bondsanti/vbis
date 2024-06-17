@@ -14,7 +14,7 @@ class ApiController extends Controller
    public function getAuth(Request $request, $code)
    {
 
-       $user = User::where('code', $code)->first();
+       $user = User::where('code', $code)->where('active',1)->first();
 
        if (!$user) {
            return response()->json(['message' => 'ไม่พบผู้ใช้งานระบบ'], 404);

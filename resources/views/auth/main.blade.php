@@ -380,7 +380,7 @@
 
                 @if ($data->active_vbasset == 1)
                 <!-- card Assets -->
-                <div onclick="window.open(`{{ env('APP_ASSET') }}/ZbqNcyNLHhJU59bFV6kW0pHMu9cu8c94cbp38diSLVMagkDA02FH3L4VcXDUGiz45w5h/{{ $data->id }}&{{ $data->token }}`, '_blank')"
+                <div onclick="window.open(`{{ env('APP_ASSET') }}/ZbqNcyNLHhJU59bFV6kW0pHMu9cu8c94cbp38diSLVMagkDA02FH3L4VcXDUGiz45w5h/{{ $data->user_id }}&{{ $data->token }}`, '_blank')"
                     class="click relative bg-white border rounded-lg shadow-md bg-green-200 dark:bg-gray-800 dark:border-gray-700 transform transition duration-500 hover:scale-105">
                     {{-- <div class="absolute top-3 right-3 rounded-full bg-violet-600 text-gray-200  w-6 h-6 text-center">
                                         24
@@ -736,7 +736,7 @@
 
                 @if ($data->active_printer == 1)
                 <!-- card Printer  -->
-                <div onclick="window.open(`{{ env('APP_PRINTER') }}/LS8EhYBLHmVNmGG2V1jJJtFvAdSxDbYzfVGR4chhbdGSiGUSTK4CBqcjxVMz2Uv2xT43hQC8Bp/{{ $data->id }}&{{ $data->token }}`, '_blank')"
+                <div onclick="window.open(`{{ env('APP_PRINTER') }}/LS8EhYBLHmVNmGG2V1jJJtFvAdSxDbYzfVGR4chhbdGSiGUSTK4CBqcjxVMz2Uv2xT43hQC8Bp/{{ $data->user_id }}&{{ $data->token }}`, '_blank')"
                     class="click relative bg-white border rounded-lg shadow-md bg-green-200 dark:bg-gray-800 dark:border-gray-700 transform transition duration-500 hover:scale-105">
 
                     <div class="p-2 flex justify-center mt-2">
@@ -845,7 +845,7 @@
 
                 @if ($data->active_broker == 1)
                 <!-- card APP_BOKER  -->
-                <div onclick="window.open(`{{ env('APP_BOKER') }}/ZQRinxUWLPeWVFFRAdJa88xxWg6aArX002mt6WqqEa1nG3jvZYfxi5CbYhQjdGewepRav8y7q5Z4K7Mh/{{ $data->id }}&{{ $data->token }}`, '_blank')"
+                <div onclick="window.open(`{{ env('APP_BOKER') }}/ZQRinxUWLPeWVFFRAdJa88xxWg6aArX002mt6WqqEa1nG3jvZYfxi5CbYhQjdGewepRav8y7q5Z4K7Mh/{{ $data->user_id }}&{{ $data->token }}`, '_blank')"
                     class="click relative bg-white border rounded-lg shadow-md bg-green-200 dark:bg-green-800 dark:border-green-700 transform transition duration-500 hover:scale-105">
                     <div class="p-2 flex justify-center mt-2">
                         <svg width="45" height="45" viewBox="0 0 1024 1024" class="icon" version="1.1"
