@@ -39,22 +39,6 @@
     </style>
 
 </head>
-@php
-
-    $imgCheck = optional(optional($data->apiData)['data'])['img_check'];
-    $remoteFile = $imgCheck ? "http://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
-    $fileExists = false;
-
-    if ($remoteFile) {
-        $ch = curl_init($remoteFile);
-        curl_setopt($ch, CURLOPT_NOBODY, true);
-        curl_exec($ch);
-        $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-
-        $fileExists = ($responseCode == 200);
-    }
-@endphp
 
 <body class="gradient">
 
@@ -76,7 +60,7 @@
             <div class="relative inline-block mb-2 rounded-full mt-4 w-48 h-48">
                 <div class="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400 via-red-500 to-blue-600 p-1">
                     <div class="w-full h-full rounded-full bg-cover bg-white"
-                         style="background-image: url('{{ $fileExists ? $remoteFile : url('uploads/logo/logo_gold.png') }}');">
+                         style="background-image: url('{{ $data->fileExists ? $data->remoteFile : url('uploads/logo/logo_gold.png') }}');">
                     </div>
                 </div>
             </div>
@@ -488,7 +472,7 @@
                 </div>
                 @endif
 
-                @if ($data->active == 1)
+                @if ($data->active_vblead == 1)
                 <!-- card Lead -->
                 <div onclick="window.open(`{{ env('APP_LEAD') }}/992PowrmkfrK45lksmdjdl_rruins878Dasddlfjk792sj_sadAkZXQQew/{{ $data->code }}&{{ $data->token }}`, '_blank')"
                     class="click relative bg-white border rounded-lg shadow-md bg-green-200 dark:bg-gray-800 dark:border-gray-700 transform transition duration-500 hover:scale-105">

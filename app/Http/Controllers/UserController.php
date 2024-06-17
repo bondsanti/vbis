@@ -45,7 +45,8 @@ class UserController extends Controller
     public function getUsers(Request $request)
     {
 
-        $loggedInUser = User::find($request->session()->get('loginId'));
+        $loggedInUser = User::where('user_id',$request->session()->get('loginId'))->first();
+
 
         $userCounts = User::selectRaw('SUM(active = 1) as active_count, SUM(active = 0) as inactive_count')
             ->first();
@@ -84,7 +85,7 @@ class UserController extends Controller
 
     public function updateActive(Request $request)
     {
-        $users = User::findOrFail($request->user_id);
+        $users = User::where('user_id',$request->user_id)->first();
 
 
         if ($users) {
@@ -171,7 +172,7 @@ class UserController extends Controller
         foreach ($users as $user) {
             try {
                 $response = $client->request('GET', $apiUrl.'/users', [
-                    'query' => ['user_id' => $user->id],
+                    'query' => ['user_id' => $user->user_id],
                     'headers' => [
                         'Authorization' => 'Bearer ' . $apiToken
                     ]

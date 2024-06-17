@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Logs;
 use App\Models\User;
 use Illuminate\Http\Request;
 use League\OAuth2\Client\Provider\GenericProvider;
@@ -68,103 +69,32 @@ class CustomAuthController extends Controller
         // Parse the response body and output the user data
         $userData = json_decode($response->getBody(), true);
         $userEmail = $userData['mail'] ?? null;
+        $user = User::where('email',$userEmail)->first();
 
-
-
-        $client = new Client();
-
-        // ข้อมูลที่ต้องการส่ง
-        $data = [
-            'email' => $userEmail
-        ];
-
-        $response_users = $client->request('POST', 'http://localhost/hr/api/users', [
-            'json' => $data,
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . 'qN4V4myt6fjlSraGgRU23|b6zKTOXTpeEvcZIH5Qi'
-            ]
-        ]);
-
-        // $response_users = $client->post($Hr_API, [
-        //     'json' => $data,
-        //     'headers' => [
-        //         'Content-Type' => 'application/json',
-        //         'Accept' => 'application/json',
-        //         'Authorization' => 'Bearer ' .'qN4V4myt6fjlSraGgRU23|b6zKTOXTpeEvcZIH5Qi'
-        //     ],
-        // ]);
-        //dd($response_users);
-        $responseBody = $response_users->getBody()->getContents();
-        // $user_hr = json_decode($response_users->getBody(), true);
-
-        return response()->json(json_decode($responseBody));
-
-        if (!$user_hr) {
+        if (!$user) {
 
             Alert::error('ไม่พบผู้ใช้งาน', 'กรุณากรอกข้อมูลใหม่อีกครั้ง');
             return back();
         } else {
 
 
-            $request->session()->put('loginId', $user_hr->id);
+            $request->session()->put('loginId', $user->id);
 
             $token = bin2hex(random_bytes(16)); //Create token
-            $user_hr->token = $token;
-            $user_hr->save();
+            $user->token = $token;
+            $user->save();
 
-            // DB::table('vbeyond_report.log_login')->insert([
-            //     'username' => $user_hr->code,
-            //     'dates' => date('Y-m-d'),
-            //     'timeStm' => date('Y-m-d H:i:s'),
-            //     'page' => 'LoginMicrosoft'
-            // ]);
+            DB::table('vbeyond_report.log_login')->insert([
+                'username' => $user->code,
+                'dates' => date('Y-m-d'),
+                'timeStm' => date('Y-m-d H:i:s'),
+                'page' => 'LoginMicrosoft'
+            ]);
 
             Alert::success('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับเข้าสู่ระบบ');
             return redirect('/main');
         }
     }
-
-    // public function loginVbis(Request $request)
-    // {
-
-    //     $response = Http::withoutRedirecting()->post('http://hr.vbeyond.co.th/api/users/code/', [
-    //         'code' => $request->input('code'),
-    //         'password' => $request->input('password'),
-    //     ]);
-
-
-    //     if ($response->successful()) {
-
-    //         $data = $response->json();
-    //         if (isset($data['user'])) {
-
-    //             $user_hr = $data['user'];
-    //             $msg = $data['message'];
-    //             // dd($msg);
-    //             if ($user_hr['is_auth'] == 0) {
-    //                 $request->session()->put('dataIsAuth', $user_hr);
-    //                 Alert::info('กรุณาเปลี่ยนรหัสผ่าน');
-    //                 return redirect('/change-password');
-    //             }
-
-
-    //             $request->session()->put('loginId', $user_hr['id']);
-
-    //             Alert::success('Success', $msg);
-    //             return redirect('/main');
-    //         } else {
-
-    //             Alert::warning('Warning', $msg);
-    //             return back();
-    //         }
-    //     } else {
-    //         // เกิดข้อผิดพลาด
-    //         Alert::error('Error', 'เกิดข้อผิดพลาด');
-    //         return back();
-    //     }
-    // }
 
     public function loginVbis(Request $request)
     {
@@ -177,32 +107,34 @@ class CustomAuthController extends Controller
             'password.required' => 'ป้อนรหัสผ่าน'
         ]);
 
-        $user_hr = User::where('code', $request->code)->orWhere('old_code', $request->code)->where('active', 1)->first();
-
-        if (!$user_hr) {
+        $user = User::where('code', $request->code)->orWhere('old_code', $request->code)->where('active', 1)->first();
+        //dd($user);
+        if (!$user) {
 
             Alert::error('ไม่พบผู้ใช้งาน', 'กรุณากรอกข้อมูลใหม่อีกครั้ง');
             return back();
         } else {
-            if (Hash::check($request->password, $user_hr->password)) {
+            if (Hash::check($request->password, $user->password)) {
 
-                if ($user_hr->is_auth == 0) {
+                if ($user->is_auth == 0) {
 
-                    $request->session()->put('dataIsAuth', $user_hr);
+                    $request->session()->put('dataIsAuth', $user);
                     Alert::info('กรุณาเปลี่ยนรหัสผ่าน');
                     return redirect('/change-password');
 
                 }
 
 
-                $request->session()->put('loginId', $user_hr->id);
+                $request->session()->put('loginId', $user->user_id);
 
                 $token = bin2hex(random_bytes(16)); //Create token
-                $user_hr->token = $token;
-                $user_hr->save();
+                $user->token = $token;
+                $user->save();
+
+                Logs::addLog($request->session()->get('loginId'), 'Login', 'LoginConnect');
 
                 DB::table('vbeyond_report.log_login')->insert([
-                    'username' => $user_hr->code,
+                    'username' => $user->code,
                     'dates' => date('Y-m-d'),
                     'timeStm' => date('Y-m-d H:i:s'),
                     'page' => 'LoginConnect'
@@ -221,12 +153,10 @@ class CustomAuthController extends Controller
     public function profileUser(Request $request)
     {
 
-
         if ($request->session()->has('loginId')) {
-
-            $data = User::where('id', $request->session()->get('loginId'))->first();
-            // API
+            $data = User::where('user_id', $request->session()->get('loginId'))->first();
             $this->addApiDataToUsers($data);
+
             //dd($data);
         }
 
@@ -416,19 +346,37 @@ class CustomAuthController extends Controller
         $apiUrl = config('services.external_api.url');
         $apiToken = config('services.external_api.token');
 
-
             try {
                 $response = $client->request('GET', $apiUrl.'/users', [
-                    'query' => ['user_id' => $data->id],
+                    'query' => ['user_id' => $data->user_id],
                     'headers' => [
                         'Authorization' => 'Bearer ' . $apiToken
                     ]
                 ]);
 
                 $data->apiData = json_decode($response->getBody(), true);
-            } catch (\Exception $e) {
+                $imgCheck = optional(optional($data->apiData)['data'])['img_check'];
+                $remoteFile = $imgCheck ? "http://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
+                //$remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
+                $fileExists = false;
 
-               // Log::error('API request failed for user ' . $user->id . ': ' . $e->getMessage());
+                if ($remoteFile) {
+                    $ch = curl_init($remoteFile);
+                    curl_setopt($ch, CURLOPT_NOBODY, true);
+                    curl_exec($ch);
+                    $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                    curl_close($ch);
+
+                    $fileExists = ($responseCode == 200);
+                }
+
+                $data->remoteFile = $remoteFile;
+                $data->fileExists = $fileExists;
+
+                Logs::addLog($data->user_id, 'API' ,'API request Success for user');
+
+            } catch (\Exception $e) {
+                Logs::addLog($data->user_id,'API','API request failed for user' . $e->getMessage());
                 $data->apiData = null;
             }
 

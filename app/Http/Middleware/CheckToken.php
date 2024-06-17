@@ -16,10 +16,11 @@ class CheckToken
      */
     public function handle(Request $request, Closure $next)
     {
-        // ตรวจสอบ Token ที่ส่งมากับคำขอ
-        $token = $request->header('Authorization');
 
-        if ($token !== 'Bearer LcbxpDu7J2Dj2DkRlAKM6649tSSdwuJtKfcoSQhR') {
+        $token = $request->header('Authorization');
+        $apiTokenAuth = env('API_TOKEN_AUTH');
+
+        if ($token !== 'Bearer ' . $apiTokenAuth) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 

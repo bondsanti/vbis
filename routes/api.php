@@ -1,30 +1,25 @@
 <?php
 
 use App\Http\Controllers\ApiController;
-use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 
-// Route::get('/users/year/{year}',[UserController::class,'getUserSignInByYear'])->middleware('checkTokenApi')->name('api.usersSignInByYear');
 
-Route::get('/role-stock/{code}', [ApiController::class, 'getRoleStock'])->middleware('checkTokenApi');
-Route::post('/create/users', [ApiController::class, 'createUserbyHR'])->middleware('checkTokenApi');
-Route::get('/checktoken/{token}', [ApiController::class, 'checkTokenLogin'])->middleware('checkTokenApi');
-Route::get('/checktoken/publicsite/{token}', [ApiController::class, 'checkTokenPublicSite'])->middleware('checkTokenApi');
+// CheckToken to access Route
+Route::middleware(['checkTokenApi'])->group(function () {
+
+    // Login with Public App
+    Route::get('/getAuth/{code}', [ApiController::class, 'getAuth'])->name('auth.getAuth');
+
+    // HR Create New User
+    Route::post('/create/users', [ApiController::class, 'createUserbyHR'])->name('user.create');
+
+    // Allow Login InHouse App
+    Route::get('/checktoken/{token}', [ApiController::class, 'checkTokenLogin'])->name('login.checkToken');
+
+    // Allow Login Public App
+    Route::get('/checktoken/publicsite/{token}', [ApiController::class, 'checkTokenPublicSite'])->name('login.checkTokenPublic');
+});
 
 

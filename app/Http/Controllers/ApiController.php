@@ -11,12 +11,10 @@ class ApiController extends Controller
 {
 
 
-   // ระบบ Stock
-   public function getRoleStock(Request $request, $code)
+   public function getAuth(Request $request, $code)
    {
 
        $user = User::where('code', $code)->first();
-
 
        if (!$user) {
            return response()->json(['message' => 'ไม่พบผู้ใช้งานระบบ'], 404);
@@ -64,6 +62,49 @@ class ApiController extends Controller
        }
 
        return response()->json(['data' => $user], 200);
+   }
+
+   private function addApiDataToUsers($users)
+   {
+       $client = new Client();
+       $apiUrl = config('services.external_api.url');
+       $apiToken = config('services.external_api.token');
+
+       foreach ($users as $user) {
+           try {
+               $response = $client->request('GET', $apiUrl.'/users', [
+                   'query' => ['user_id' => $user->id],
+                   'headers' => [
+                       'Authorization' => 'Bearer ' . $apiToken
+                   ]
+               ]);
+
+               $user->apiData = json_decode($response->getBody(), true);
+
+               $imgCheck = optional(optional($user->apiData)['data'])['img_check'];
+               $remoteFile = $imgCheck ? "http://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
+               //$remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
+               $fileExists = false;
+
+               if ($remoteFile) {
+                   $ch = curl_init($remoteFile);
+                   curl_setopt($ch, CURLOPT_NOBODY, true);
+                   curl_exec($ch);
+                   $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                   curl_close($ch);
+
+                   $fileExists = ($responseCode == 200);
+               }
+
+               $user->remoteFile = $remoteFile;
+               $user->fileExists = $fileExists;
+
+           } catch (\Exception $e) {
+
+               //Log::error('API request failed for user ' . $user->id . ': ' . $e->getMessage());
+               $user->apiData = null;
+           }
+       }
    }
 
 }

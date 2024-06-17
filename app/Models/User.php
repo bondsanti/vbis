@@ -11,7 +11,7 @@ class User extends Model
     protected $table = 'users';
 
     public $timestamps= false;
-    protected $fillable = ['id','code','old_code','created_date','email','username','password','old_password','old_password','old_password'];
+    protected $fillable = ['id','user_id','code','old_code','created_date','email','username','password','old_password'];
 
     // public function position_ref(){
     //     return $this->hasOne(Position::class, 'id', 'position_id');

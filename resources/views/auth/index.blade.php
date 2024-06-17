@@ -44,7 +44,12 @@
                     <a href="/forget" class="text-sm text-blue-600 hover:underline">ลืมรหัสผ่าน?</a>
                 </div>
                 <div>
-                    <button type="submit" class="w-full p-3 rounded-lg text-white gradient">เข้าสู่ระบบ</button>
+                    <button type="submit" id="submitButton" class="w-full p-3 rounded-lg text-white gradient flex items-center justify-center">
+
+
+                        เข้าสู่ระบบ
+
+                    </button>
 
 
                 </div>
@@ -90,18 +95,29 @@
             },
             errorElement: 'span',
             errorPlacement: function(error, element) {
-                error.addClass('text-sm text-red-500'); // Use Tailwind CSS classes for error messages
-                element.closest('.forminput').append(error); // Adjust this if your input is inside a different element
+                error.addClass('text-sm text-red-500');
+                element.closest('.forminput').append(error);t
             },
             highlight: function(element, errorClass, validClass) {
-                $(element).addClass('border-red-500'); // Use Tailwind CSS classes for highlighting errors
-                $(element).removeClass('border-blue-300'); // Remove the valid class if you are using one
+                $(element).addClass('border-red-500');
+                $(element).removeClass('border-blue-300');
             },
             unhighlight: function(element, errorClass, validClass) {
-                $(element).removeClass('border-red-500'); // Use Tailwind CSS classes for unhighlighting errors
-                $(element).addClass('border-blue-300'); // Re-add the valid class if you are using one
+                $(element).removeClass('border-red-500');
+                $(element).addClass('border-blue-300');
             }
         });
     });
 </script>
+
+<script>
+        $(document).ready(function() {
+            $('#loginForm').submit(function() {
+                $('#submitButton').prop('disabled', true);
+                $('#submitButton').html('<svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><rect width="10" height="10" x="1" y="1" fill="white" rx="1"><animate id="svgSpinnersBlocksShuffle30" fill="freeze" attributeName="x" begin="0;svgSpinnersBlocksShuffle3b.end" dur="0.15s" values="1;13"/><animate id="svgSpinnersBlocksShuffle31" fill="freeze" attributeName="y" begin="svgSpinnersBlocksShuffle38.end" dur="0.15s" values="1;13"/><animate id="svgSpinnersBlocksShuffle32" fill="freeze" attributeName="x" begin="svgSpinnersBlocksShuffle39.end" dur="0.15s" values="13;1"/><animate id="svgSpinnersBlocksShuffle33" fill="freeze" attributeName="y" begin="svgSpinnersBlocksShuffle3a.end" dur="0.15s" values="13;1"/></rect><rect width="10" height="10" x="1" y="13" fill="white" rx="1"><animate id="svgSpinnersBlocksShuffle34" fill="freeze" attributeName="y" begin="svgSpinnersBlocksShuffle30.end" dur="0.15s" values="13;1"/><animate id="svgSpinnersBlocksShuffle35" fill="freeze" attributeName="x" begin="svgSpinnersBlocksShuffle31.end" dur="0.15s" values="1;13"/><animate id="svgSpinnersBlocksShuffle36" fill="freeze" attributeName="y" begin="svgSpinnersBlocksShuffle32.end" dur="0.15s" values="1;13"/><animate id="svgSpinnersBlocksShuffle37" fill="freeze" attributeName="x" begin="svgSpinnersBlocksShuffle33.end" dur="0.15s" values="13;1"/></rect><rect width="10" height="10" x="13" y="13" fill="white" rx="1"><animate id="svgSpinnersBlocksShuffle38" fill="freeze" attributeName="x" begin="svgSpinnersBlocksShuffle34.end" dur="0.15s" values="13;1"/><animate id="svgSpinnersBlocksShuffle39" fill="freeze" attributeName="y" begin="svgSpinnersBlocksShuffle35.end" dur="0.15s" values="13;1"/><animate id="svgSpinnersBlocksShuffle3a" fill="freeze" attributeName="x" begin="svgSpinnersBlocksShuffle36.end" dur="0.15s" values="1;13"/><animate id="svgSpinnersBlocksShuffle3b" fill="freeze" attributeName="y" begin="svgSpinnersBlocksShuffle37.end" dur="0.15s" values="1;13"/></rect></svg>  รอสักครู่...');
+                return true;
+            });
+        });
+</script>
+
 
