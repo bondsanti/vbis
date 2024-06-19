@@ -67,12 +67,16 @@
 
 
 
-            @if (optional(optional($data->api_data)['data'])['name_eng'])
+            {{-- @if (optional(optional($data->api_data)['data'])['name_eng'])
                 <h2 class="text-2xl font-semibold">{{ optional(optional($data->api_data)['data'])['name_eng'] }} </h2>
                 <p class="text-gray-600">{{ optional(optional($data->api_data)['data'])['position'] }} </p>
             @else
                 <h2 class="text-2xl font-semibold">{{ $data->email }} </h2>
-            @endif
+            @endif --}}
+
+            <h2 class="text-2xl font-semibold">{{ optional(optional($data->api_data)['data'])['name_eng'] }} </h2>
+            <p class="text-gray-600">{{ optional(optional($data->api_data)['data'])['position'] }} </p>
+
 
 
 
