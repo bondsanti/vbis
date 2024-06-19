@@ -67,7 +67,7 @@
 
 
 
-            @if($data)
+            @if(optional($data->apiData)['data']['name_eng'])
                 <h2 class="text-2xl font-semibold">{{ optional($data->apiData)['data']['name_eng'] }} </h2>
                    <p class="text-gray-600">{{ optional($data->apiData)['data']['position'] }} </p>
             @else
