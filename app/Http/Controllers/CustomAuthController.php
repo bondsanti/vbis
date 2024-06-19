@@ -21,15 +21,15 @@ class CustomAuthController extends Controller
 
     public function __construct()
     {
+
         $this->provider = new GenericProvider([
-            'clientId'                => '94150993-bd31-4c99-a0cd-6cd4580e912f',
-            'clientSecret'            => 'okV8Q~lX.2DXtcQ1qlc9lENBWu.I3S3o_S8J2bXR',
-            // 'redirectUri'             => 'https://vbis.vbeyond.co.th/mscallback',
-            'redirectUri'             => 'http://localhost:8000/mscallback',
-            'urlAuthorize'            => 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
-            'urlAccessToken'          => 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+            'clientId'                => env('OAUTH_CLIENT_ID'),
+            'clientSecret'            => env('OAUTH_CLIENT_SECRET'),
+            'redirectUri'             => env('OAUTH_REDIRECT_URI'),
+            'urlAuthorize'            => env('OAUTH_URL_AUTHORIZE'),
+            'urlAccessToken'          => env('OAUTH_URL_ACCESS_TOKEN'),
             'urlResourceOwnerDetails' => '',
-            'scopes'                  => 'user.read'
+            'scopes'                  => env('OAUTH_SCOPES')
         ]);
     }
 
@@ -38,9 +38,9 @@ class CustomAuthController extends Controller
         return view('auth.index');
     }
 
+
     public function signin()
     {
-
         $authorizationUrl = $this->provider->getAuthorizationUrl();
 
         // Get the state generated for you and store it to the session.
@@ -52,47 +52,65 @@ class CustomAuthController extends Controller
 
     public function callback(Request $request)
     {
-        // Try to get an access token using the authorization code grant.
-        $accessToken = $this->provider->getAccessToken('authorization_code', [
-            'code' => $request->get('code')
-        ]);
+        if (!$request->has('code') || !$request->has('state')) {
+            Alert::error('การร้องขอไม่ถูกต้อง', 'กรุณาลองอีกครั้ง');
+            return redirect('/');
+        }
 
-        // We have an access token, which we may use in authenticated
-        // requests against the service provider's API.
-        $graph = new Client();
-        $response = $graph->request('GET', 'https://graph.microsoft.com/v1.0/me', [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $accessToken->getToken()
-            ]
-        ]);
+        if ($request->get('state') !== session('oauth2state')) {
+            session()->forget('oauth2state');
+            Alert::error('สถานะไม่ถูกต้อง', 'กรุณาลองอีกครั้ง');
+            return redirect('/');
+        }
 
-        // Parse the response body and output the user data
-        $userData = json_decode($response->getBody(), true);
-        $userEmail = $userData['mail'] ?? null;
-        $user = User::where('email',$userEmail)->first();
-
-        if (!$user) {
-
-            Alert::error('ไม่พบผู้ใช้งาน', 'กรุณากรอกข้อมูลใหม่อีกครั้ง');
-            return back();
-        } else {
-
-
-            $request->session()->put('loginId', $user->id);
-
-            $token = bin2hex(random_bytes(16)); //Create token
-            $user->token = $token;
-            $user->save();
-
-            DB::table('vbeyond_report.log_login')->insert([
-                'username' => $user->code,
-                'dates' => date('Y-m-d'),
-                'timeStm' => date('Y-m-d H:i:s'),
-                'page' => 'LoginMicrosoft'
+        try {
+            $accessToken = $this->provider->getAccessToken('authorization_code', [
+                'code' => $request->get('code')
             ]);
 
-            Alert::success('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับเข้าสู่ระบบ');
-            return redirect('/main');
+            $graph = new Client();
+            $response = $graph->request('GET', 'https://graph.microsoft.com/v1.0/me', [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $accessToken->getToken()
+                ]
+            ]);
+
+            $userData = json_decode($response->getBody(), true);
+            $userEmail = $userData['mail'] ?? null;
+
+            if (!$userEmail) {
+                Alert::error('ไม่พบอีเมล์ผู้ใช้', 'กรุณาลองอีกครั้ง');
+                return redirect('/');
+            }
+
+            $user = User::where('email', $userEmail)->first();
+           // dd($user);
+
+            if (!$user) {
+                Alert::error('ไม่พบผู้ใช้งาน', 'กรุณากรอกข้อมูลใหม่อีกครั้ง');
+                return back();
+            } else {
+                $request->session()->put('loginId', $user->user_id);
+
+                $token = bin2hex(random_bytes(16)); //Create token
+                $user->token = $token;
+                $user->save();
+
+                DB::table('vbeyond_report.log_login')->insert([
+                    'username' => $user->code,
+                    'dates' => date('Y-m-d'),
+                    'timeStm' => date('Y-m-d H:i:s'),
+                    'page' => 'LoginMicrosoft'
+                ]);
+
+                Logs::addLog($user->user_id, 'Login' ,$user->email. 'Login Microsoft Success');
+
+                Alert::success('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับเข้าสู่ระบบ');
+                return redirect('/main');
+            }
+        } catch (\Exception $e) {
+            Alert::error('เกิดข้อผิดพลาดในการเข้าสู่ระบบ', $e->getMessage());
+            return redirect('/');
         }
     }
 
@@ -166,6 +184,7 @@ class CustomAuthController extends Controller
     public function logoutUser(Request $request)
     {
         if ($request->session()->has('loginId')) {
+            Logs::addLog($request->session()->get('loginId'), 'Logout' ,'Logout Microsoft Success');
             Alert::success('ออกจากระบบเรียบร้อย', 'ไว้พบกันใหม่ :)');
             $request->session()->pull('loginId');
             return redirect('/');
@@ -356,7 +375,7 @@ class CustomAuthController extends Controller
 
                 $data->apiData = json_decode($response->getBody(), true);
                 $imgCheck = optional(optional($data->apiData)['data'])['img_check'];
-                $remoteFile = $imgCheck ? "http://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
+                $remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
                 //$remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
                 $fileExists = false;
 
