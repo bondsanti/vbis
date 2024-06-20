@@ -22,6 +22,8 @@ class ApiController extends Controller
             return response()->json(['message' => 'ไม่พบผู้ใช้งานระบบ'], 404);
         }
 
+        $this->addApiDataToUser($user);
+
         return response()->json(['data' => $user], 200);
     }
 
