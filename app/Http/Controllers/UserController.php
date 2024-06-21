@@ -181,8 +181,8 @@ class UserController extends Controller
                 $user->apiData = json_decode($response->getBody(), true);
 
                 $imgCheck = optional(optional($user->apiData)['data'])['img_check'];
-                $remoteFile = $imgCheck ? "http://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
-                //$remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
+                //$remoteFile = $imgCheck ? "http://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
+                $remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
                 $fileExists = false;
 
                 if ($remoteFile) {

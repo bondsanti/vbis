@@ -175,7 +175,7 @@ class CustomAuthController extends Controller
             $data = User::where('user_id', $request->session()->get('loginId'))->first();
             $this->addApiDataToUsers($data);
 
-            //dd($data);
+            dd($data);
         }
 
         return view('auth.main', compact('data'));
