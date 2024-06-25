@@ -99,6 +99,7 @@ class ApiController extends Controller
         return response()->json(['data' => $user], 200);
     }
 
+    //GetName
     public function getNameUser($user_ids)
     {
         $client = new Client();
@@ -106,7 +107,7 @@ class ApiController extends Controller
         $apiToken = config('services.external_api.token');
 
         try {
-            $response = $client->request('GET', $apiUrl . '/users', [
+            $response = $client->request('GET', $apiUrl . '/users-public', [
                 'query' => ['user_id' => $user_ids],
                 'headers' => [
                     'Authorization' => 'Bearer ' . $apiToken,
@@ -116,13 +117,11 @@ class ApiController extends Controller
 
             $apiData = json_decode($response->getBody(), true);
 
-            // Assuming you want to return the data back to the client
+
             return response()->json(['data' => $apiData], 200);
 
         } catch (\Exception $e) {
 
-
-            // Return an error response
             return response()->json(['error' => 'Failed to fetch data from external API'], 500);
         }
     }
@@ -148,8 +147,8 @@ class ApiController extends Controller
 
             // Check for image existence
             $imgCheck = optional(optional($apiData)['data'])['img_check'];
-            $remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
-            //$remoteFile = $imgCheck ? "http://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
+            //$remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
+            $remoteFile = $imgCheck ? "http://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
             $fileExists = $this->checkRemoteFileExists($remoteFile);
 
             $user->remoteFile = $remoteFile;
