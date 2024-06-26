@@ -126,6 +126,33 @@ class ApiController extends Controller
         }
     }
 
+    public function getNameUserByCode($codes)
+    {
+        $client = new Client();
+        $apiUrl = config('services.external_api.url');
+        $apiToken = config('services.external_api.token');
+
+        try {
+            $response = $client->request('GET', $apiUrl . '/code', [
+                'query' => ['code' => $codes],
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $apiToken,
+                    'Accept' => 'application/json',
+                ],
+            ]);
+
+            $apiData = json_decode($response->getBody(), true);
+
+
+            return response()->json(['data' => $apiData], 200);
+
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Failed to fetch data from external API'], 500);
+        }
+    }
+
+
 
 
     private function addApiDataToUser($user)

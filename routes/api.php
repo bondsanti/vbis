@@ -28,6 +28,7 @@ Route::middleware(['checkTokenApi'])->group(function () {
 
     // name_th user
     Route::get('/get-users/{user_ids}',[ApiController::class,'getNameUser']);
+    Route::get('/get-users/code/{code}',[ApiController::class,'getNameUserByCode']);
 
 });
 
