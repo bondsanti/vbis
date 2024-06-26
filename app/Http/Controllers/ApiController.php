@@ -126,6 +126,7 @@ class ApiController extends Controller
         }
     }
 
+    //get Name show Printer report
     public function getNameUserByCode($codes)
     {
         $client = new Client();
