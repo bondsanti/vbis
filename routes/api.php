@@ -31,6 +31,12 @@ Route::middleware(['checkTokenApi'])->group(function () {
     // code for printer report
     Route::get('/get-users/code/{code}',[ApiController::class,'getNameUserByCode']);
 
+
+    // api Report data
+    Route::get('/get-admin/list',[ApiController::class,'getListAdmin']);
+    Route::get('/get-users/list/{code},{old_code}',[ApiController::class,'getList']);
+    Route::get('/get-users/listall/{code},{old_code}', [ApiController::class, 'getListAll']);
+    Route::get('/get-project', [ApiController::class, 'getProject']);
 });
 
 

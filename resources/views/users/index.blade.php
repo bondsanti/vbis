@@ -130,7 +130,7 @@
                             <table class="w-full my-0 align-middle text-dark border-neutral-200">
                                 <thead class="align-bottom">
                                     <tr class="font-semibold text-[0.95rem] text-secondary-dark">
-                                        <th class="pb-3 text-start min-w-[200px]">Email</th>
+                                        <th class="pb-3 text-start min-w-[200px]">ผู้ใช้งาน</th>
                                         <th class="pb-3 text-end min-w-[100px]">Agent</th>
                                         <th class="pb-3 text-end min-w-[100px]">Project</th>
                                         <th class="pb-3 text-end min-w-[100px]">Stock</th>
@@ -140,9 +140,10 @@
                                         <th class="pb-3 text-end min-w-[100px]">Printer</th>
                                         <th class="pb-3 text-end min-w-[100px]">BrokerCons.</th>
                                         <th class="pb-3 text-end min-w-[100px]">Rental</th>
-                                        <th class="pb-3 text-end min-w-[100px] text-red-500">Admin VBNext</th>
+                                        <th class="pb-3 text-end min-w-[100px] text-red-500">VBNext <sup>(Admin)</sup>
+                                        </th>
                                         <th class="pb-3 text-end min-w-[100px]">สถานะผู้ใช้งาน</th>
-                                        <th class="pb-3 text-end min-w-[60px]">Action</th>
+                                        <th class="pb-3 text-end min-w-[80px]">Email</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -182,7 +183,7 @@
                                                 <label class="inline-flex items-center cursor-pointer mt-4">
                                                     <input type="checkbox" value=""
                                                         class="sr-only peer active-agent-checkbox"
-                                                        data-id="{{ $user->id }}"
+                                                        data-id="{{ $user->user_id }}"
                                                         {{ $user->active_agent == 1 ? 'checked' : '' }}>
                                                     <div
                                                         class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600">
@@ -201,7 +202,7 @@
                                                 <label class="inline-flex items-center cursor-pointer mt-4">
                                                     <input type="checkbox" value=""
                                                         class="sr-only peer active-vproject-checkbox"
-                                                        data-id="{{ $user->id }}"
+                                                        data-id="{{ $user->user_id }}"
                                                         {{ $user->active_vproject == 1 ? 'checked' : '' }}>
                                                     <div
                                                         class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600">
@@ -224,7 +225,7 @@
 
                                                     <input type="checkbox" value=""
                                                         class="mr-2 sr-only peer active-low_rise-checkbox"
-                                                        data-id="{{ $user->id }}"
+                                                        data-id="{{ $user->user_id }}"
                                                         {{ $user->low_rise == 1 ? 'checked' : '' }}>
 
                                                     <div
@@ -237,7 +238,7 @@
                                                 <label class="inline-flex items-center cursor-pointer mt-2">
                                                     <input type="checkbox" value=""
                                                         class="sr-only peer active-high_rise-checkbox"
-                                                        data-id="{{ $user->id }}"
+                                                        data-id="{{ $user->user_id }}"
                                                         {{ $user->high_rise == 1 ? 'checked' : '' }}>
 
                                                     <div
@@ -256,7 +257,7 @@
 
                                                 <label class="inline-flex items-center cursor-pointer mt-4">
                                                     <input type="checkbox" value=""
-                                                        data-id="{{ $user->id }}"
+                                                        data-id="{{ $user->user_id }}"
                                                         class="sr-only peer active-report-checkbox"
                                                         {{ $user->active_report == 1 ? 'checked' : '' }}>
                                                     <div
@@ -277,7 +278,7 @@
                                                 <label class="inline-flex items-center cursor-pointer mt-4">
                                                     <input type="checkbox" value=""
                                                         class="sr-only peer active-vbasset-checkbox"
-                                                        data-id="{{ $user->id }}"
+                                                        data-id="{{ $user->user_id }}"
                                                         {{ $user->active_vbasset == 1 ? 'checked' : '' }}>
                                                     <div
                                                         class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600">
@@ -291,13 +292,14 @@
                                                     </p>
                                                 @endif
                                             </td>
+
                                             <!-- Lead -->
                                             <td class="pb-3 pr-0 text-end">
                                                 <label class="inline-flex items-center cursor-pointer mt-4">
                                                     <input type="checkbox" value=""
                                                         class="sr-only peer active-vblead-checkbox"
                                                         {{ $user->active_vblead == 1 ? 'checked' : '' }}
-                                                        data-id="{{ $user->id }}">
+                                                        data-id="{{ $user->user_id }}">
                                                     <div
                                                         class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600">
                                                     </div>
@@ -314,7 +316,7 @@
                                             <!-- Printer -->
                                             <td class="pb-3 pr-0 text-end">
                                                 <label class="inline-flex items-center cursor-pointer mt-4">
-                                                    <input type="checkbox" data-id="{{ $user->id }}"
+                                                    <input type="checkbox" data-id="{{ $user->user_id }}"
                                                         value="" class="sr-only peer active-printer-checkbox"
                                                         {{ $user->active_printer == 1 ? 'checked' : '' }}>
                                                     <div
@@ -326,7 +328,7 @@
                                                     @foreach (['SuperAdmin' => 'red', 'Admin' => 'yellow', 'Staff' => 'blue', 'User' => 'purple'] as $role => $color)
                                                         @if (optional($user->role_printer_ref)->role_type == $role)
                                                             <p class="sup-role items-center gap-1 rounded-full bg-{{ $color }}-50 px-2 py-1 text-xs font-semibold text-{{ $color }}-600 role-type-printer"
-                                                                data-id="{{ $user->id }}"
+                                                                data-id="{{ $user->user_id }}"
                                                                 data-role-type="{{ $role }}">
                                                                 {{ $role }}
                                                             </p>
@@ -335,7 +337,7 @@
 
                                                     @if (!in_array(optional($user->role_printer_ref)->role_type, ['SuperAdmin', 'Admin', 'Staff', 'User']))
                                                         <p class="sup-role items-center gap-1 rounded-full bg-gray-50 px-2 py-1 text-xs font-semibold text-gray-600 role-type-printer"
-                                                            data-id="{{ $user->id }}" data-role-type="Null">
+                                                            data-id="{{ $user->user_id }}" data-role-type="Null">
                                                             Null
                                                         </p>
                                                     @endif
@@ -347,7 +349,7 @@
                                                 <label class="inline-flex items-center cursor-pointer mt-4">
                                                     <input type="checkbox" value=""
                                                         class="sr-only peer active-broker-checkbox"
-                                                        data-id="{{ $user->id }}"
+                                                        data-id="{{ $user->user_id }}"
                                                         {{ $user->active_broker == 1 ? 'checked' : '' }}>
                                                     <div
                                                         class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600">
@@ -358,7 +360,7 @@
                                                     @foreach (['SuperAdmin' => 'red', 'Admin' => 'yellow', 'Staff' => 'blue', 'User' => 'purple'] as $role => $color)
                                                         @if (optional($user->role_printer_ref)->role_type == $role)
                                                             <p class="sup-role items-center gap-1 rounded-full bg-{{ $color }}-50 px-2 py-1 text-xs font-semibold text-{{ $color }}-600 role-type-printer"
-                                                                data-id="{{ $user->id }}"
+                                                                data-id="{{ $user->user_id }}"
                                                                 data-role-type="{{ $role }}">
                                                                 {{ $role }}
                                                             </p>
@@ -378,7 +380,7 @@
                                                 <label class="inline-flex items-center cursor-pointer mt-4">
                                                     <input type="checkbox" value=""
                                                         class="sr-only peer active-rental-checkbox"
-                                                        data-id="{{ $user->id }}"
+                                                        data-id="{{ $user->user_id }}"
                                                         {{ $user->active_rental == 1 ? 'checked' : '' }}>
                                                     <div
                                                         class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600">
@@ -389,7 +391,7 @@
                                                     @foreach (['SuperAdmin' => 'red', 'Admin' => 'yellow', 'Staff' => 'blue', 'User' => 'purple'] as $role => $color)
                                                         @if (optional($user->role_printer_ref)->role_type == $role)
                                                             <p class="sup-role items-center gap-1 rounded-full bg-{{ $color }}-50 px-2 py-1 text-xs font-semibold text-{{ $color }}-600 role-type-printer"
-                                                                data-id="{{ $user->id }}"
+                                                                data-id="{{ $user->user_id }}"
                                                                 data-role-type="{{ $role }}">
                                                                 {{ $role }}
                                                             </p>
@@ -409,7 +411,7 @@
                                                 <label class="inline-flex items-center cursor-pointer mt-4">
                                                     <input type="checkbox" value=""
                                                         class="sr-only peer active-vbis-checkbox"
-                                                        data-id="{{ $user->id }}"
+                                                        data-id="{{ $user->user_id }}"
                                                         {{ $user->active_vbis == 1 ? 'checked' : '' }}>
                                                     <div
                                                         class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600">
@@ -423,7 +425,7 @@
                                                 <label class="inline-flex items-center cursor-pointer mt-4">
                                                     <input type="checkbox" value=""
                                                         class="sr-only peer active-user-checkbox"
-                                                        data-id="{{ $user->id }}"
+                                                        data-id="{{ $user->user_id }}"
                                                         {{ $user->active == 1 ? 'checked' : '' }}>
                                                     <div
                                                         class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600">
@@ -435,15 +437,12 @@
                                             <td class="pb-3 pr-0 text-end">
                                                 <button
                                                     class="ml-auto relative text-secondary-dark bg-light-dark hover:text-primary flex items-center h-[25px] w-[25px] text-base font-medium leading-normal text-center align-middle cursor-pointer rounded-2xl transition-colors duration-200 ease-in-out shadow-none border-0 justify-center">
-                                                    <span
-                                                        class="flex items-center justify-center p-0 m-0 leading-none shrink-0 ">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 24 24" stroke-width="1.5"
-                                                            stroke="currentColor" class="w-4 h-4">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                                                        </svg>
-                                                    </span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                                        class="cursor-pointer icon" width="15"
+                                                        height="15"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                                        <path
+                                                            d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z" />
+                                                    </svg>
                                                 </button>
                                             </td>
                                         </tr>
@@ -1393,9 +1392,5 @@
                 }
             });
         });
-
-
     });
 </script>
-
-

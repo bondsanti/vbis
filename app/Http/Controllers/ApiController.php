@@ -5,13 +5,59 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redis;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class ApiController extends Controller
 {
+    private function addApiDataToUser($user)
+    {
+        $client = new Client();
+        $apiUrl = config('services.external_api.url');
+        $apiToken = config('services.external_api.token');
 
+        try {
+            $response = $client->request('GET', $apiUrl . '/users', [
+                'query' => ['user_id' => $user->user_id],
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $apiToken
+                ]
+            ]);
+
+            $apiData = json_decode($response->getBody(), true);
+            $user->apiData = $apiData;
+
+            // Check for image existence
+            $imgCheck = optional(optional($apiData)['data'])['img_check'];
+            //$remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
+            $remoteFile = $imgCheck ? "http://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
+            $fileExists = $this->checkRemoteFileExists($remoteFile);
+
+            $user->remoteFile = $remoteFile;
+            $user->fileExists = $fileExists;
+        } catch (\Exception $e) {
+            // Log::error('API request failed for user ' . $user->id . ': ' . $e->getMessage());
+            $user->apiData = null;
+        }
+    }
+
+
+
+    private function checkRemoteFileExists($url)
+    {
+        if (!$url) {
+            return false;
+        }
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_NOBODY, true);
+        curl_exec($ch);
+        $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return ($responseCode == 200);
+    }
 
     public function getAuth(Request $request, $code)
     {
@@ -119,7 +165,6 @@ class ApiController extends Controller
 
 
             return response()->json(['data' => $apiData], 200);
-
         } catch (\Exception $e) {
 
             return response()->json(['error' => 'Failed to fetch data from external API'], 500);
@@ -146,60 +191,108 @@ class ApiController extends Controller
 
 
             return response()->json(['data' => $apiData], 200);
-
         } catch (\Exception $e) {
 
             return response()->json(['error' => 'Failed to fetch data from external API'], 500);
         }
     }
 
-
-
-
-    private function addApiDataToUser($user)
+    ///////////////////////////  get DB Report ///////////////////////////////
+    public function getListAdmin()
     {
-        $client = new Client();
-        $apiUrl = config('services.external_api.url');
-        $apiToken = config('services.external_api.token');
-
+        //now()->toDateString()
         try {
-            $response = $client->request('GET', $apiUrl . '/users', [
-                'query' => ['user_id' => $user->user_id],
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $apiToken
-                ]
-            ]);
+            $data = DB::connection('mysql_report')
+                ->table('product')
+                ->join('sale', 'sale.sid', '=', 'product.sid')
+                ->leftJoin('project', 'product.project_id', '=', 'project.pid')
+                ->whereDate('resultdate', now()->toDateString())
+                ->select('product.*', 'sale.name as team_name', 'project.Project_Name as project_name')
+                ->get();
 
-            $apiData = json_decode($response->getBody(), true);
-            $user->apiData = $apiData;
+            if ($data->isEmpty()) {
+                return response()->json(['message' => 'ไม่พบข้อมูล'], 404);
+            }
 
-            // Check for image existence
-            $imgCheck = optional(optional($apiData)['data'])['img_check'];
-            //$remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
-            $remoteFile = $imgCheck ? "http://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
-            $fileExists = $this->checkRemoteFileExists($remoteFile);
-
-            $user->remoteFile = $remoteFile;
-            $user->fileExists = $fileExists;
+            return response()->json(['data' => $data], 200);
         } catch (\Exception $e) {
-            // Log::error('API request failed for user ' . $user->id . ': ' . $e->getMessage());
-            $user->apiData = null;
+            return response()->json(['message' => 'เกิดข้อผิดพลาดในการดึงข้อมูล', 'error' => $e->getMessage()], 500);
         }
     }
 
 
-
-    private function checkRemoteFileExists($url)
+    public function getList($code, $old_code)
     {
-        if (!$url) {
-            return false;
+        //now()->toDateString()
+        try {
+            $data = DB::connection('mysql_report')
+                ->table('product')
+                ->join('sale', 'sale.sid', '=', 'product.sid')
+                ->leftJoin('project', 'product.project_id', '=', 'project.pid')
+                ->whereDate('resultdate', now()->toDateString())
+                ->where(function ($query) use ($code, $old_code) {
+                    $query->where('subid', $old_code)
+                          ->orWhere('subid', $code);
+                })
+                ->select('product.*', 'sale.name as team_name', 'project.Project_Name as project_name')
+                ->get();
+
+            if ($data->isEmpty()) {
+                return response()->json(['message' => 'ไม่พบข้อมูล'], 404);
+            }
+
+            return response()->json(['data' => $data], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'เกิดข้อผิดพลาดในการดึงข้อมูล', 'error' => $e->getMessage()], 500);
         }
 
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_NOBODY, true);
-        curl_exec($ch);
-        $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-        return ($responseCode == 200);
     }
+
+    public function getListAll($code, $old_code)
+    {
+        try {
+            $data = DB::connection('mysql_report')
+                ->table('product')
+                ->join('sale', 'sale.sid', '=', 'product.sid')
+                ->leftJoin('project', 'product.project_id', '=', 'project.pid')
+                ->where(function ($query) use ($code, $old_code) {
+                    $query->where('subid', $old_code)
+                          ->orWhere('subid', $code);
+                })
+                ->select('product.*', 'sale.name as team_name', 'project.Project_Name as project_name')
+                ->get();
+
+            if ($data->isEmpty()) {
+                return response()->json(['message' => 'ไม่พบข้อมูล'], 404);
+            }
+
+            return response()->json(['data' => $data], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'เกิดข้อผิดพลาดในการดึงข้อมูล', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+
+    public function getProject()
+    {
+        try {
+            $data = [];
+            $projects = DB::connection('mysql_report')->table('project')->get();
+            $data[0] = 'ทั้งหมด';
+
+            foreach ($projects as $value) {
+                $data[$value->pid] = $value->Project_Name;
+            }
+
+            if (empty($projects)) {
+                return response()->json(['message' => 'ไม่พบข้อมูล'], 404);
+            }
+
+            return response()->json(['data' => $data], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'เกิดข้อผิดพลาดในการดึงข้อมูล', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+
 }
