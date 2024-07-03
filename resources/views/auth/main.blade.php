@@ -98,7 +98,7 @@
                 </span>
                 <div style="z-index: 999;" id="dropdownMenu"
                     class="hidden absolute mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                    <a href="{{ url('uploads/form-it-02-email.pdf') }}" target="_blank"
+                    <a href="{{ url('uploads/form-it-02.pdf') }}" target="_blank"
                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         role="menuitem">แบบฟอร์มขอสิทธิ์เข้าระบบ / ขอเปิด
                         Email</a>
