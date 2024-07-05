@@ -64,7 +64,7 @@
                     </button>
                     <button type="button" id="loginM356"
                     class="mt-2 w-full p-3 rounded-lg text-white gradient flex items-center justify-center"
-                    onclick="window.location.href='{{url('uploads/HowtoVBNext.pdf')}}'">
+                    onclick="window.location.href=`{{url('uploads/HowtoVBNext.pdf', '_blank')}}`">
 
                     คู่มือใช้งาน
                 </button>
