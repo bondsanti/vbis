@@ -44,7 +44,7 @@
 
     @include('sweetalert::alert')
     <div class="bg-white rounded-2xl shadow-lg p-8 max-w-xl mx-auto mt-10">
-        {{-- <div class="relative">
+        <div class="relative">
             @if ($data->active_vbis == 1)
                 <button onclick="window.open(`{{ route('users') }}`)"
                     class="absolute top-0 right-0 p-2 bg-gray-500 text-white rounded-full hover:bg-gray-600 focus:outline-none">
@@ -52,7 +52,7 @@
                 </button>
             @endif
 
-        </div> --}}
+        </div>
         <!-- Profile section -->
         <div class="text-center">
 
