@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Hash;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Mail\Message;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Jenssegers\Agent\Agent;
 
 class CustomAuthController extends Controller
 {
@@ -52,6 +52,9 @@ class CustomAuthController extends Controller
 
     public function callback(Request $request)
     {
+        $agent = new Agent();
+        $deviceType = $agent->isMobile() ? 'Mobile' : ($agent->isTablet() ? 'Tablet' : 'Desktop');
+
         if (!$request->has('code') || !$request->has('state')) {
             Alert::error('การร้องขอไม่ถูกต้อง', 'กรุณาลองอีกครั้ง');
             return redirect('/');
@@ -96,21 +99,25 @@ class CustomAuthController extends Controller
                 $user->token = $token;
                 $user->save();
 
-                DB::table('vbeyond_report.log_login')->insert([
+                DB::connection('mysql_report')->table('log_login')->insert([
                     'username' => $user->code,
                     'dates' => date('Y-m-d'),
                     'timeStm' => date('Y-m-d H:i:s'),
-                    'page' => 'LoginMicrosoft'
+                    'page' => 'vbnext'
                 ]);
 
-                Logs::addLog($user->user_id, 'Login' ,$user->email. 'Login Microsoft Success');
+                Logs::addLog($user->user_id, 'Login' ,$user->email. ' Login Microsoft Success',$deviceType);
 
                 Alert::success('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับเข้าสู่ระบบ');
                 return redirect('/main');
             }
+
         } catch (\Exception $e) {
+
+            Logs::addLog($user->user_id,'API','API request failed for user' . $e->getMessage(), $deviceType);
             Alert::error('เกิดข้อผิดพลาดในการเข้าสู่ระบบ', $e->getMessage());
             return redirect('/');
+
         }
     }
 
@@ -126,6 +133,8 @@ class CustomAuthController extends Controller
         ]);
 
         $user = User::where('code', $request->code)->orWhere('old_code', $request->code)->where('active', 1)->first();
+        $agent = new Agent();
+        $deviceType = $agent->isMobile() ? 'Mobile' : ($agent->isTablet() ? 'Tablet' : 'Desktop');
         //dd($user);
         if (!$user) {
 
@@ -149,14 +158,10 @@ class CustomAuthController extends Controller
                 $user->token = $token;
                 $user->save();
 
-                Logs::addLog($request->session()->get('loginId'), 'Login', 'LoginConnect');
 
-                DB::table('vbeyond_report.log_login')->insert([
-                    'username' => $user->code,
-                    'dates' => date('Y-m-d'),
-                    'timeStm' => date('Y-m-d H:i:s'),
-                    'page' => 'LoginConnect'
-                ]);
+                Logs::addLog($request->session()->get('loginId'), 'Login', 'Login CodeEmployee', $deviceType);
+
+
 
                 Alert::success('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับเข้าสู่ระบบ');
                 return redirect('/main');
@@ -170,21 +175,30 @@ class CustomAuthController extends Controller
 
     public function profileUser(Request $request)
     {
+        $agent = new Agent();
+        $deviceType = $agent->isMobile() ? 'Mobile' : ($agent->isTablet() ? 'Tablet' : 'Desktop');
 
         if ($request->session()->has('loginId')) {
             $data = User::where('user_id', $request->session()->get('loginId'))->first();
             $this->addApiDataToUsers($data);
-
-            //dd($data);
         }
 
-        return view('auth.main', compact('data'));
+        if ($deviceType=="Mobile") {
+            return view('auth.moblie', compact('data'));
+        }else{
+            return view('auth.main', compact('data'));
+        }
+
     }
 
     public function logoutUser(Request $request)
     {
         if ($request->session()->has('loginId')) {
-            Logs::addLog($request->session()->get('loginId'), 'Logout' ,'Logout Microsoft Success');
+
+            $agent = new Agent();
+            $deviceType = $agent->isMobile() ? 'Mobile' : ($agent->isTablet() ? 'Tablet' : 'Desktop');
+            Logs::addLog($request->session()->get('loginId'), 'Logout' ,'Logout Microsoft Success',$deviceType);
+
             Alert::success('ออกจากระบบเรียบร้อย', 'ไว้พบกันใหม่ :)');
             $request->session()->pull('loginId');
             return redirect('/');
@@ -365,6 +379,9 @@ class CustomAuthController extends Controller
         $apiUrl = config('services.external_api.url');
         $apiToken = config('services.external_api.token');
 
+        $agent = new Agent();
+        $deviceType = $agent->isMobile() ? 'Mobile' : ($agent->isTablet() ? 'Tablet' : 'Desktop');
+
             try {
                 $response = $client->request('GET', $apiUrl.'/users', [
                     'query' => ['user_id' => $data->user_id],
@@ -392,10 +409,13 @@ class CustomAuthController extends Controller
                 $data->remoteFile = $remoteFile;
                 $data->fileExists = $fileExists;
 
-                Logs::addLog($data->user_id, 'API' ,'API request Success for user');
+
+
+                Logs::addLog($data->user_id, 'API' ,'API request Success for user', $deviceType);
 
             } catch (\Exception $e) {
-                Logs::addLog($data->user_id,'API','API request failed for user' . $e->getMessage());
+
+                Logs::addLog($data->user_id,'API','API request failed for user' . $e->getMessage(), $deviceType);
                 $data->apiData = null;
             }
 

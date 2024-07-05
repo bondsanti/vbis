@@ -29,7 +29,7 @@
         <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
 
             <div class="flex justify-center">
-                <img src="{{ url('uploads/logo/logo_gold.png') }}" alt="Vbeyond Logo" class="w-64 h-64">
+                <img src="{{ url('uploads/logo/Logo-Vbeyond.png') }}" alt="Vbeyond Logo" class="w-64 h-64">
                 <!-- ปรับขนาดตามต้องการ -->
             </div>
             <h2 class="text-center font-extrabold mb-3 pt-n5">Forget password?</h2>

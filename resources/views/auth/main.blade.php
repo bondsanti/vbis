@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>VBNext Login 2.0 </title>
+    <title>VBNext Login {{ env('APP_VERSION') }} </title>
 
     <link rel="icon" type="image/x-icon" href="{{ url('uploads/logo/vbeicon.ico') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,7 +44,7 @@
 
     @include('sweetalert::alert')
     <div class="bg-white rounded-2xl shadow-lg p-8 max-w-xl mx-auto mt-10">
-        <div class="relative">
+        {{-- <div class="relative">
             @if ($data->active_vbis == 1)
                 <button onclick="window.open(`{{ route('users') }}`)"
                     class="absolute top-0 right-0 p-2 bg-gray-500 text-white rounded-full hover:bg-gray-600 focus:outline-none">
@@ -52,7 +52,7 @@
                 </button>
             @endif
 
-        </div>
+        </div> --}}
         <!-- Profile section -->
         <div class="text-center">
 
@@ -60,40 +60,29 @@
             <div class="relative inline-block mb-2 rounded-full mt-4 w-48 h-48">
                 <div class="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400 via-red-500 to-blue-600 p-1">
                     <div class="w-full h-full rounded-full bg-cover bg-white"
-                        style="background-image: url('{{ $data->fileExists ? $data->remoteFile : url('uploads/logo/logo_gold.png') }}');">
+                        style="background-image: url('{{ $data->fileExists ? $data->remoteFile : url('uploads/logo/Logo-Vbeyond.png') }}');">
                     </div>
                 </div>
             </div>
 
 
-
-            {{-- @if (optional(optional($data->api_data)['data'])['name_eng'])
-                <h2 class="text-2xl font-semibold">{{ optional(optional($data->api_data)['data'])['name_eng'] }} </h2>
-                <p class="text-gray-600">{{ optional(optional($data->api_data)['data'])['position'] }} </p>
-            @else
-                <h2 class="text-2xl font-semibold">{{ $data->email }} </h2>
-            @endif --}}
-
             <h2 class="text-2xl font-semibold">{{ optional(optional($data->apiData)['data'])['name_eng'] }} </h2>
             <p class="text-gray-600">{{ optional(optional($data->apiData)['data'])['position'] }} </p>
 
 
-
-
-
-
             <button
                 class="mt-4 px-6 py-2 bg-red-500 text-white rounded-full focus:outline-none hover:bg-red-600 transition"
-                onclick="window.location.href='{{ route('logoutUser') }}'">ออกจากระบบ</button>
+                onclick="window.location.href='{{ route('logoutUser') }}'"> <i class="fas fa-sign-out-alt mr-1"></i>
+                ออกจากระบบ</button>
 
         </div>
 
         <!-- Info section -->
-        <div class="mt-6 text-center grid grid-cols-3 divide-x divide-green-500 divide-dashed">
+        <div class="mt-6 text-center grid grid-cols-2 sm:grid-cols-3 sm:divide-x sm:divide-green-500 sm:divide-dashed">
 
-            <div>
+            <div class="hidden sm:block">
                 <span onclick="toggleDropdown()"
-                    class="cursor-pointer inline-block bg-blue-200 rounded-full px-3 py-1 text-xs font-semibold text-blue-700 mr-2 mb-2">
+                    class="cursor-pointer inline-block bg-blue-200 rounded-full px-3 py-1 sm:text-sm md:text-xs font-semibold text-blue-700 mr-2 mb-2">
                     <i class="fas fa-download mr-1"></i>โหลดแบบฟอร์ม
                 </span>
                 <div style="z-index: 999;" id="dropdownMenu"
@@ -109,24 +98,24 @@
                 </div>
             </div>
 
-
-
             <div>
                 <span
-                    class="inline-block bg-green-200 rounded-full px-3 py-1 text-xs font-semibold text-green-700 mr-2 mb-2">
-                    <i class="fas fa-check mr-1"></i>มีสิทธิ์ใช้งานระบบ
+                    class="inline-block bg-green-200 rounded-full px-3 py-1 text-sm md:text-xs font-semibold text-green-700 mr-2 mb-2">
+                    <i class="fas fa-check mr-1"></i> มีสิทธิ์ใช้งานระบบ
                 </span>
             </div>
             <div>
                 <span
-                    class="inline-block bg-red-200 rounded-full px-3 py-1 text-xs font-semibold text-red-700 mr-2 mb-2">
-                    <i class="fas fa-times mr-1"></i>ไม่มีสิทธิ์ใช้งานระบบ
+                    class="inline-block bg-red-200 rounded-full px-3 py-1 text-sm md:text-xs font-semibold text-red-700 mr-2 mb-2">
+                    <i class="fas fa-times mr-1"></i> ไม่มีสิทธิ์ใช้งานระบบ
                 </span>
             </div>
+
         </div>
+
         <div class="h-full flex w-full justify-center items-center dark:bg-gray-800 p-2">
 
-            <div class="grid gap-6 grid-cols-3">
+            <div class="grid gap-2 grid-cols-2 md:grid-cols-3 gap-6">
 
                 <!-- card IT  -->
                 <div onclick="window.open(`{{ route('powerapp.it', ['user' => $data->code]) }}`, '_blank')"
@@ -157,6 +146,7 @@
                                 d="M586.717 321.32l-3.052-1.591c-23.593-12.302-52.354 7.566-64.235 44.386l-46.095 142.859c-11.882 36.821-2.387 76.642 21.204 88.948l3.052 1.59c23.593 12.306 52.354-7.566 64.231-44.386l46.097-142.858c11.883-36.82 2.388-76.642-21.202-88.948z"
                                 fill="#F0D043" />
                         </svg>
+
                     </div>
 
                     <div class="px-4 mt-2 text-center">
@@ -992,7 +982,7 @@
 
         <!-- Repeat for other menu items -->
         <p class="text-center text-sm text-gray-500 mt-6">
-            Version 2.0
+            Version {{ env('APP_VERSION') }}
         </p>
     </div>
 

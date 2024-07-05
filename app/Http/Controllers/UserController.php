@@ -2,15 +2,66 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Checkin;
 use App\Models\ReportLogin;
 use App\Models\RolePrinter;
 use App\Models\User;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Mail;
+use Jenssegers\Agent\Agent;
+use App\Models\Logs;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
+    private function addApiDatabyUsers($data)
+    {
+        $client = new Client();
+        $apiUrl = config('services.external_api.url');
+        $apiToken = config('services.external_api.token');
+
+        $agent = new Agent();
+        $deviceType = $agent->isMobile() ? 'Mobile' : ($agent->isTablet() ? 'Tablet' : 'Desktop');
+
+            try {
+                $response = $client->request('GET', $apiUrl.'/users', [
+                    'query' => ['user_id' => $data->user_id],
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $apiToken
+                    ]
+                ]);
+
+                $data->apiData = json_decode($response->getBody(), true);
+                $imgCheck = optional(optional($data->apiData)['data'])['img_check'];
+                $remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
+                //$remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
+                $fileExists = false;
+
+                if ($remoteFile) {
+                    $ch = curl_init($remoteFile);
+                    curl_setopt($ch, CURLOPT_NOBODY, true);
+                    curl_exec($ch);
+                    $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                    curl_close($ch);
+
+                    $fileExists = ($responseCode == 200);
+                }
+
+                $data->remoteFile = $remoteFile;
+                $data->fileExists = $fileExists;
+
+
+
+                Logs::addLog($data->user_id, 'API' ,'API request Success for user', $deviceType);
+
+            } catch (\Exception $e) {
+
+                Logs::addLog($data->user_id,'API','API request failed for user' . $e->getMessage(), $deviceType);
+                $data->apiData = null;
+            }
+
+    }
 
     private function addApiDataToUsers($users)
     {
@@ -255,6 +306,100 @@ class UserController extends Controller
         }
 
 
+
+
+    }
+
+
+    public function checkIn(Request $request)
+    {
+        if ($request->session()->has('loginId')) {
+
+            $data = User::where('user_id', $request->session()->get('loginId'))->first();
+            $this->addApiDatabyUsers($data);
+
+            $currentDate = date('Y-m-d');
+
+            // ตรวจสอบว่าผู้ใช้งานได้ลงเวลาเข้าหรือยัง
+            $checkIn = Checkin::where('username', $data->code)
+                ->where('page', 'Loginpage')
+                ->where('action', '1')
+                ->whereDate('dates', $currentDate)
+                ->exists();
+
+            // ตรวจสอบว่าผู้ใช้งานได้ลงเวลาออกหรือยัง
+            $checkOut = Checkin::where('username', $data->code)
+                ->where('page', 'Loginpage')
+                ->where('action', '0')
+                ->whereDate('dates', $currentDate)
+                ->exists();
+
+            $dataCheckIn = Checkin::where('username', $data->code)->where('page', 'Loginpage')
+            ->whereDate('dates', $currentDate)->get();
+
+            $agent = new Agent();
+            $deviceType = $agent->isMobile() ? 'Mobile' : ($agent->isTablet() ? 'Tablet' : 'Desktop');
+
+            if ($deviceType=="Mobile") {
+              return view('checkin.index', compact('data','checkIn','checkOut','dataCheckIn'));
+            }else{
+                return view('auth.main', compact('data'));
+            }
+
+
+        }
+    }
+
+    public function saveCheckIn(Request $request)
+    {
+
+        try {
+            $user = User::where('user_id', $request->session()->get('loginId'))->first();
+
+            DB::connection('mysql_report')->table('log_login')->insert([
+                'username' => $user->code,
+                'dates' => date('Y-m-d'),
+                'timeStm' => $request->datetime,
+                'latitude' => $request->lat,
+                'longitude' => $request->long,
+                'page' => 'LoginPage',
+                'action' => 1
+            ]);
+
+            Logs::addLog($user->user_id, 'checkin', $user->code . ' Checkin Success', 'deviceType'); // You need to pass a proper value for $deviceType
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        }
+
+
+    }
+
+
+
+    public function saveCheckOut(Request $request)
+    {
+
+        try {
+            $user = User::where('user_id', $request->session()->get('loginId'))->first();
+
+            DB::connection('mysql_report')->table('log_login')->insert([
+                'username' => $user->code,
+                'dates' => date('Y-m-d'),
+                'timeStm' => $request->datetime,
+                'latitude' => $request->lat,
+                'longitude' => $request->long,
+                'page' => 'LoginPage',
+                'action' => 0
+            ]);
+
+            Logs::addLog($user->user_id, 'checkout', $user->code . ' Checkout Success', 'deviceType'); // You need to pass a proper value for $deviceType
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        }
 
 
     }

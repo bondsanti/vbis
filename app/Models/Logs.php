@@ -11,9 +11,9 @@ class Logs extends Model
     protected $connection = 'mysql';
     protected $table = 'logs';
 
-    protected $fillable = ['user_id', 'action', 'description','ip'];
+    protected $fillable = ['user_id', 'action', 'description','device','ip'];
 
-    public static function addLog($id, $action, $description, $ip = null)
+    public static function addLog($id, $action, $description, $device, $ip = null)
     {
         if (is_null($ip)) {
             $ip = request()->ip();
@@ -23,7 +23,9 @@ class Logs extends Model
             'user_id' => $id,
             'action' => $action,
             'description' => $description,
+            'device' => $device,
             'ip' => $ip,
+
         ]);
     }
 }

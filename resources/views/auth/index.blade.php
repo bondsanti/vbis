@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VBNext Login 2.0</title>
+    <title>VBNext Login {{ env('APP_VERSION') }}</title>
     <link rel="icon" type="image/x-icon" href="{{ url('uploads/logo/vbeicon.ico') }}">
 
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -27,7 +27,7 @@
         <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
 
             <div class="flex justify-center">
-                <img src="{{ url('uploads/logo/logo_gold.png') }}" alt="Vbeyond Logo" class="w-64 h-64">
+                <img src="{{ url('uploads/logo/Logo-Vbeyond.png') }}" alt="Vbeyond Logo" class="w-64 h-64">
             </div>
 
             <form class="space-y-4 mt-2" id="loginForm" action="{{ route('loginVbis') }}" method="POST">
@@ -60,15 +60,20 @@
                         class="w-full p-3 rounded-lg text-white microsoft-gradient flex items-center justify-center"
                         onclick="window.location.href='{{ route('mssignin') }}'">
                         <img src="{{ url('uploads/logo/Microsoft_logo.png') }}" alt="Microsoft" class="w-6 h-6 mr-2">
-                        <!-- ปรับขนาดตามต้องการ -->
                         เข้าสู่ระบบด้วย Microsoft365
                     </button>
+                    <button type="button" id="loginM356"
+                    class="mt-2 w-full p-3 rounded-lg text-white gradient flex items-center justify-center"
+                    onclick="window.location.href='{{url('uploads/HowtoVBNext.pdf')}}'">
+
+                    คู่มือใช้งาน
+                </button>
 
                 </div>
             </form>
 
             <p class="text-center text-sm text-gray-500 mt-6">
-                Version 2.0
+                Version {{ env('APP_VERSION') }}
             </p>
         </div>
     </div>
