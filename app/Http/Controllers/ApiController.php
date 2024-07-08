@@ -43,8 +43,6 @@ class ApiController extends Controller
         }
     }
 
-
-
     private function checkRemoteFileExists($url)
     {
         if (!$url) {

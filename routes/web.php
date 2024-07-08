@@ -54,6 +54,8 @@ Route::middleware(['isLogin'])->group(function () {
     Route::post('/checkin',[UserController::class,'saveCheckIn'])->name('saveCheckIn');
     Route::post('/checkout',[UserController::class,'saveCheckOut'])->name('saveCheckOut');
 
+    Route::post('/send-email', [UserController::class, 'sendEmail'])->name('send.email');
+
     Route::get('/powerapp/it/{user}', function ($user) {
 
         //dd($user);
@@ -63,6 +65,7 @@ Route::middleware(['isLogin'])->group(function () {
             'timeStm' => date('Y-m-d H:i:s'),
             'page' => 'IT-HelpDesk'
         ]);
+
         return redirect('https://apps.powerapps.com/play/e/default-5f1b572d-118b-45fc-b023-0f6d96cc9f24/a/630a28f9-4e1c-42b7-954a-bc162b9d59d3?tenantId=5f1b572d-118b-45fc-b023-0f6d96cc9f24&sourcetime=1717060477069');
     })->name('powerapp.it');
 
@@ -81,7 +84,7 @@ Route::middleware(['isLogin'])->group(function () {
 
 
     Route::post('/update-active', [UserController::class, 'updateActive'])->name('update.active');
-    Route::post('/update-role-printer', [UserController::class, 'updateRole'])->name('update.role');
+    Route::post('/update-role', [UserController::class, 'updateRole'])->name('update.role');
 
     Route::get('/logout/auth',[CustomAuthController::class,'logoutUser'])->name('logoutUser');
 });

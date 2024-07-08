@@ -33,5 +33,9 @@ return [
         'url' => env('API_URL'),
         'token' => env('API_TOKEN'),
     ],
+    'stock_api' => [
+    'url' => env('APP_STOCK'),
+    'token' => env('API_TOKEN_AUTH'),
+],
 
 ];

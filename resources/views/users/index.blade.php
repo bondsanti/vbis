@@ -21,6 +21,9 @@
             font-family: 'Sarabun', sans-serif;
         }
 
+        .inline-block {
+            display: inline-block;
+        }
 
         .gradient {
             background: linear-gradient(90deg, rgb(2, 182, 104) 0%, rgb(1, 111, 65) 100%);
@@ -157,7 +160,7 @@
                                                         <div
                                                             class="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400 via-red-500 to-blue-600 p-1">
                                                             <div class="w-full h-full rounded-full bg-cover bg-white"
-                                                                style="background-image: url('{{ $user->fileExists ? $user->remoteFile : url('uploads/logo/logo_gold.png') }}');">
+                                                                style="background-image: url('{{ $user->fileExists ? $user->remoteFile : url('uploads/logo/Logo-Vbeyond.png') }}');">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -171,6 +174,7 @@
                                                             {{ $user->code }}</span>
                                                         <span
                                                             class="font-semibold transition-colors duration-200 ease-in-out text-lg/normal text-secondary-inverse hover:text-primary">
+                                                            คุณ
                                                             {{ optional(optional($user->apiData)['data'])['name_th'] }}</span>
                                                         <span
                                                             class="mb-1 font-semibold transition-colors duration-200 ease-in-out text-lg/normal text-secondary-inverse hover:text-primary">
@@ -246,10 +250,22 @@
                                                     </div>
                                                 </label>
                                                 @if ($user->low_rise == 1 || $user->high_rise == 1)
-                                                    <p
-                                                        class=" items-center gap-1 rounded-full bg-gray-50 px-2 py-1 text-xs font-semibold text-gray-600">
-                                                        Null
-                                                    </p>
+                                                    @foreach (['SuperAdmin' => 'red', 'Admin' => 'yellow', 'Staff' => 'blue', 'User' => 'purple'] as $role => $color)
+                                                        @if (optional($user->role_printer_ref)->role_type == $role)
+                                                            <p class="sup-role items-center gap-1 rounded-full bg-{{ $color }}-50 px-2 py-1 text-xs font-semibold text-{{ $color }}-600 role-type-printer"
+                                                                data-id="{{ $user->user_id }}"
+                                                                data-role-type="{{ $role }}">
+                                                                {{ $role }}
+                                                            </p>
+                                                        @endif
+                                                    @endforeach
+
+                                                    @if (!in_array(optional($user->role_printer_ref)->role_type, ['SuperAdmin', 'Admin', 'Staff', 'User']))
+                                                        <p class="sup-role items-center gap-1 rounded-full bg-gray-50 px-2 py-1 text-xs font-semibold text-gray-600 role-type-printer"
+                                                            data-id="{{ $user->user_id }}" data-role-type="Null">
+                                                            Null
+                                                        </p>
+                                                    @endif
                                                 @endif
                                             </td>
                                             <!-- Report -->
@@ -265,10 +281,20 @@
                                                     </div>
 
                                                 </label>
+                                                <br>
                                                 @if ($user->active_report == 1)
-                                                    <p
-                                                        class=" items-center gap-1 rounded-full bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600">
+                                                    <p class="sup-role items-center gap-1 rounded-full bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600 role-type-report inline-flex"
+                                                        data-id="{{ $user->code }}"
+                                                        data-role-type="{{ optional($user->role_report_ref)->level ? optional($user->role_report_ref)->level : 'Null' }}">
+                                                        lv:
                                                         {{ optional($user->role_report_ref)->level ? optional($user->role_report_ref)->level : 'Null' }}
+                                                    </p>
+
+                                                    <p class="sup-role items-center gap-1 rounded-full bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600 role-type-report-db inline-flex"
+                                                        data-id="{{ $user->code }}"
+                                                        data-role-type="{{ optional($user->role_report_refdb)->db ? optional($user->role_report_refdb)->db : 'Null' }}">
+                                                        db:
+                                                        {{ optional($user->role_report_refdb)->db ? optional($user->role_report_refdb)->db : 'Null' }}
                                                     </p>
                                                 @endif
                                             </td>
@@ -285,12 +311,7 @@
                                                     </div>
 
                                                 </label>
-                                                @if ($user->active_vbasset == 1)
-                                                    <p
-                                                        class=" items-center gap-1 rounded-full bg-yellow-50 px-2 py-1 text-xs font-semibold text-yellow-600">
-                                                        Admin
-                                                    </p>
-                                                @endif
+
                                             </td>
 
                                             <!-- Lead -->
@@ -305,12 +326,7 @@
                                                     </div>
 
                                                 </label>
-                                                @if ($user->active_vblead == 1)
-                                                    <p
-                                                        class=" items-center gap-1 rounded-full bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600">
-                                                        Null
-                                                    </p>
-                                                @endif
+
                                             </td>
 
                                             <!-- Printer -->
@@ -358,8 +374,8 @@
                                                 </label>
                                                 @if ($user->active_broker == 1)
                                                     @foreach (['SuperAdmin' => 'red', 'Admin' => 'yellow', 'Staff' => 'blue', 'User' => 'purple'] as $role => $color)
-                                                        @if (optional($user->role_printer_ref)->role_type == $role)
-                                                            <p class="sup-role items-center gap-1 rounded-full bg-{{ $color }}-50 px-2 py-1 text-xs font-semibold text-{{ $color }}-600 role-type-printer"
+                                                        @if (optional($user->role_boker_ref)->role_type == $role)
+                                                            <p class="sup-role items-center gap-1 rounded-full bg-{{ $color }}-50 px-2 py-1 text-xs font-semibold text-{{ $color }}-600 role-type-boker"
                                                                 data-id="{{ $user->user_id }}"
                                                                 data-role-type="{{ $role }}">
                                                                 {{ $role }}
@@ -367,12 +383,12 @@
                                                         @endif
                                                     @endforeach
 
-                                                    {{-- @if (!in_array(optional($user->role_printer_ref)->role_type, ['SuperAdmin', 'Admin', 'Staff', 'User']))
-                                                    <p class="sup-role items-center gap-1 rounded-full bg-gray-50 px-2 py-1 text-xs font-semibold text-gray-600 role-type-printer"
-                                                        data-id="{{ $user->id }}" data-role-type="Null">
-                                                        Null
-                                                    </p>
-                                                @endif --}}
+                                                    @if (!in_array(optional($user->role_boker_ref)->role_type, ['SuperAdmin', 'Admin', 'Staff', 'User']))
+                                                        <p class="sup-role items-center gap-1 rounded-full bg-gray-50 px-2 py-1 text-xs font-semibold text-gray-600 role-type-boker"
+                                                            data-id="{{ $user->user_id }}" data-role-type="Null">
+                                                            Null
+                                                        </p>
+                                                    @endif
                                                 @endif
                                             </td>
                                             <!-- Rent -->
@@ -388,9 +404,9 @@
 
                                                 </label>
                                                 @if ($user->active_rental == 1)
-                                                    @foreach (['SuperAdmin' => 'red', 'Admin' => 'yellow', 'Staff' => 'blue', 'User' => 'purple'] as $role => $color)
-                                                        @if (optional($user->role_printer_ref)->role_type == $role)
-                                                            <p class="sup-role items-center gap-1 rounded-full bg-{{ $color }}-50 px-2 py-1 text-xs font-semibold text-{{ $color }}-600 role-type-printer"
+                                                    @foreach (['SuperAdmin' => 'red', 'Admin' => 'yellow', 'Staff' => 'blue', 'Account' => 'purple'] as $role => $color)
+                                                        @if (optional($user->role_rental_ref)->role_type == $role)
+                                                            <p class="sup-role items-center gap-1 rounded-full bg-{{ $color }}-50 px-2 py-1 text-xs font-semibold text-{{ $color }}-600 role-type-rental"
                                                                 data-id="{{ $user->user_id }}"
                                                                 data-role-type="{{ $role }}">
                                                                 {{ $role }}
@@ -398,12 +414,12 @@
                                                         @endif
                                                     @endforeach
 
-                                                    {{-- @if (!in_array(optional($user->role_printer_ref)->role_type, ['SuperAdmin', 'Admin', 'Staff', 'User']))
-                                                    <p class="sup-role items-center gap-1 rounded-full bg-gray-50 px-2 py-1 text-xs font-semibold text-gray-600 role-type-printer"
-                                                        data-id="{{ $user->id }}" data-role-type="Null">
-                                                        Null
-                                                    </p>
-                                                @endif --}}
+                                                    @if (!in_array(optional($user->role_rental_ref)->role_type, ['SuperAdmin', 'Admin', 'Account', 'Staff']))
+                                                        <p class="sup-role items-center gap-1 rounded-full bg-gray-50 px-2 py-1 text-xs font-semibold text-gray-600 role-type-rental"
+                                                            data-id="{{ $user->user_id }}" data-role-type="Null">
+                                                            Null
+                                                        </p>
+                                                    @endif
                                                 @endif
                                             </td>
                                             <!-- VBNext -->
@@ -435,17 +451,17 @@
                                             </td>
                                             <!-- Action -->
                                             <td class="pb-3 pr-0 text-end">
-                                                <button
-                                                    class="ml-auto relative text-secondary-dark bg-light-dark hover:text-primary flex items-center h-[25px] w-[25px] text-base font-medium leading-normal text-center align-middle cursor-pointer rounded-2xl transition-colors duration-200 ease-in-out shadow-none border-0 justify-center">
+                                                <button data-id="{{ $user->user_id }}"
+                                                    class="send-email ml-auto relative text-secondary-dark bg-light-dark hover:text-primary flex items-center h-[25px] w-[25px] text-base font-medium leading-normal text-center align-middle cursor-pointer rounded-2xl transition-colors duration-200 ease-in-out shadow-none border-0 justify-center">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                                        class="cursor-pointer icon" width="15"
-                                                        height="15"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                                        class="cursor-pointer icon" width="15" height="15">
                                                         <path
                                                             d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z" />
                                                     </svg>
                                                 </button>
                                             </td>
                                         </tr>
+                                        {{-- <pre>{{ json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</pre> --}}
                                     @endforeach
 
                                 </tbody>
@@ -460,6 +476,7 @@
 
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -1309,6 +1326,327 @@
                 allowOutsideClick: () => !Swal.isLoading()
             });
         });
+
+        $('.role-type-rental').on('click', function() {
+            const userId = $(this).data('id');
+            const currentRole = $(this).data('role-type');
+            // console.log(currentRole);
+            Swal.fire({
+                title: 'Change Role Type',
+                input: 'select',
+                inputOptions: {
+                    'SuperAdmin': 'SuperAdmin',
+                    'Admin': 'Admin',
+                    'Staff': 'Staff',
+                    'Account': 'Account'
+                },
+                inputValue: currentRole,
+                showCancelButton: true,
+                confirmButtonText: 'Change',
+                showLoaderOnConfirm: true,
+                preConfirm: (newRole) => {
+                    return $.ajax({
+                        url: '{{ route('update.role') }}',
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            user_id: userId,
+                            role_type: newRole,
+                            role_system: "rental"
+                        },
+                        success: function(data) {
+                            //console.log(data);
+                            if (data.success = true) {
+
+                                if ($.isEmptyObject(data.error)) {
+
+                                    Swal.fire({
+                                        // toast: true,
+                                        icon: "success",
+                                        title: "Success",
+                                        html: `${data.message}`,
+                                        timer: 1500
+                                    }).then(function() {
+                                        // Redirect ไปยัง URL ที่เก็บไว้
+                                        var previousURL = localStorage
+                                            .getItem(
+                                                'previousURL');
+                                        if (previousURL) {
+                                            window.location.href =
+                                                previousURL;
+                                        } else {
+                                            window.location.href =
+                                                '{{ route('users') }}';
+                                        }
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Error",
+                                        html: `${data.message}`,
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+
+
+                                }
+
+                            }
+                        },
+                        error: function() {
+                            console.log('AJAX error');
+                            Swal.fire({
+                                icon: "error",
+                                title: "AJAX error",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+
+                    });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            });
+        });
+
+        $('.role-type-boker').on('click', function() {
+            const userId = $(this).data('id');
+            const currentRole = $(this).data('role-type');
+            // console.log(currentRole);
+            Swal.fire({
+                title: 'Change Role Type',
+                input: 'select',
+                inputOptions: {
+                    'SuperAdmin': 'SuperAdmin',
+                    'Admin': 'Admin',
+                    'Staff': 'Staff',
+                    'User': 'User'
+                },
+                inputValue: currentRole,
+                showCancelButton: true,
+                confirmButtonText: 'Change',
+                showLoaderOnConfirm: true,
+                preConfirm: (newRole) => {
+                    return $.ajax({
+                        url: '{{ route('update.role') }}',
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            user_id: userId,
+                            role_type: newRole,
+                            role_system: "boker"
+                        },
+                        success: function(data) {
+                            //console.log(data);
+                            if (data.success = true) {
+
+                                if ($.isEmptyObject(data.error)) {
+
+                                    Swal.fire({
+                                        // toast: true,
+                                        icon: "success",
+                                        title: "Success",
+                                        html: `${data.message}`,
+                                        timer: 1500
+                                    }).then(function() {
+                                        // Redirect ไปยัง URL ที่เก็บไว้
+                                        var previousURL = localStorage
+                                            .getItem(
+                                                'previousURL');
+                                        if (previousURL) {
+                                            window.location.href =
+                                                previousURL;
+                                        } else {
+                                            window.location.href =
+                                                '{{ route('users') }}';
+                                        }
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Error",
+                                        html: `${data.message}`,
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+
+
+                                }
+
+                            }
+                        },
+                        error: function() {
+                            console.log('AJAX error');
+                            Swal.fire({
+                                icon: "error",
+                                title: "AJAX error",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+
+                    });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            });
+        });
+
+        $('.role-type-report').on('click', function() {
+            const userId = $(this).data('id');
+            const currentLevel = $(this).data('role-type');
+            // console.log(currentLevel);
+            Swal.fire({
+                title: 'Change Role Type',
+                html: '<input id="swal-input1" class="" placeholder="Level" value="' +
+                    currentLevel + '">',
+                focusConfirm: false,
+                showCancelButton: true,
+                confirmButtonText: 'Change',
+                showLoaderOnConfirm: true,
+                preConfirm: () => {
+                    const level = document.getElementById('swal-input1').value;
+
+                    return $.ajax({
+                        url: '{{ route('update.role') }}',
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            user_id: userId,
+                            role_type: level,
+                            role_system: "report"
+                        },
+                        success: function(data) {
+                            //console.log(data);
+                            if (data.success = true) {
+
+                                if ($.isEmptyObject(data.error)) {
+
+                                    Swal.fire({
+                                        // toast: true,
+                                        icon: "success",
+                                        title: "Success",
+                                        html: `${data.message}`,
+                                        timer: 1500
+                                    }).then(function() {
+                                        // Redirect ไปยัง URL ที่เก็บไว้
+                                        var previousURL = localStorage
+                                            .getItem(
+                                                'previousURL');
+                                        if (previousURL) {
+                                            window.location.href =
+                                                previousURL;
+                                        } else {
+                                            window.location.href =
+                                                '{{ route('users') }}';
+                                        }
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Error",
+                                        html: `${data.message}`,
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+
+
+                                }
+
+                            }
+                        },
+                        error: function() {
+                            console.log('AJAX error');
+                            Swal.fire({
+                                icon: "error",
+                                title: "AJAX error",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            });
+        });
+
+        $('.role-type-report-db').on('click', function() {
+            const userId = $(this).data('id');
+            const currentLevel = $(this).data('role-type');
+            // console.log(userId);
+            Swal.fire({
+                title: 'Change Role Type',
+                html: '<input id="swal-input2" class="" placeholder="DB" value="' +
+                    currentLevel + '">',
+                focusConfirm: false,
+                showCancelButton: true,
+                confirmButtonText: 'Change',
+                showLoaderOnConfirm: true,
+                preConfirm: () => {
+                    const db = document.getElementById('swal-input2').value;
+
+                    return $.ajax({
+                        url: '{{ route('update.role') }}',
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            user_id: userId,
+                            role_type: db,
+                            role_system: "reportdb"
+                        },
+                        success: function(data) {
+                            //console.log(data);
+                            if (data.success = true) {
+
+                                if ($.isEmptyObject(data.error)) {
+
+                                    Swal.fire({
+                                        // toast: true,
+                                        icon: "success",
+                                        title: "Success",
+                                        html: `${data.message}`,
+                                        timer: 1500
+                                    }).then(function() {
+                                        // Redirect ไปยัง URL ที่เก็บไว้
+                                        var previousURL = localStorage
+                                            .getItem(
+                                                'previousURL');
+                                        if (previousURL) {
+                                            window.location.href =
+                                                previousURL;
+                                        } else {
+                                            window.location.href =
+                                                '{{ route('users') }}';
+                                        }
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Error",
+                                        html: `${data.message}`,
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+
+
+                                }
+
+                            }
+                        },
+                        error: function() {
+                            console.log('AJAX error');
+                            Swal.fire({
+                                icon: "error",
+                                title: "AJAX error",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            });
+        });
+
     });
 </script>
 
@@ -1389,6 +1727,60 @@
                     console.log(result.value);
                     // คุณสามารถใช้ AJAX เพื่อส่งข้อมูลนี้ไปยังเซิร์ฟเวอร์
                     // หรือจัดการในวิธีที่คุณต้องการ
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('.send-email').on('click', function() {
+            const userId = $(this).data('id');
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you want to send an email to this user?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, send it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Sending...',
+                        text: 'Please wait while we send the email.',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        showConfirmButton: false,
+                        willOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    $.ajax({
+                        url: '{{ route('send.email') }}', // Replace with your route
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            user_id: userId
+                        },
+                        success: function(response) {
+                            Swal.fire(
+                                'Sent!',
+                                'The email has been sent.',
+                                'success'
+                            );
+                        },
+                        error: function(xhr) {
+                            Swal.fire(
+                                'Error!',
+                                'There was an error sending the email.',
+                                'error'
+                            );
+                        }
+                    });
                 }
             });
         });
