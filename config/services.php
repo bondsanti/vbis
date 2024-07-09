@@ -29,13 +29,20 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+
     'external_api' => [
         'url' => env('API_URL'),
         'token' => env('API_TOKEN'),
     ],
+
     'stock_api' => [
-    'url' => env('APP_STOCK'),
-    'token' => env('API_TOKEN_AUTH'),
-],
+        'url' => env('APP_STOCK'),
+        'token' => env('API_TOKEN_AUTH'),
+    ],
+
+    'project_api' => [
+        'url' => env('APP_PROJECT'),
+        'token' => env('API_TOKEN_AUTH'),
+    ],
 
 ];

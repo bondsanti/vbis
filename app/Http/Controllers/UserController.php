@@ -131,6 +131,9 @@ class UserController extends Controller
         $stockApiUrl = config('services.stock_api.url');
         $stockApiToken = config('services.stock_api.token');
 
+        $projectApiUrl = config('services.project_api.url');
+        $projectApiToken = config('services.project_api.token');
+
         foreach ($users as $user) {
             try {
                 // เรียก API แรก
@@ -151,6 +154,17 @@ class UserController extends Controller
                 ]);
 
                 $user->apiDataStock = json_decode($response2->getBody(), true);
+
+                // API  Project
+                $response3 = $client->request('GET', $projectApiUrl . '/api/users-list/' . $user->user_id, [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $projectApiToken
+                    ]
+                ]);
+
+                $user->apiDataProject = json_decode($response3->getBody(), true);
+
+
 
                 $imgCheck = optional(optional($user->apiData)['data'])['img_check'];
                 $remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
@@ -173,6 +187,7 @@ class UserController extends Controller
                 // Log the error
                 //Log::error('API request failed for user ' . $user->user_id . ': ' . $e->getMessage());
                 $user->apiData = null;
+                $user->apiDataStock = null;
             }
         }
     }
@@ -414,6 +429,24 @@ class UserController extends Controller
 
             //dd($response);
 
+            if ($response->successful()) {
+
+                return response()->json(['message' => 'อัพเดทเรียบร้อย']);
+            } else {
+
+                return response()->json(['message' => 'ไม่สามารถอัพเดทข้อมูลได้']);
+            }
+        } elseif ($request->role_system == "project") {
+
+            //dd($request->role_system );
+            $url = env('APP_PROJECT') . '/api/create-role/' . $request->user_id;
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . env('API_TOKEN_AUTH'),
+            ])->post($url, [
+                'role_type' => $request->role_type,
+            ]);
+
+            //dd($response);
             if ($response->successful()) {
 
                 return response()->json(['message' => 'อัพเดทเรียบร้อย']);

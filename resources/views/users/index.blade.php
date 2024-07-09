@@ -214,10 +214,22 @@
 
                                                 </label>
                                                 @if ($user->active_vproject == 1)
-                                                    <p
-                                                        class=" items-center gap-1 rounded-full bg-gray-50 px-2 py-1 text-xs font-semibold text-gray-600">
-                                                        Null
+                                                @foreach (['SuperAdmin' => 'red', 'Admin' => 'yellow', 'Staff' => 'blue', 'User' => 'purple'] as $role => $color)
+                                                @if (optional(optional($user->apiDataProject)['data'])[0]['role_type'] == $role)
+                                                    <p class="sup-role items-center gap-1 rounded-full bg-{{ $color }}-50 px-2 py-1 text-xs font-semibold text-{{ $color }}-600 role-type-project"
+                                                        data-id="{{ $user->user_id }}"
+                                                        data-role-type="{{ $role }}">
+                                                        {{ $role }}
                                                     </p>
+                                                @endif
+                                            @endforeach
+
+                                            @if (!in_array(optional(optional($user->apiDataProject)['data'])[0]['role_type'], ['SuperAdmin', 'Admin', 'Staff', 'User']))
+                                                <p class="sup-role items-center gap-1 rounded-full bg-gray-50 px-2 py-1 text-xs font-semibold text-gray-600 role-type-project"
+                                                    data-id="{{ $user->user_id }}" data-role-type="Null">
+                                                    Null
+                                                </p>
+                                            @endif
                                                 @endif
                                             </td>
                                             <!-- Stock -->
@@ -1728,6 +1740,171 @@
                 allowOutsideClick: () => !Swal.isLoading()
             });
         });
+
+        $('.role-type-project').on('click', function() {
+            const userId = $(this).data('id');
+            const currentRole = $(this).data('role-type');
+            // console.log(currentRole);
+            Swal.fire({
+                title: 'Change Role Type',
+                input: 'select',
+                inputOptions: {
+                    'SuperAdmin': 'SuperAdmin',
+                    'Admin': 'Admin',
+                    'Staff': 'Staff',
+                    'User': 'User'
+                },
+                inputValue: currentRole,
+                showCancelButton: true,
+                confirmButtonText: 'Change',
+                showLoaderOnConfirm: true,
+                preConfirm: (newRole) => {
+                    return $.ajax({
+                        url: '{{ route('update.role') }}',
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            user_id: userId,
+                            role_type: newRole,
+                            role_system: "project"
+                        },
+                        success: function(data) {
+                            //console.log(data);
+                            if (data.success = true) {
+
+                                if ($.isEmptyObject(data.error)) {
+
+                                    Swal.fire({
+                                        // toast: true,
+                                        icon: "success",
+                                        title: "Success",
+                                        html: `${data.message}`,
+                                        timer: 1500
+                                    }).then(function() {
+                                        // Redirect ไปยัง URL ที่เก็บไว้
+                                        var previousURL = localStorage
+                                            .getItem(
+                                                'previousURL');
+                                        if (previousURL) {
+                                            window.location.href =
+                                                previousURL;
+                                        } else {
+                                            window.location.href =
+                                                '{{ route('users') }}';
+                                        }
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Error",
+                                        html: `${data.message}`,
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+
+
+                                }
+
+                            }
+                        },
+                        error: function() {
+                            console.log('AJAX error');
+                            Swal.fire({
+                                icon: "error",
+                                title: "AJAX error",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+
+                    });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            });
+        });
+
+        $('.role-type-agent').on('click', function() {
+            const userId = $(this).data('id');
+            const currentRole = $(this).data('role-type');
+            // console.log(currentRole);
+            Swal.fire({
+                title: 'Change Role Type',
+                input: 'select',
+                inputOptions: {
+                    'SuperAdmin': 'SuperAdmin',
+                    'AdminAgent': 'AdminAgent',
+                    'AdminSupport': 'AdminSupport',
+                    'User': 'User'
+                },
+                inputValue: currentRole,
+                showCancelButton: true,
+                confirmButtonText: 'Change',
+                showLoaderOnConfirm: true,
+                preConfirm: (newRole) => {
+                    return $.ajax({
+                        url: '{{ route('update.role') }}',
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            user_id: userId,
+                            role_type: newRole,
+                            role_system: "project"
+                        },
+                        success: function(data) {
+                            //console.log(data);
+                            if (data.success = true) {
+
+                                if ($.isEmptyObject(data.error)) {
+
+                                    Swal.fire({
+                                        // toast: true,
+                                        icon: "success",
+                                        title: "Success",
+                                        html: `${data.message}`,
+                                        timer: 1500
+                                    }).then(function() {
+                                        // Redirect ไปยัง URL ที่เก็บไว้
+                                        var previousURL = localStorage
+                                            .getItem(
+                                                'previousURL');
+                                        if (previousURL) {
+                                            window.location.href =
+                                                previousURL;
+                                        } else {
+                                            window.location.href =
+                                                '{{ route('users') }}';
+                                        }
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Error",
+                                        html: `${data.message}`,
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+
+
+                                }
+
+                            }
+                        },
+                        error: function() {
+                            console.log('AJAX error');
+                            Swal.fire({
+                                icon: "error",
+                                title: "AJAX error",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+
+                    });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            });
+        });
+
 
 
     });
