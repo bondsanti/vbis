@@ -141,12 +141,16 @@ class UserController extends Controller
                     ]
                 ]);
 
-
-
                 $user->apiData = json_decode($response->getBody(), true);
 
+                // API  Stock
+                $response2 = $client->request('GET', $stockApiUrl . '/api/users-list/' . $user->user_id, [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $stockApiToken
+                    ]
+                ]);
 
-
+                $user->apiDataStock = json_decode($response2->getBody(), true);
 
                 $imgCheck = optional(optional($user->apiData)['data'])['img_check'];
                 $remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
@@ -169,7 +173,6 @@ class UserController extends Controller
                 // Log the error
                 //Log::error('API request failed for user ' . $user->user_id . ': ' . $e->getMessage());
                 $user->apiData = null;
-
             }
         }
     }
@@ -400,14 +403,16 @@ class UserController extends Controller
             return response()->json(['message' => 'อัพเดทเรียบร้อย']);
         } elseif ($request->role_system == "stock") {
 
-
+            //dd($request->role_system );
+            $url = env('APP_STOCK') . '/api/create-role/' . $request->user_id;
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . env('API_TOKEN_AUTH'),
-            ])->post(env('APP_STOCK') . '/api/create-role', [
-                'id' => $request->user_id,
+            ])->post($url, [
                 'role_type' => $request->role_type,
                 'dept' => $request->dept,
             ]);
+
+            //dd($response);
 
             if ($response->successful()) {
 
