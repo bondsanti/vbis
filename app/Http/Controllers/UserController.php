@@ -125,14 +125,14 @@ class UserController extends Controller
     private function addApiDataToUsers($users)
     {
         $client = new Client();
-        $apiUrl = config('services.external_api.url');
-        $apiToken = config('services.external_api.token');
+        $apiUrl = env('API_URL');
+        $apiToken = env('API_TOKEN');
 
-        $stockApiUrl = config('services.stock_api.url');
-        $stockApiToken = config('services.stock_api.token');
+        $stockApiUrl = env('APP_STOCK');
+        $stockApiToken = env('API_TOKEN_AUTH');
 
-        $projectApiUrl = config('services.project_api.url');
-        $projectApiToken = config('services.project_api.token');
+        $projectApiUrl = env('APP_PROJECT');
+        $projectApiToken = env('API_TOKEN_AUTH');
 
         foreach ($users as $user) {
             try {
@@ -147,23 +147,24 @@ class UserController extends Controller
                 $user->apiData = json_decode($response->getBody(), true);
 
                 // API  Stock
-                $response2 = $client->request('GET', $stockApiUrl . '/api/users-list/' . $user->user_id, [
-                    'headers' => [
-                        'Authorization' => 'Bearer ' . $stockApiToken
-                    ]
-                ]);
+                // $response2 = $client->request('GET', $stockApiUrl . '/api/users-list/' . $user->user_id, [
+                //     'headers' => [
+                //         'Authorization' => 'Bearer ' . $stockApiToken
+                //     ]
+                // ]);
 
-                $user->apiDataStock = json_decode($response2->getBody(), true);
+                //$user->apiDataStock = json_decode($response2->getBody(), true);
+                $user->apiDataStock = [];
 
                 // API  Project
-                $response3 = $client->request('GET', $projectApiUrl . '/api/users-list/' . $user->user_id, [
-                    'headers' => [
-                        'Authorization' => 'Bearer ' . $projectApiToken
-                    ]
-                ]);
+                // $response3 = $client->request('GET', $projectApiUrl . '/api/users-list/' . $user->user_id, [
+                //     'headers' => [
+                //         'Authorization' => 'Bearer ' . $projectApiToken
+                //     ]
+                // ]);
 
-                $user->apiDataProject = json_decode($response3->getBody(), true);
-
+                //$user->apiDataProject = json_decode($response3->getBody(), true);
+                $user->apiDataProject = [];
 
 
                 $imgCheck = optional(optional($user->apiData)['data'])['img_check'];
@@ -188,6 +189,7 @@ class UserController extends Controller
                 //Log::error('API request failed for user ' . $user->user_id . ': ' . $e->getMessage());
                 $user->apiData = null;
                 $user->apiDataStock = null;
+                $user->apiDataProject = null;
             }
         }
     }
@@ -278,7 +280,7 @@ class UserController extends Controller
 
         $departmentData = $this->addApiDataToDepartment();
 
-        //dd($users);
+        dd($users);
         if ($loggedInUser->active_vbis == 1) {
             return view('users.index', [
                 'users' => $users,
@@ -565,5 +567,23 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
+    }
+
+    public function testAPI(Request $request)
+    {
+        $stockApiUrl = env('APP_STOCK');
+        $stockApiToken = env('API_TOKEN_AUTH');
+        $client = new Client();
+
+        $response2 = $client->request('GET', $stockApiUrl . '/api/users-list/3464', [
+            'headers' => [
+                'Authorization' => 'Bearer ' . 'LcbxpDu7J2Dj2DkRlAKM6649tSSdwuJtKfcoSQhR'
+            ]
+        ]);
+        //dd($response2);
+
+        $apiDataStock = json_decode($response2->getBody(), true);
+
+        return response()->json($apiDataStock);
     }
 }
