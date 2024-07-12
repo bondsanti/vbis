@@ -351,7 +351,7 @@ class UserController extends Controller
 
         $departmentData = $this->addApiDataToDepartment();
 
-        dd($users);
+       // dd($users);
         if ($loggedInUser->active_vbis == 1) {
             return view('users.index', [
                 'users' => $users,
