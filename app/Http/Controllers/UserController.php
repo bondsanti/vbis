@@ -573,9 +573,11 @@ class UserController extends Controller
     {
         $stockApiUrl = env('APP_STOCK');
         $stockApiToken = env('API_TOKEN_AUTH');
+        $projectApiUrl = env('APP_PROJECT');
+        $projectApiToken = env('API_TOKEN_AUTH');
         $client = new Client();
 
-        $response2 = $client->request('GET', $stockApiUrl . '/api/users-list/3464', [
+        $response2 = $client->request('GET', $projectApiUrl . '/api/users-list/3464', [
             'headers' => [
                 'Authorization' => 'Bearer ' . 'LcbxpDu7J2Dj2DkRlAKM6649tSSdwuJtKfcoSQhR'
             ]
