@@ -122,6 +122,78 @@ class UserController extends Controller
     //     }
     // }
 
+    // private function addApiDataToUsers($users)
+    // {
+    //     $client = new Client();
+    //     $apiUrl = env('API_URL');
+    //     $apiToken = env('API_TOKEN');
+
+    //     $stockApiUrl = env('APP_STOCK');
+    //     $stockApiToken = env('API_TOKEN_AUTH');
+
+    //     $projectApiUrl = env('APP_PROJECT');
+    //     $projectApiToken = env('API_TOKEN_AUTH');
+
+    //     foreach ($users as $user) {
+    //         try {
+    //             // เรียก API แรก
+    //             $response = $client->request('GET', $apiUrl . '/users', [
+    //                 'query' => ['user_id' => $user->user_id],
+    //                 'headers' => [
+    //                     'Authorization' => 'Bearer ' . $apiToken
+    //                 ]
+    //             ]);
+
+    //             $user->apiData = json_decode($response->getBody(), true);
+
+    //             // API  Stock
+    //             $response2 = $client->request('GET', $stockApiUrl . '/api/users-list/' . $user->user_id, [
+    //                 'headers' => [
+    //                     'Authorization' => 'Bearer ' . $stockApiToken
+    //                 ]
+    //             ]);
+
+    //             $user->apiDataStock = json_decode($response2->getBody(), true);
+
+
+    //             // API  Project
+    //             $response3 = $client->request('GET', $projectApiUrl . '/api/users-list/' . $user->user_id, [
+    //                 'headers' => [
+    //                     'Authorization' => 'Bearer ' . $projectApiToken
+    //                 ]
+    //             ]);
+
+    //             $user->apiDataProject = json_decode($response3->getBody(), true);
+
+
+
+    //             $imgCheck = optional(optional($user->apiData)['data'])['img_check'];
+    //             $remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
+    //             //$remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
+    //             $fileExists = false;
+
+    //             if ($remoteFile) {
+    //                 $ch = curl_init($remoteFile);
+    //                 curl_setopt($ch, CURLOPT_NOBODY, true);
+    //                 curl_exec($ch);
+    //                 $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    //                 curl_close($ch);
+
+    //                 $fileExists = ($responseCode == 200);
+    //             }
+
+    //             $user->remoteFile = $remoteFile;
+    //             $user->fileExists = $fileExists;
+    //         } catch (\Exception $e) {
+    //             // Log the error
+    //             //Log::error('API request failed for user ' . $user->user_id . ': ' . $e->getMessage());
+    //             $user->apiData = null;
+    //             $user->apiDataStock = null;
+    //             $user->apiDataProject = null;
+    //         }
+    //     }
+    // }
+
     private function addApiDataToUsers($users)
     {
         $client = new Client();
@@ -135,64 +207,63 @@ class UserController extends Controller
         $projectApiToken = env('API_TOKEN_AUTH');
 
         foreach ($users as $user) {
+            // ดึงข้อมูลจาก API แรก
             try {
-                // เรียก API แรก
                 $response = $client->request('GET', $apiUrl . '/users', [
                     'query' => ['user_id' => $user->user_id],
                     'headers' => [
                         'Authorization' => 'Bearer ' . $apiToken
                     ]
                 ]);
-
                 $user->apiData = json_decode($response->getBody(), true);
+            } catch (\Exception $e) {
+                $user->apiData = null;
+            }
 
-                // API  Stock
+            // ดึงข้อมูลจาก API Stock
+            try {
                 $response2 = $client->request('GET', $stockApiUrl . '/api/users-list/' . $user->user_id, [
                     'headers' => [
                         'Authorization' => 'Bearer ' . $stockApiToken
                     ]
                 ]);
-
                 $user->apiDataStock = json_decode($response2->getBody(), true);
+            } catch (\Exception $e) {
+                $user->apiDataStock = null;
+            }
 
-
-                // API  Project
+            // ดึงข้อมูลจาก API Project
+            try {
                 $response3 = $client->request('GET', $projectApiUrl . '/api/users-list/' . $user->user_id, [
                     'headers' => [
                         'Authorization' => 'Bearer ' . $projectApiToken
                     ]
                 ]);
-
                 $user->apiDataProject = json_decode($response3->getBody(), true);
-
-
-
-                $imgCheck = optional(optional($user->apiData)['data'])['img_check'];
-                $remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
-                //$remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
-                $fileExists = false;
-
-                if ($remoteFile) {
-                    $ch = curl_init($remoteFile);
-                    curl_setopt($ch, CURLOPT_NOBODY, true);
-                    curl_exec($ch);
-                    $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                    curl_close($ch);
-
-                    $fileExists = ($responseCode == 200);
-                }
-
-                $user->remoteFile = $remoteFile;
-                $user->fileExists = $fileExists;
             } catch (\Exception $e) {
-                // Log the error
-                //Log::error('API request failed for user ' . $user->user_id . ': ' . $e->getMessage());
-                $user->apiData = null;
-                $user->apiDataStock = null;
                 $user->apiDataProject = null;
             }
+
+            // ตรวจสอบรูปภาพ
+            $imgCheck = optional(optional($user->apiData)['data'])['img_check'];
+            $remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
+            $fileExists = false;
+
+            if ($remoteFile) {
+                $ch = curl_init($remoteFile);
+                curl_setopt($ch, CURLOPT_NOBODY, true);
+                curl_exec($ch);
+                $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                curl_close($ch);
+
+                $fileExists = ($responseCode == 200);
+            }
+
+            $user->remoteFile = $remoteFile;
+            $user->fileExists = $fileExists;
         }
     }
+
 
     private function addApiDataToDepartment()
     {
