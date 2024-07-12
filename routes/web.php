@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 // Route::fallback(function () {
 //     return redirect('/');
 // });
-Route::get('/testapi', [UserController::class, 'testAPI']);
+// Route::get('/testapi', [UserController::class, 'testAPI']);
 //Forget Password
 Route::get('/forget',[CustomAuthController::class,'showForgetForm'])->name('forget.form');
 Route::post('/forget',[CustomAuthController::class,'sendResetLinkEmail'])->name('forget.email');
