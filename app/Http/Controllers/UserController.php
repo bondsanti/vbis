@@ -154,7 +154,7 @@ class UserController extends Controller
                 ]);
 
                 $user->apiDataStock = json_decode($response2->getBody(), true);
-                $user->apiDataStock = [];
+
 
                 // API  Project
                 $response3 = $client->request('GET', $projectApiUrl . '/api/users-list/' . $user->user_id, [
@@ -164,7 +164,7 @@ class UserController extends Controller
                 ]);
 
                 $user->apiDataProject = json_decode($response3->getBody(), true);
-                $user->apiDataProject = [];
+
 
 
                 $imgCheck = optional(optional($user->apiData)['data'])['img_check'];
@@ -280,7 +280,7 @@ class UserController extends Controller
 
         $departmentData = $this->addApiDataToDepartment();
 
-        //dd($users);
+        dd($users);
         if ($loggedInUser->active_vbis == 1) {
             return view('users.index', [
                 'users' => $users,
@@ -569,21 +569,21 @@ class UserController extends Controller
         }
     }
 
-    // public function testAPI(Request $request)
-    // {
-    //     $stockApiUrl = env('APP_STOCK');
-    //     $stockApiToken = env('API_TOKEN_AUTH');
-    //     $client = new Client();
+    public function testAPI(Request $request)
+    {
+        $stockApiUrl = env('APP_STOCK');
+        $stockApiToken = env('API_TOKEN_AUTH');
+        $client = new Client();
 
-    //     $response2 = $client->request('GET', $stockApiUrl . '/api/users-list/3464', [
-    //         'headers' => [
-    //             'Authorization' => 'Bearer ' . 'LcbxpDu7J2Dj2DkRlAKM6649tSSdwuJtKfcoSQhR'
-    //         ]
-    //     ]);
-    //     //dd($response2);
+        $response2 = $client->request('GET', $stockApiUrl . '/api/users-list/3464', [
+            'headers' => [
+                'Authorization' => 'Bearer ' . 'LcbxpDu7J2Dj2DkRlAKM6649tSSdwuJtKfcoSQhR'
+            ]
+        ]);
+        //dd($response2);
 
-    //     $apiDataStock = json_decode($response2->getBody(), true);
+        $apiDataStock = json_decode($response2->getBody(), true);
 
-    //     return response()->json($apiDataStock);
-    // }
+        return response()->json($apiDataStock);
+    }
 }
