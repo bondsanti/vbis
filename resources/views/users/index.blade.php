@@ -214,22 +214,27 @@
 
                                                 </label>
                                                 @if ($user->active_vproject == 1)
-                                                @foreach (['SuperAdmin' => 'red', 'Admin' => 'yellow', 'Staff' => 'blue', 'User' => 'purple'] as $role => $color)
-                                                @if (optional(optional($user->apiDataProject)['data'])[0]['role_type'] == $role)
-                                                    <p class="sup-role items-center gap-1 rounded-full bg-{{ $color }}-50 px-2 py-1 text-xs font-semibold text-{{ $color }}-600 role-type-project"
-                                                        data-id="{{ $user->user_id }}"
-                                                        data-role-type="{{ $role }}">
-                                                        {{ $role }}
-                                                    </p>
-                                                @endif
-                                            @endforeach
+                                                    @php
+                                                        $apiDataProject = optional($user->apiDataProject)['data'] ?? [];
+                                                        $roleType = $apiDataProject[0]['role_type'] ?? 'Null';
+                                                    @endphp
 
-                                            @if (!in_array(optional(optional($user->apiDataProject)['data'])[0]['role_type'], ['SuperAdmin', 'Admin', 'Staff', 'User']))
-                                                <p class="sup-role items-center gap-1 rounded-full bg-gray-50 px-2 py-1 text-xs font-semibold text-gray-600 role-type-project"
-                                                    data-id="{{ $user->user_id }}" data-role-type="Null">
-                                                    Null
-                                                </p>
-                                            @endif
+                                                    @foreach (['SuperAdmin' => 'red', 'Admin' => 'yellow', 'Staff' => 'blue', 'User' => 'purple'] as $role => $color)
+                                                        @if ($roleType == $role)
+                                                            <p class="sup-role items-center gap-1 rounded-full bg-{{ $color }}-50 px-2 py-1 text-xs font-semibold text-{{ $color }}-600 role-type-project"
+                                                                data-id="{{ $user->user_id }}"
+                                                                data-role-type="{{ $role }}">
+                                                                {{ $role }}
+                                                            </p>
+                                                        @endif
+                                                    @endforeach
+
+                                                    @if (!in_array($roleType, ['SuperAdmin', 'Admin', 'Staff', 'User']))
+                                                        <p class="sup-role items-center gap-1 rounded-full bg-gray-50 px-2 py-1 text-xs font-semibold text-gray-600 role-type-project"
+                                                            data-id="{{ $user->user_id }}" data-role-type="Null">
+                                                            Null
+                                                        </p>
+                                                    @endif
                                                 @endif
                                             </td>
                                             <!-- Stock -->
@@ -262,8 +267,13 @@
                                                     </div>
                                                 </label>
                                                 @if ($user->low_rise == 1 || $user->high_rise == 1)
+                                                    @php
+                                                        $apiDataStock = optional($user->apiDataStock)['data'] ?? [];
+                                                        $roleTypeStock = $apiDataStock[0]['role_type'] ?? 'Null';
+                                                    @endphp
+
                                                     @foreach (['SuperAdmin' => 'red', 'Admin' => 'yellow', 'Staff' => 'blue', 'User' => 'purple'] as $role => $color)
-                                                        @if (optional(optional($user->apiDataStock)['data'])[0]['role_type'] == $role)
+                                                        @if ($roleTypeStock == $role)
                                                             <p class="sup-role items-center gap-1 rounded-full bg-{{ $color }}-50 px-2 py-1 text-xs font-semibold text-{{ $color }}-600 role-type-stock"
                                                                 data-id="{{ $user->user_id }}"
                                                                 data-role-type="{{ $role }}">
@@ -272,7 +282,7 @@
                                                         @endif
                                                     @endforeach
 
-                                                    @if (!in_array(optional(optional($user->apiDataStock)['data'])[0]['role_type'], ['SuperAdmin', 'Admin', 'Staff', 'User']))
+                                                    @if (!in_array($roleTypeStock, ['SuperAdmin', 'Admin', 'Staff', 'User']))
                                                         <p class="sup-role items-center gap-1 rounded-full bg-gray-50 px-2 py-1 text-xs font-semibold text-gray-600 role-type-stock"
                                                             data-id="{{ $user->user_id }}" data-role-type="Null">
                                                             Null
@@ -1272,6 +1282,8 @@
                 },
                 inputValue: currentRole,
                 showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
                 confirmButtonText: 'Change',
                 showLoaderOnConfirm: true,
                 preConfirm: (newRole) => {
@@ -1354,6 +1366,8 @@
                 },
                 inputValue: currentRole,
                 showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
                 confirmButtonText: 'Change',
                 showLoaderOnConfirm: true,
                 preConfirm: (newRole) => {
@@ -1436,6 +1450,8 @@
                 },
                 inputValue: currentRole,
                 showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
                 confirmButtonText: 'Change',
                 showLoaderOnConfirm: true,
                 preConfirm: (newRole) => {
@@ -1513,6 +1529,8 @@
                     currentLevel + '">',
                 focusConfirm: false,
                 showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
                 confirmButtonText: 'Change',
                 showLoaderOnConfirm: true,
                 preConfirm: () => {
@@ -1591,6 +1609,8 @@
                     currentLevel + '">',
                 focusConfirm: false,
                 showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
                 confirmButtonText: 'Change',
                 showLoaderOnConfirm: true,
                 preConfirm: () => {
@@ -1674,6 +1694,8 @@
                 },
                 inputValue: currentRole,
                 showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
                 confirmButtonText: 'Change',
                 showLoaderOnConfirm: true,
                 preConfirm: (newRole) => {
@@ -1756,6 +1778,8 @@
                 },
                 inputValue: currentRole,
                 showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
                 confirmButtonText: 'Change',
                 showLoaderOnConfirm: true,
                 preConfirm: (newRole) => {
@@ -1838,6 +1862,8 @@
                 },
                 inputValue: currentRole,
                 showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
                 confirmButtonText: 'Change',
                 showLoaderOnConfirm: true,
                 preConfirm: (newRole) => {
@@ -1910,7 +1936,7 @@
     });
 </script>
 
-<script>
+{{-- <script>
     $(document).ready(function() {
         $.ajaxSetup({
             headers: {
@@ -1991,7 +2017,7 @@
             });
         });
     });
-</script>
+</script> --}}
 
 <script>
     $(document).ready(function() {
