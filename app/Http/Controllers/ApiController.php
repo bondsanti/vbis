@@ -99,6 +99,13 @@ class ApiController extends Controller
                 'timeStm' => date('Y-m-d H:i:s'),
                 'page' => 'agent'
             ]);
+        }elseif($system=="hr"){
+            DB::table('vbeyond_report.log_login')->insert([
+                'username' => $code,
+                'dates' => date('Y-m-d'),
+                'timeStm' => date('Y-m-d H:i:s'),
+                'page' => 'hr'
+            ]);
         }
 
     }
