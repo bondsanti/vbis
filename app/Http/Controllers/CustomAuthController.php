@@ -176,6 +176,7 @@ class CustomAuthController extends Controller
     public function profileUser(Request $request)
     {
         $agent = new Agent();
+
         $deviceType = $agent->isMobile() ? 'Mobile' : ($agent->isTablet() ? 'Tablet' : 'Desktop');
 
         if ($request->session()->has('loginId')) {
@@ -185,7 +186,7 @@ class CustomAuthController extends Controller
 
         if ($deviceType=="Mobile") {
             return view('auth.moblie', compact('data'));
-        }else{
+        } elseif($deviceType == "Desktop" || $deviceType == "Tablet") {
             return view('auth.main', compact('data'));
         }
 
