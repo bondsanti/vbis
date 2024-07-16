@@ -68,9 +68,40 @@ class ApiController extends Controller
 
         $this->addApiDataToUser($user);
 
+
         return response()->json(['data' => $user], 200);
     }
 
+    public function createLogLogin(Request $request, $code,$system)
+    {
+        if ($system=="vproject") {
+
+            DB::table('vbeyond_report.log_login')->insert([
+                'username' => $code,
+                'dates' => date('Y-m-d'),
+                'timeStm' => date('Y-m-d H:i:s'),
+                'page' => 'vproject'
+            ]);
+
+        }elseif($system=="stock"){
+
+            DB::table('vbeyond_report.log_login')->insert([
+                'username' => $code,
+                'dates' => date('Y-m-d'),
+                'timeStm' => date('Y-m-d H:i:s'),
+                'page' => 'stock'
+            ]);
+
+        }elseif($system=="agent"){
+            DB::table('vbeyond_report.log_login')->insert([
+                'username' => $code,
+                'dates' => date('Y-m-d'),
+                'timeStm' => date('Y-m-d H:i:s'),
+                'page' => 'agent'
+            ]);
+        }
+
+    }
 
     public function createUserbyHR(Request $request)
     {

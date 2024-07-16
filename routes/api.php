@@ -23,7 +23,7 @@ Route::middleware(['checkTokenApi'])->group(function () {
     Route::get('/checktoken/out/{token}', [ApiController::class, 'checkTokenOut'])->name('login.checkTokenOut');
 
     // Insert Log Login Form Publib App To DB Report
-    Route::get('/create/login/log', [ApiController::class, 'getAuth'])->name('auth.getAuth');
+    Route::post('/create/login/log/{code},{system}', [ApiController::class, 'createLogLogin']);
 
     Route::get('/get-role/users/{user_ids}',[ApiController::class,'getRoleUserAll']);
 
