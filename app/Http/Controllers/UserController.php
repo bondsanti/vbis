@@ -662,6 +662,10 @@ class UserController extends Controller
 
     public function testSendMail(Request $request)
     {
+        $mail = env('MAIL_USERNAME');
+        $pass = env('MAIL_PASSWORD');
+
+        dd($pass);
         $details = [
             'title' => 'Mail from Laravel 8',
             'body' => 'This is for testing email using smtp'
