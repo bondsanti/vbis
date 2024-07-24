@@ -659,4 +659,20 @@ class UserController extends Controller
 
         return response()->json($apiDataStock);
     }
+
+    public function testSendMail(Request $request)
+    {
+        $details = [
+            'title' => 'Mail from Laravel 8',
+            'body' => 'This is for testing email using smtp'
+        ];
+
+        Mail::send([], [], function ($message) use ($details) {
+            $message->to('santi.c@vbeyond.co.th')
+                    ->subject($details['title'])
+                    ->setBody('<h1>' . $details['title'] . '</h1><p>' . $details['body'] . '</p>', 'text/html');
+        });
+
+        return "Email Sent";
+    }
 }

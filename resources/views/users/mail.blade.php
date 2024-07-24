@@ -126,7 +126,7 @@
                 </tr>
             </tbody>
         </table>
-        <p style="margin-top: 20px;">ลิงค์เข้าสู่ระบบ <a href="https://vbhr.vbeyond.co.th"
+        <p style="margin-top: 20px;">ลิงค์เข้าสู่ระบบ <a href="https://vbnext.vbeyond.co.th"
                 style="color: #3182ce; text-decoration: none; font-weight: bold;">คลิกที่นี่</a></p>
     </div>
 </body>
