@@ -330,5 +330,34 @@ class ApiController extends Controller
         }
     }
 
+    public function getProduct(Request $request)
+    {
+
+        dd($request->all());
+
+        try {
+            $data = DB::connection('mysql_report')
+                ->table('product')
+                ->join('sale', 'sale.sid', '=', 'product.sid')
+                ->leftJoin('project', 'product.project_id', '=', 'project.pid')
+                ->where(function ($query) use ($code, $old_code) {
+                    $query->where('subid', $old_code)
+                          ->orWhere('subid', $code);
+                })
+                ->select('product.*', 'sale.name as team_name', 'project.Project_Name as project_name')
+                ->get();
+
+            if ($data->isEmpty()) {
+                return response()->json(['message' => 'ไม่พบข้อมูล'], 404);
+            }
+
+            return response()->json(['data' => $data], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'เกิดข้อผิดพลาดในการดึงข้อมูล', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+
+
 
 }
