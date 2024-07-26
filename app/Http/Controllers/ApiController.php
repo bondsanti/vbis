@@ -31,8 +31,8 @@ class ApiController extends Controller
 
             // Check for image existence
             $imgCheck = optional(optional($apiData)['data'])['img_check'];
-            $remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
-            //$remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
+            //$remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
+            $remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
             $fileExists = $this->checkRemoteFileExists($remoteFile);
 
             $user->remoteFile = $remoteFile;
