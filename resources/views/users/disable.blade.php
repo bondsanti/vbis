@@ -77,11 +77,11 @@
 
                             <span class="mr-3 font-semibold text-dark">ผู้ใช้งานระบบทั้งหมด
                                 <a href="{{ route('users') }}">
-                                    <span
-                                        class="align-baseline inline-flex px-4 py-3 mr-auto items-center font-semibold text-[.95rem] leading-none text-success bg-success-light rounded-lg">
-                                        Active {{ $CountUserActive }} คน
-                                    </span>
-                                    </a>
+                                <span
+                                    class="align-baseline inline-flex px-4 py-3 mr-auto items-center font-semibold text-[.95rem] leading-none text-success bg-success-light rounded-lg">
+                                    Active {{ $CountUserActive }} คน
+                                </span>
+                                </a>
                                 <a href="{{ route('users.disable') }}">
                                     <span
                                         class="align-baseline inline-flex px-4 py-3 mr-auto items-center font-semibold text-[.95rem] leading-none text-dark bg-dark-light rounded-lg">

@@ -50,6 +50,8 @@ Route::middleware(['isLogin'])->group(function () {
 
     Route::get('/main',[CustomAuthController::class,'profileUser'])->name('main');
     Route::get('/main/users',[UserController::class,'getUsers'])->name('users');
+    Route::get('/main/users/disable',[UserController::class,'getUsersDisable'])->name('users.disable');
+    Route::get('/main/users/print',[UserController::class,'print'])->name('users.print');
     Route::get('/checkin',[UserController::class,'checkIn'])->name('checkin');
     Route::post('/checkin',[UserController::class,'saveCheckIn'])->name('saveCheckIn');
     Route::post('/checkout',[UserController::class,'saveCheckOut'])->name('saveCheckOut');

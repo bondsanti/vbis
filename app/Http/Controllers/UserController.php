@@ -39,8 +39,8 @@ class UserController extends Controller
 
             $data->apiData = json_decode($response->getBody(), true);
             $imgCheck = optional(optional($data->apiData)['data'])['img_check'];
-            $remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
-            //$remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
+            //$remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
+            $remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
             $fileExists = false;
 
             if ($remoteFile) {
@@ -246,7 +246,8 @@ class UserController extends Controller
 
             // ตรวจสอบรูปภาพ
             $imgCheck = optional(optional($user->apiData)['data'])['img_check'];
-            $remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
+            // $remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
+            $remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
             $fileExists = false;
 
             if ($remoteFile) {
@@ -264,6 +265,39 @@ class UserController extends Controller
         }
     }
 
+    private function addApiDataToUsersPrinter($users)
+    {
+        $client = new Client();
+        $apiUrl = env('API_URL');
+        $apiToken = env('API_TOKEN');
+
+        foreach ($users as $user) {
+            try {
+                $response = $client->request('GET', $apiUrl . '/users', [
+                    'query' => ['user_id' => $user->user_id],
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $apiToken,
+                        'Accept' => 'application/json'
+                    ]
+                ]);
+                $apiData = json_decode($response->getBody(), true);
+
+                if ($apiData['status'] === 'success') {
+                    $user->department_id = $apiData['data']['department_id'];
+                    $user->department_name = $apiData['data']['department'];
+                } else {
+                    $user->department_id = null;
+                    $user->department_name = 'Unknown';
+                }
+            } catch (\Exception $e) {
+                $user->department_id = null;
+                $user->department_name = 'Unknown';
+            }
+
+        }
+    }
+
+
 
     private function addApiDataToDepartment()
     {
@@ -274,21 +308,21 @@ class UserController extends Controller
         try {
             $response = $client->request('GET', $apiUrl . '/departments', [
                 'headers' => [
-                    'Authorization' => 'Bearer ' . $apiToken
+                    'Authorization' => 'Bearer ' . $apiToken,
+                    'Accept' => 'application/json'
                 ]
             ]);
 
             $departmentData = json_decode($response->getBody(), true);
+
             if (isset($departmentData['data']) && is_array($departmentData['data'])) {
-                return $departmentData['data'];
+                return collect($departmentData['data']);
             } else {
-                return null;
+                return collect([]);
             }
         } catch (\Exception $e) {
-            $departmentData = null;
+            return collect([]);
         }
-
-        return $departmentData;
     }
 
     public function getUserSignInByYear(Request $request, $year)
@@ -351,9 +385,52 @@ class UserController extends Controller
 
         $departmentData = $this->addApiDataToDepartment();
 
-       // dd($users);
+        // dd($users);
         if ($loggedInUser->active_vbis == 1) {
             return view('users.index', [
+                'users' => $users,
+                'departments' => $departmentData,
+                'CountUserActive' => $userCounts->active_count,
+                'CountUserUnActive' => $userCounts->inactive_count,
+            ]);
+        } else {
+            return back();
+        }
+    }
+
+    public function getUsersDisable(Request $request)
+    {
+        $loggedInUser = User::where('user_id', $request->session()->get('loginId'))->first();
+
+
+        $userCounts = User::selectRaw('SUM(active = 1) as active_count, SUM(active = 0) as inactive_count')
+            ->first();
+
+        $query = User::with([
+            'role_report_ref:code_user,level',
+            'role_report_refdb:code_user,db',
+            'role_printer_ref:user_id,role_type,active',
+            'role_rental_ref:user_id,role_type,active'
+        ]);
+
+        if ($request->filled('code')) {
+            $query->where('code', 'like', '%' . $request->code . '%');
+        }
+
+        if ($request->filled('email')) {
+            $query->where('email', 'like', '%' . $request->email . '%');
+        }
+
+        $users = $query->orderBy('code', 'desc')->where('active', 0)->paginate(10);
+
+        // API
+        $this->addApiDataToUsers($users);
+
+        $departmentData = $this->addApiDataToDepartment();
+
+        // dd($users);
+        if ($loggedInUser->active_vbis == 1) {
+            return view('users.disable', [
                 'users' => $users,
                 'departments' => $departmentData,
                 'CountUserActive' => $userCounts->active_count,
@@ -640,6 +717,46 @@ class UserController extends Controller
         }
     }
 
+    public function print(Request $request)
+    {
+        $loggedInUser = User::where('user_id', $request->session()->get('loginId'))->first();
+
+        $query = User::with([
+            'role_report_ref:code_user,level',
+            'role_report_refdb:code_user,db',
+            'role_printer_ref:user_id,role_type,active',
+            'role_rental_ref:user_id,role_type,active'
+        ]);
+
+        $users = $query->orderBy('code', 'desc')->get();
+
+        // Add API data to users
+        $this->addApiDataToUsersPrinter($users);
+
+        // Get department data from API
+        $departments = $this->addApiDataToDepartment();
+
+        // Group users by department_id and include department names
+        $groupedUsers = $users->groupBy('department_id')->map(function ($users, $departmentId) use ($departments) {
+            $departmentName = $departments->firstWhere('department_id', $departmentId)['name'] ?? 'Unknown';
+
+            return [
+                'department_name' => $departmentName,
+                'users' => $users
+            ];
+        });
+
+        if ($loggedInUser->active_vbis == 1) {
+            return view('users.printer', [
+                'groupedUsers' => $groupedUsers,
+            ]);
+        } else {
+            return back();
+        }
+    }
+
+
+
     public function testAPI(Request $request)
     {
         $stockApiUrl = env('APP_STOCK');
@@ -670,8 +787,8 @@ class UserController extends Controller
 
         Mail::send([], [], function ($message) use ($details) {
             $message->to('santi.c@vbeyond.co.th')
-                    ->subject($details['title'])
-                    ->setBody('<h1>' . $details['title'] . '</h1><p>' . $details['body'] . '</p>', 'text/html');
+                ->subject($details['title'])
+                ->setBody('<h1>' . $details['title'] . '</h1><p>' . $details['body'] . '</p>', 'text/html');
         });
 
         return "Email Sent";

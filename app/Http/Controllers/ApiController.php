@@ -31,8 +31,8 @@ class ApiController extends Controller
 
             // Check for image existence
             $imgCheck = optional(optional($apiData)['data'])['img_check'];
-            //$remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
-            $remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
+            $remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
+            //$remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
             $fileExists = $this->checkRemoteFileExists($remoteFile);
 
             $user->remoteFile = $remoteFile;
@@ -314,7 +314,7 @@ class ApiController extends Controller
         try {
             $data = [];
             $projects = DB::connection('mysql_report')->table('project')->get();
-            $data[0] = 'ทั้งหมด';
+            //$data[0] = 'ทั้งหมด';
 
             foreach ($projects as $value) {
                 $data[$value->pid] = $value->Project_Name;
@@ -333,18 +333,17 @@ class ApiController extends Controller
     public function getProduct(Request $request)
     {
 
-        dd($request->all());
-
         try {
             $data = DB::connection('mysql_report')
                 ->table('product')
                 ->join('sale', 'sale.sid', '=', 'product.sid')
                 ->leftJoin('project', 'product.project_id', '=', 'project.pid')
-                ->where(function ($query) use ($code, $old_code) {
-                    $query->where('subid', $old_code)
-                          ->orWhere('subid', $code);
+                ->where(function ($query) use ($request) {
+                    $query->where('subid', $request->old_code)
+                          ->orWhere('subid', $request->code);
                 })
                 ->select('product.*', 'sale.name as team_name', 'project.Project_Name as project_name')
+                // ->whereBetween($request->dt ?? 'resultdate', [$request->startdate, $request->enddate])
                 ->get();
 
             if ($data->isEmpty()) {
@@ -356,6 +355,7 @@ class ApiController extends Controller
             return response()->json(['message' => 'เกิดข้อผิดพลาดในการดึงข้อมูล', 'error' => $e->getMessage()], 500);
         }
     }
+
 
 
 
