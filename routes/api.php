@@ -12,8 +12,15 @@ Route::middleware(['checkTokenApi'])->group(function () {
 
     // Login with Public App
     Route::get('/getAuth/{code}', [ApiController::class, 'getAuth'])->name('auth.getAuth');
+
+    //Form HR
     // HR Create New User
     Route::post('/create/users', [ApiController::class, 'createUserbyHR'])->name('user.create');
+    Route::post('/resign/users', [ApiController::class, 'resignUserbyHR'])->name('user.resign');
+    //Route::post('/update/users', [ApiController::class, 'updateUserbyHR'])->name('user.update');
+
+
+
     // Allow Login InHouse App
     Route::get('/checktoken/{token}', [ApiController::class, 'checkTokenLogin'])->name('login.checkToken');
     // Allow Login Public App

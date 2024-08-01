@@ -121,6 +121,28 @@ class ApiController extends Controller
         }
     }
 
+    public function resignUserbyHR(Request $request)
+    {
+        $userData = $request->all();
+        $user = User::where('code', $userData['code'])->update(['active' => 0,
+        'low_rise'=> 0,
+        'high_rise' => 0 ,
+        'active_vbasset'=>0,
+        'active_report'=>0,
+        'active_agent'=>0,
+        'active_vblead'=>0,
+        'active_vproject'=>0,
+        'active_printer'=>0,
+        'active_rental'=>0,
+        'active_vbis'=>0]);
+
+        if ($user) {
+            return response()->json(['message' => 'User updated successfully'], 200);
+        } else {
+            return response()->json(['message' => 'Failed to update user'], 500);
+        }
+    }
+
     //CheckToken
     public function checkTokenLogin(Request $request, $token)
     {
