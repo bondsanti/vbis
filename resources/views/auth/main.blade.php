@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>VBNext Login {{ env('APP_VERSION') }} </title>
+    <title>{{ env('APP_NAME') }} {{ env('APP_VERSION') }} </title>
 
     <link rel="icon" type="image/x-icon" href="{{ url('uploads/logo/vbeicon.ico') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -128,7 +128,7 @@
             <div class="grid gap-2 grid-cols-2 md:grid-cols-3 gap-6">
 
                 <!-- card IT  -->
-                <a href="{{ route('powerapp.it', ['user' => $data->code]) }}" target="_blank" rel="noreferrer"
+                <div onclick="window.open(`{{ route('powerapp.it', ['user' => $data->code]) }}`, '_blank')"
                     class="click relative bg-white border rounded-lg shadow-md bg-green-200 dark:bg-gray-800 dark:border-gray-700 transform transition duration-500 hover:scale-105">
                     {{-- <div class="absolute top-3 right-3 rounded-full bg-violet-600 text-gray-200  w-6 h-6 text-center">
                         24
@@ -171,7 +171,7 @@
 
                     </div>
 
-                </a>
+                </div>
 
                 <!-- card HR -->
                 <div onclick="window.open(`{{ env('APP_HR') }}/login.php?token={{ $data->token }}&CuM8r2zUE3GMBPpG76hmaZPHavmgyxWHNDhewqDtMvQgy9aB1iCRn1KN9Dr32wdm08GpEAqVjTd0CfAa4eaEd5yHJqgkXvPw8KBKJZpbypv8v5RBUS22Qxv2&id={{ session()->get('loginId') }}`, '_blank')"
@@ -821,7 +821,7 @@
                 @endif
 
                 <!-- card IT  -->
-                <div onclick="window.open(`{{ route('powerapp.contract', ['user' => $data->code]) }}`, '_blank','noopener,noreferrer')"
+                <div onclick="window.open(`{{ route('powerapp.contract', ['user' => $data->code]) }}`, '_blank')"
                     class="click relative bg-white border rounded-lg shadow-md bg-green-200 dark:bg-gray-800 dark:border-gray-700 transform transition duration-500 hover:scale-105">
                     {{-- <div class="absolute top-3 right-3 rounded-full bg-violet-600 text-gray-200  w-6 h-6 text-center">
                         24
