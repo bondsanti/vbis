@@ -819,9 +819,9 @@
 
                     </div>
                 @endif
-
+                {{-- window.open(`{{ route('powerapp.contract', ['user' => $data->code]) }}`, '_blank') --}}
                 <!-- card IT  -->
-                <div onclick="window.open(`{{ route('powerapp.contract', ['user' => $data->code]) }}`, '_blank')"
+                <div onclick="openInNewTab('{{ route('powerapp.contract', ['user' => e($data->code)]) }}')"
                     class="click relative bg-white border rounded-lg shadow-md bg-green-200 dark:bg-gray-800 dark:border-gray-700 transform transition duration-500 hover:scale-105">
                     {{-- <div class="absolute top-3 right-3 rounded-full bg-violet-600 text-gray-200  w-6 h-6 text-center">
                         24
@@ -1066,5 +1066,12 @@
                 }
             }
         }
+    }
+</script>
+
+<script>
+    function openInNewTab(url) {
+        const newTab = window.open(url, '_blank');
+        newTab.focus();
     }
 </script>

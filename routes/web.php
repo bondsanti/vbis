@@ -23,51 +23,51 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::get('/testmail', [UserController::class, 'testSendMail']);
 //Forget Password
-Route::get('/forget',[CustomAuthController::class,'showForgetForm'])->name('forget.form');
-Route::post('/forget',[CustomAuthController::class,'sendResetLinkEmail'])->name('forget.email');
-Route::get('/forget/success',[CustomAuthController::class,'sendEmailSuccess']);
-Route::get('/forget/reset/{token}',[CustomAuthController::class,'edit']);
-Route::post('/forget/update',[CustomAuthController::class,'update'])->name('forget.update');
-Route::get('/forget/complate',[CustomAuthController::class,'complate']);
-Route::get('/token_exp',[CustomAuthController::class,'token_exp'])->name('token_exp');
+Route::get('/forget', [CustomAuthController::class, 'showForgetForm'])->name('forget.form');
+Route::post('/forget', [CustomAuthController::class, 'sendResetLinkEmail'])->name('forget.email');
+Route::get('/forget/success', [CustomAuthController::class, 'sendEmailSuccess']);
+Route::get('/forget/reset/{token}', [CustomAuthController::class, 'edit']);
+Route::post('/forget/update', [CustomAuthController::class, 'update'])->name('forget.update');
+Route::get('/forget/complate', [CustomAuthController::class, 'complate']);
+Route::get('/token_exp', [CustomAuthController::class, 'token_exp'])->name('token_exp');
 
 
 Route::middleware(['alreadyLogin'])->group(function () {
-    Route::get('/',[CustomAuthController::class,'index'])->name('login');
-    Route::post('/auth',[CustomAuthController::class,'loginVbis'])->name('loginVbis');
+    Route::get('/', [CustomAuthController::class, 'index'])->name('login');
+    Route::post('/auth', [CustomAuthController::class, 'loginVbis'])->name('loginVbis');
     Route::get('/mssignin', [CustomAuthController::class, 'signin'])->name('mssignin');
     Route::get('/mscallback', [CustomAuthController::class, 'callback']);
 });
 
 //Frist Login
 Route::middleware(['isAuth'])->group(function () {
-    Route::get('/change-password',[CustomAuthController::class,'changePassword'])->name('change.password');
-    Route::post('/change-password',[CustomAuthController::class,'updatePassword'])->name('update.password');
+    Route::get('/change-password', [CustomAuthController::class, 'changePassword'])->name('change.password');
+    Route::post('/change-password', [CustomAuthController::class, 'updatePassword'])->name('update.password');
 });
 
 
 Route::middleware(['isLogin'])->group(function () {
 
-    Route::get('/main',[CustomAuthController::class,'profileUser'])->name('main');
-    Route::get('/main/users',[UserController::class,'getUsers'])->name('users');
-    Route::get('/main/users/disable',[UserController::class,'getUsersDisable'])->name('users.disable');
-    Route::get('/main/users/print',[UserController::class,'print'])->name('users.print');
-    Route::get('/checkin',[UserController::class,'checkIn'])->name('checkin');
-    Route::post('/checkin',[UserController::class,'saveCheckIn'])->name('saveCheckIn');
-    Route::post('/checkout',[UserController::class,'saveCheckOut'])->name('saveCheckOut');
+    Route::get('/main', [CustomAuthController::class, 'profileUser'])->name('main');
+    Route::get('/main/users', [UserController::class, 'getUsers'])->name('users');
+    Route::get('/main/users/disable', [UserController::class, 'getUsersDisable'])->name('users.disable');
+    Route::get('/main/users/print', [UserController::class, 'print'])->name('users.print');
+    Route::get('/checkin', [UserController::class, 'checkIn'])->name('checkin');
+    Route::post('/checkin', [UserController::class, 'saveCheckIn'])->name('saveCheckIn');
+    Route::post('/checkout', [UserController::class, 'saveCheckOut'])->name('saveCheckOut');
 
     Route::post('/send-email', [UserController::class, 'sendEmail'])->name('send.email');
 
     Route::get('/powerapp/it/{user}', function ($user) {
 
         //dd($user);
-        DB::table('vbeyond_report.log_login')->insert([
-            'username' => $user,
-            'dates' => date('Y-m-d'),
-            'timeStm' => date('Y-m-d H:i:s'),
-            'page' => 'IT-HelpDesk'
-        ]);
 
+            DB::table('vbeyond_report.log_login')->insert([
+                'username' => $user,
+                'dates' => date('Y-m-d'),
+                'timeStm' => date('Y-m-d H:i:s'),
+                'page' => 'IT-HelpDesk'
+            ]);
         return redirect('https://apps.powerapps.com/play/e/default-5f1b572d-118b-45fc-b023-0f6d96cc9f24/a/630a28f9-4e1c-42b7-954a-bc162b9d59d3?tenantId=5f1b572d-118b-45fc-b023-0f6d96cc9f24');
     })->name('powerapp.it');
 
@@ -87,6 +87,5 @@ Route::middleware(['isLogin'])->group(function () {
 
     Route::post('/update-active', [UserController::class, 'updateActive'])->name('update.active');
     Route::post('/update-role', [UserController::class, 'updateRole'])->name('update.role');
-    Route::get('/logout/auth',[CustomAuthController::class,'logoutUser'])->name('logoutUser');
+    Route::get('/logout/auth', [CustomAuthController::class, 'logoutUser'])->name('logoutUser');
 });
-
