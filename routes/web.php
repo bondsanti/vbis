@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -68,6 +69,7 @@ Route::middleware(['isLogin'])->group(function () {
                 'timeStm' => date('Y-m-d H:i:s'),
                 'page' => 'IT-HelpDesk'
             ]);
+            Session::flush();
         return redirect('https://apps.powerapps.com/play/e/default-5f1b572d-118b-45fc-b023-0f6d96cc9f24/a/630a28f9-4e1c-42b7-954a-bc162b9d59d3?tenantId=5f1b572d-118b-45fc-b023-0f6d96cc9f24');
     })->name('powerapp.it');
 
@@ -80,7 +82,7 @@ Route::middleware(['isLogin'])->group(function () {
             'timeStm' => date('Y-m-d H:i:s'),
             'page' => 'Legal-Contract'
         ]);
-
+        Session::flush();
         return redirect('https://apps.powerapps.com/play/e/default-5f1b572d-118b-45fc-b023-0f6d96cc9f24/a/b64d3eb9-d850-4e16-b26c-f298465d1334?tenantId=5f1b572d-118b-45fc-b023-0f6d96cc9f24&hint=937f5830-c2b7-48c4-b0cf-737a593ca9de');
     })->name('powerapp.contract');
 
