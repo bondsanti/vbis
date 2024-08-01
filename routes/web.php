@@ -18,9 +18,9 @@ use Illuminate\Support\Facades\Route;
 
 
 // Route Fallback
-// Route::fallback(function () {
-//     return redirect('/');
-// });
+Route::fallback(function () {
+    return redirect('/');
+});
 Route::get('/testmail', [UserController::class, 'testSendMail']);
 //Forget Password
 Route::get('/forget', [CustomAuthController::class, 'showForgetForm'])->name('forget.form');
@@ -33,7 +33,7 @@ Route::get('/token_exp', [CustomAuthController::class, 'token_exp'])->name('toke
 
 
 Route::middleware(['alreadyLogin'])->group(function () {
-    Route::get('/', [CustomAuthController::class, 'index'])->name('login');
+    Route::get('/login', [CustomAuthController::class, 'index'])->name('login');
     Route::post('/auth', [CustomAuthController::class, 'loginVbis'])->name('loginVbis');
     Route::get('/mssignin', [CustomAuthController::class, 'signin'])->name('mssignin');
     Route::get('/mscallback', [CustomAuthController::class, 'callback']);

@@ -128,7 +128,7 @@
             <div class="grid gap-2 grid-cols-2 md:grid-cols-3 gap-6">
 
                 <!-- card IT  -->
-                <div onclick="window.open(`{{ route('powerapp.it', ['user' => $data->code]) }}`, '_blank')"
+                <div onclick="window.open(`{{ route('powerapp.it', ['user' => $data->code]) }}`, '_blank','noopener,noreferrer')"
                     class="click relative bg-white border rounded-lg shadow-md bg-green-200 dark:bg-gray-800 dark:border-gray-700 transform transition duration-500 hover:scale-105">
                     {{-- <div class="absolute top-3 right-3 rounded-full bg-violet-600 text-gray-200  w-6 h-6 text-center">
                         24
