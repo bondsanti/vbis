@@ -1748,6 +1748,14 @@
 
                                 }
 
+                            }else{
+                                Swal.fire({
+                                        icon: "error",
+                                        title: "Error",
+                                        html: `${data.message}`,
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
                             }
                         },
                         error: function() {
