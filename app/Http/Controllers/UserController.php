@@ -17,6 +17,8 @@ use App\Models\RoleRental;
 use App\Models\RoleReport;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class UserController extends Controller
 {
@@ -39,8 +41,8 @@ class UserController extends Controller
 
             $data->apiData = json_decode($response->getBody(), true);
             $imgCheck = optional(optional($data->apiData)['data'])['img_check'];
-            $remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
-            //$remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
+            //$remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
+            $remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
             $fileExists = false;
 
             if ($remoteFile) {
@@ -66,134 +68,6 @@ class UserController extends Controller
         }
     }
 
-    // private function addApiDataToUsers($users)
-    // {
-    //     $client = new Client();
-    //     $apiUrl = config('services.external_api.url');
-    //     $apiToken = config('services.external_api.token');
-
-    //     $stockApiUrl = config('services.stock_api.url');
-    //     $stockApiToken = config('services.stock_api.token');
-
-    //     foreach ($users as $user) {
-    //         try {
-    //             $response = $client->request('GET', $apiUrl . '/users', [
-    //                 'query' => ['user_id' => $user->user_id],
-    //                 'headers' => [
-    //                     'Authorization' => 'Bearer ' . $apiToken
-    //                 ]
-    //             ]);
-
-    //             $user->apiData = json_decode($response->getBody(), true);
-
-    //             $imgCheck = optional(optional($user->apiData)['data'])['img_check'];
-    //             $remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
-    //             //$remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
-    //             $fileExists = false;
-
-    //             if ($remoteFile) {
-    //                 $ch = curl_init($remoteFile);
-    //                 curl_setopt($ch, CURLOPT_NOBODY, true);
-    //                 curl_exec($ch);
-    //                 $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    //                 curl_close($ch);
-
-    //                 $fileExists = ($responseCode == 200);
-    //             }
-
-    //             $user->remoteFile = $remoteFile;
-    //             $user->fileExists = $fileExists;
-
-    //             $stockResponse = $client->request('GET', $stockApiUrl . '/api/create-role', [
-    //                 'query' => ['user_id' => $user->user_id],
-    //                 'headers' => [
-    //                     'Authorization' => 'Bearer ' . $stockApiToken
-    //                 ]
-    //             ]);
-
-    //             $user->apiDataStock = json_decode($stockResponse->getBody(), true);
-
-    //         } catch (\Exception $e) {
-
-    //             //Log::error('API request failed for user ' . $user->id . ': ' . $e->getMessage());
-    //             $user->apiData = null;
-
-    //         }
-    //     }
-    // }
-
-    // private function addApiDataToUsers($users)
-    // {
-    //     $client = new Client();
-    //     $apiUrl = env('API_URL');
-    //     $apiToken = env('API_TOKEN');
-
-    //     $stockApiUrl = env('APP_STOCK');
-    //     $stockApiToken = env('API_TOKEN_AUTH');
-
-    //     $projectApiUrl = env('APP_PROJECT');
-    //     $projectApiToken = env('API_TOKEN_AUTH');
-
-    //     foreach ($users as $user) {
-    //         try {
-    //             // เรียก API แรก
-    //             $response = $client->request('GET', $apiUrl . '/users', [
-    //                 'query' => ['user_id' => $user->user_id],
-    //                 'headers' => [
-    //                     'Authorization' => 'Bearer ' . $apiToken
-    //                 ]
-    //             ]);
-
-    //             $user->apiData = json_decode($response->getBody(), true);
-
-    //             // API  Stock
-    //             $response2 = $client->request('GET', $stockApiUrl . '/api/users-list/' . $user->user_id, [
-    //                 'headers' => [
-    //                     'Authorization' => 'Bearer ' . $stockApiToken
-    //                 ]
-    //             ]);
-
-    //             $user->apiDataStock = json_decode($response2->getBody(), true);
-
-
-    //             // API  Project
-    //             $response3 = $client->request('GET', $projectApiUrl . '/api/users-list/' . $user->user_id, [
-    //                 'headers' => [
-    //                     'Authorization' => 'Bearer ' . $projectApiToken
-    //                 ]
-    //             ]);
-
-    //             $user->apiDataProject = json_decode($response3->getBody(), true);
-
-
-
-    //             $imgCheck = optional(optional($user->apiData)['data'])['img_check'];
-    //             $remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
-    //             //$remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
-    //             $fileExists = false;
-
-    //             if ($remoteFile) {
-    //                 $ch = curl_init($remoteFile);
-    //                 curl_setopt($ch, CURLOPT_NOBODY, true);
-    //                 curl_exec($ch);
-    //                 $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    //                 curl_close($ch);
-
-    //                 $fileExists = ($responseCode == 200);
-    //             }
-
-    //             $user->remoteFile = $remoteFile;
-    //             $user->fileExists = $fileExists;
-    //         } catch (\Exception $e) {
-    //             // Log the error
-    //             //Log::error('API request failed for user ' . $user->user_id . ': ' . $e->getMessage());
-    //             $user->apiData = null;
-    //             $user->apiDataStock = null;
-    //             $user->apiDataProject = null;
-    //         }
-    //     }
-    // }
-
     private function addApiDataToUsers($users)
     {
         $client = new Client();
@@ -205,7 +79,7 @@ class UserController extends Controller
 
         $projectApiUrl = env('APP_PROJECT');
         $projectApiToken = env('API_TOKEN_AUTH');
-
+        $filteredUsers = collect();
         foreach ($users as $user) {
             // ดึงข้อมูลจาก API แรก
             try {
@@ -246,8 +120,8 @@ class UserController extends Controller
 
             // ตรวจสอบรูปภาพ
             $imgCheck = optional(optional($user->apiData)['data'])['img_check'];
-             $remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
-            //$remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
+            //$remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
+            $remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
             $fileExists = false;
 
             if ($remoteFile) {
@@ -262,7 +136,12 @@ class UserController extends Controller
 
             $user->remoteFile = $remoteFile;
             $user->fileExists = $fileExists;
+            // ตรวจสอบการค้นหาชื่อ
+            // if (!$searchName || (isset($user->apiData['data']['name_th']) && stripos($user->apiData['data']['name_th'], $searchName) !== false)) {
+            //     $filteredUsers->push($user);
+            // }
         }
+        //return $filteredUsers;
     }
 
     private function addApiDataToUsersPrinter($users)
@@ -293,7 +172,6 @@ class UserController extends Controller
                 $user->department_id = null;
                 $user->department_name = 'Unknown';
             }
-
         }
     }
 
@@ -363,7 +241,12 @@ class UserController extends Controller
         $userCounts = User::selectRaw('SUM(active = 1) as active_count, SUM(active = 0) as inactive_count')
             ->first();
 
-        $query = User::with([
+        $query = User::select([
+            'id', 'user_id', 'code', 'username', 'email', 'token', 'is_auth', 'active',
+            'low_rise', 'high_rise', 'active_vbasset', 'active_report', 'active_agent',
+            'active_vblead', 'active_vproject', 'active_printer', 'active_rental',
+            'active_broker', 'active_vbis', 'created_date'
+        ])->with([
             'role_report_ref:code_user,level',
             'role_report_refdb:code_user,db',
             'role_printer_ref:user_id,role_type,active',
@@ -380,12 +263,12 @@ class UserController extends Controller
 
         $users = $query->orderBy('code', 'desc')->paginate(10);
 
-        // API
+
         $this->addApiDataToUsers($users);
+
 
         $departmentData = $this->addApiDataToDepartment();
 
-        // dd($users);
         if ($loggedInUser->active_vbis == 1) {
             return view('users.index', [
                 'users' => $users,

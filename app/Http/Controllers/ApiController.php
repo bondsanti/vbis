@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Logs;
 use App\Models\User;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redis;
-use RealRashid\SweetAlert\Facades\Alert;
 
 class ApiController extends Controller
 {
@@ -74,39 +72,20 @@ class ApiController extends Controller
 
     public function createLogLogin(Request $request, $code,$system)
     {
-        if ($system=="vproject") {
+        $checkSystems = ['vproject', 'stock', 'agent', 'hr'];
 
+        if (in_array($system, $checkSystems)) {
             DB::table('vbeyond_report.log_login')->insert([
                 'username' => $code,
                 'dates' => date('Y-m-d'),
                 'timeStm' => date('Y-m-d H:i:s'),
-                'page' => 'vproject'
+                'page' => $system
             ]);
-
-        }elseif($system=="stock"){
-
-            DB::table('vbeyond_report.log_login')->insert([
-                'username' => $code,
-                'dates' => date('Y-m-d'),
-                'timeStm' => date('Y-m-d H:i:s'),
-                'page' => 'stock'
-            ]);
-
-        }elseif($system=="agent"){
-            DB::table('vbeyond_report.log_login')->insert([
-                'username' => $code,
-                'dates' => date('Y-m-d'),
-                'timeStm' => date('Y-m-d H:i:s'),
-                'page' => 'agent'
-            ]);
-        }elseif($system=="hr"){
-            DB::table('vbeyond_report.log_login')->insert([
-                'username' => $code,
-                'dates' => date('Y-m-d'),
-                'timeStm' => date('Y-m-d H:i:s'),
-                'page' => 'hr'
-            ]);
+        } else {
+            return response()->json(['error' => 'Invalid system'], 400);
         }
+
+        return response()->json(['message' => 'Log created successfully'], 200);
 
     }
 
@@ -115,8 +94,10 @@ class ApiController extends Controller
         $userData = $request->all();
         $user = User::create($userData);
         if ($user) {
+            Logs::addLog('system', 'API','API Create User: '. $userData['code'].' '.$userData['email'] .' Success','System hr');
             return response()->json(['message' => 'User created successfully'], 200);
         } else {
+            Logs::addLog('system', 'API','API Create User: '. $userData['code'].' '.$userData['email'] .' Success','System hr');
             return response()->json(['message' => 'Failed to create user'], 500);
         }
     }
@@ -137,8 +118,25 @@ class ApiController extends Controller
         'active_vbis'=>0]);
 
         if ($user) {
+            Logs::addLog('system', 'API','API Resign User: '. json_encode($userData).' Success','System hr');
             return response()->json(['message' => 'User updated successfully'], 200);
         } else {
+            Logs::addLog('system', 'API','API Resign User: '. json_encode($userData).' Success','System hr');
+            return response()->json(['message' => 'Failed to update user'], 500);
+        }
+    }
+
+    public function updateUserbyHR(Request $request)
+    {
+        $userData = $request->all();
+        $user = User::where('user_id', $userData['user_id'])->update(['code' => $userData['code'],
+        'email'=> $userData['email'],
+        'username' => $userData['code']]);
+        if ($user) {
+            Logs::addLog('system', 'API','API Update Data User: '. json_encode($userData).' Success','System hr');
+            return response()->json(['message' => 'User updated successfully'], 200);
+        } else {
+            Logs::addLog('system', 'API','API Update Data User: '.json_encode($userData).' Failed','System hr');
             return response()->json(['message' => 'Failed to update user'], 500);
         }
     }

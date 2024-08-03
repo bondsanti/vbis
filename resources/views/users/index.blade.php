@@ -100,6 +100,8 @@
                                         <option value="{{ $department['id'] }}">{{ $department['name'] }}</option>
                                     @endforeach
                                 </select> --}}
+                                {{-- <input type="text" name="name" id="name" class="mr-2" placeholder="name"
+                                    autocomplete="off"> --}}
 
                                 <input type="text" name="code" id="code" class="mr-2" placeholder="code"
                                     autocomplete="off">
@@ -117,14 +119,10 @@
                         </form>
                         <div class="relative flex flex-wrap items-center my-2">
 
-                            {{-- <button id="Create"
-                                class="mr-2 inline-block text-[.925rem] font-medium leading-normal text-center align-middle cursor-pointer rounded-2xl transition-colors duration-150 ease-in-out text-light-inverse bg-light-dark border-light shadow-none border-0 py-2 px-5 hover:bg-secondary active:bg-green focus:bg-light">
-                                เพิ่มผู้ใช้งานระบบ
-                            </button> --}}
                             <a href="{{ route('users.print') }}" target="_blank"
                                 class="inline-block text-[.925rem] font-medium leading-normal text-center align-middle cursor-pointer rounded-2xl transition-colors duration-150 ease-in-out text-light-inverse bg-light-dark border-light shadow-none border-0 py-2 px-5 hover:bg-secondary active:bg-green focus:bg-light">
                                 พิมพ์
-                        </a>
+                            </a>
 
                         </div>
                     </div>
@@ -493,11 +491,8 @@
                             </table>
                         </div>
                         <div class="mt-4">
-                            @if ($users->count() > 0)
+
                                 {{ $users->links() }}
-                            @else
-                                <!-- ไม่มีข้อมูล -->
-                            @endif
 
                         </div>
                     </div>
@@ -1948,88 +1943,6 @@
     });
 </script>
 
-{{-- <script>
-    $(document).ready(function() {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        document.getElementById('Create').addEventListener('click', function() {
-            Swal.fire({
-                title: 'เพิ่มผู้ใช้งานระบบ',
-                html: `
-                <select id="method">
-                    <option value="" selected disabled>เลือกวิธีการเพิ่ม</option>
-                    <option value="code">เพิ่มด้วย รหัสพนักงาน</option>
-                    <option value="email">เพิ่มด้วย Email</option>
-                </select>
-                <input type="text" id="code" name="code" placeholder="รหัสพนักงาน" style="display: none;">
-                <input type="email" id="email" name="email" placeholder="Email" style="display: none;">
-            `,
-                showCancelButton: true,
-                confirmButtonText: 'ตกลง',
-                cancelButtonText: 'ยกเลิก',
-                didOpen: () => {
-                    const methodSelect = Swal.getPopup().querySelector('#method');
-                    const codeInput = Swal.getPopup().querySelector('#code');
-                    const emailInput = Swal.getPopup().querySelector('#email');
-
-                    methodSelect.addEventListener('change', (event) => {
-                        const value = event.target.value;
-                        if (value === 'code') {
-                            emailInput.style.display = 'none';
-                            codeInput.style.display = 'block';
-                        } else if (value === 'email') {
-                            emailInput.style.display = 'block';
-                            codeInput.style.display = 'none';
-                        } else {
-                            emailInput.style.display = 'none';
-                            codeInput.style.display = 'none';
-                        }
-                    });
-                },
-                preConfirm: () => {
-                    const method = Swal.getPopup().querySelector('#method').value;
-                    if (!method) {
-                        Swal.showValidationMessage('กรุณาเลือกวิธีการเพิ่ม');
-                        return false;
-                    }
-
-                    if (method === 'code') {
-                        const code = Swal.getPopup().querySelector('#code').value;
-                        if (!code) {
-                            Swal.showValidationMessage('กรุณากรอก รหัสพนักงาน');
-                            return false;
-                        }
-                        return {
-                            method: method,
-                            code: code
-                        };
-                    } else if (method === 'email') {
-                        const email = Swal.getPopup().querySelector('#email').value;
-                        if (!email) {
-                            Swal.showValidationMessage('กรุณากรอกข้อมูลให้ครบถ้วน');
-                            return false;
-                        }
-                        return {
-                            method: method,
-                            email: email
-                        };
-                    }
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Handle form submission
-                    console.log(result.value);
-                    // คุณสามารถใช้ AJAX เพื่อส่งข้อมูลนี้ไปยังเซิร์ฟเวอร์
-                    // หรือจัดการในวิธีที่คุณต้องการ
-                }
-            });
-        });
-    });
-</script> --}}
 
 <script>
     $(document).ready(function() {
