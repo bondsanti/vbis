@@ -27,7 +27,7 @@ class UserController extends Controller
         $client = new Client();
         $apiUrl = config('services.external_api.url');
         $apiToken = config('services.external_api.token');
-
+        $appHR = env('APP_HR');
         $agent = new Agent();
         $deviceType = $agent->isMobile() ? 'Mobile' : ($agent->isTablet() ? 'Tablet' : 'Desktop');
 
@@ -42,7 +42,7 @@ class UserController extends Controller
             $data->apiData = json_decode($response->getBody(), true);
             $imgCheck = optional(optional($data->apiData)['data'])['img_check'];
             //$remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
-            $remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
+            $remoteFile = $imgCheck ? "{$appHR}/imageUser/employee/{$imgCheck}" : null;
             $fileExists = false;
 
             if ($remoteFile) {
@@ -79,6 +79,7 @@ class UserController extends Controller
 
         $projectApiUrl = env('APP_PROJECT');
         $projectApiToken = env('API_TOKEN_AUTH');
+        $appHR = env('APP_HR');
         $filteredUsers = collect();
         foreach ($users as $user) {
             // ดึงข้อมูลจาก API แรก
@@ -120,8 +121,8 @@ class UserController extends Controller
 
             // ตรวจสอบรูปภาพ
             $imgCheck = optional(optional($user->apiData)['data'])['img_check'];
-            //$remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
-            $remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
+
+            $remoteFile = $imgCheck ? "{$appHR}/imageUser/employee/{$imgCheck}" : null;
             $fileExists = false;
 
             if ($remoteFile) {

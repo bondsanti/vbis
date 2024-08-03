@@ -86,7 +86,7 @@ class CustomAuthController extends Controller
                 return redirect('/');
             }
 
-            $user = User::where('email', $userEmail)->first();
+            $user = User::where('email', $userEmail)->where('active', 1)->first();
            // dd($user);
 
             if (!$user) {

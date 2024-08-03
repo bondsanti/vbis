@@ -15,6 +15,7 @@ class ApiController extends Controller
         $client = new Client();
         $apiUrl = config('services.external_api.url');
         $apiToken = config('services.external_api.token');
+        $appHR = env('APP_HR');
 
         try {
             $response = $client->request('GET', $apiUrl . '/users', [
@@ -29,8 +30,7 @@ class ApiController extends Controller
 
             // Check for image existence
             $imgCheck = optional(optional($apiData)['data'])['img_check'];
-            //$remoteFile = $imgCheck ? "http://localhost/hr/imageUser/employee/{$imgCheck}" : null;
-            $remoteFile = $imgCheck ? "https://vbhr.vbeyond.co.th/imageUser/employee/{$imgCheck}" : null;
+            $remoteFile = $imgCheck ? "{$appHR}/imageUser/employee/{$imgCheck}" : null;
             $fileExists = $this->checkRemoteFileExists($remoteFile);
 
             $user->remoteFile = $remoteFile;
