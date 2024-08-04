@@ -354,17 +354,59 @@ class ApiController extends Controller
     {
 
         try {
-            $data = DB::connection('mysql_report')
+            $query = DB::connection('mysql_report')
                 ->table('product')
                 ->join('sale', 'sale.sid', '=', 'product.sid')
-                ->leftJoin('project', 'product.project_id', '=', 'project.pid')
-                ->where(function ($query) use ($request) {
-                    $query->where('subid', $request->old_code)
-                          ->orWhere('subid', $request->code);
-                })
-                ->select('product.*', 'sale.name as team_name', 'project.Project_Name as project_name')
-                // ->whereBetween($request->dt ?? 'resultdate', [$request->startdate, $request->enddate])
-                ->get();
+                ->leftJoin('project', 'product.project_id', '=', 'project.pid');
+
+            if ($request->code || $request->old_code) {
+                $query->where(function ($q) use ($request) {
+                    $q->where('subid', $request->old_code)
+                      ->orWhere('subid', $request->code);
+                });
+            }
+
+            if ($request->bank && $request->bank != 'all') {
+                $query->where('bank', $request->bank);
+            }
+
+            if ($request->project && $request->project != 'all') {
+                $query->where('product.project_id', $request->project);
+            }
+
+            if ($request->roomno) {
+                $query->where('RoomNo', 'LIKE', '%' . $request->roomno . '%');
+            }
+
+
+            if ($request->name) {
+                $query->where('name', 'LIKE', '%' . $request->name . '%');
+            }
+
+            if ($request->status) {
+                $statusArray = is_array($request->status) ? $request->status : explode(',', $request->status);
+                $query->whereIn('status', $statusArray);
+            }
+
+            if ($request->startdate && $request->enddate) {
+
+                switch ($request->dt) {
+                    case 'resultdate':
+                        $query->whereBetween('resultdate', [$request->startdate, $request->enddate]);
+                        break;
+                    case 'receiveddate':
+                        $query->whereBetween('receiveddate', [$request->startdate, $request->enddate]);
+                        break;
+                    case 'senddate':
+                        $query->whereBetween('senddate', [$request->startdate, $request->enddate]);
+                        break;
+                    default:
+                        $query->whereBetween('resultdate', [$request->startdate, $request->enddate]);
+                        break;
+                }
+            }
+
+            $data = $query->select('product.*', 'sale.name as team_name', 'project.Project_Name as project_name')->get();
 
             if ($data->isEmpty()) {
                 return response()->json(['message' => 'ไม่พบข้อมูล'], 404);
@@ -375,6 +417,7 @@ class ApiController extends Controller
             return response()->json(['message' => 'เกิดข้อผิดพลาดในการดึงข้อมูล', 'error' => $e->getMessage()], 500);
         }
     }
+
 
 
 
