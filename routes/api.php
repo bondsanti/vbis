@@ -22,9 +22,9 @@ Route::middleware(['checkTokenApi'])->group(function () {
 
     // Token Allow Login Routes
     Route::prefix('token')->group(function () {
-          // Allow Login InHouse App
+        // Allow Login InHouse App
         Route::get('/check/{token}', [ApiController::class, 'checkTokenLogin'])->name('login.checkToken');
-          // Allow Login Public App
+        // Allow Login Public App
         Route::get('/check/out/{token}', [ApiController::class, 'checkTokenOut'])->name('login.checkTokenOut');
     });
 
@@ -35,21 +35,25 @@ Route::middleware(['checkTokenApi'])->group(function () {
     });
 
 
-    Route::get('/get-role/users/{user_ids}',[ApiController::class,'getRoleUserAll']);
+    Route::get('/get-role/users/{user_ids}', [ApiController::class, 'getRoleUserAll']);
     // name_th user
-    Route::get('/get-users/{user_ids}',[ApiController::class,'getNameUser']);
+    Route::get('/get-users/{user_ids}', [ApiController::class, 'getNameUser']);
     // code for printer report
-    Route::get('/get-users/code/{code}',[ApiController::class,'getNameUserByCode']);
+    Route::get('/get-users/code/{code}', [ApiController::class, 'getNameUserByCode']);
 
     // api Report data
-    Route::get('/get-admin/list',[ApiController::class,'getListAdmin']);
-    Route::get('/get-users/list/{code},{old_code}',[ApiController::class,'getList']);
+    Route::get('/get-admin/list', [ApiController::class, 'getListAdmin']);
+    Route::get('/get-users/list/{code},{old_code}', [ApiController::class, 'getList']);
     Route::get('/get-users/listall/{code},{old_code}', [ApiController::class, 'getListAll']);
     Route::get('/get-project', [ApiController::class, 'getProject']);
 
     //to agent
-    Route::post('/get-product',[ApiController::class, 'getProduct']);
+    Route::post('/get-product', [ApiController::class, 'getProduct']);
 
+    //rantal to stock
+    Route::prefix('rental')->group(function () {
+        Route::get('/project-rent', [ApiController::class, 'getProjectRent']);
+        Route::get('/status-rent', [ApiController::class, 'getStatusRoom']);
+        Route::post('/search-rental', [ApiController::class, 'searchRental']);
+    });
 });
-
-
